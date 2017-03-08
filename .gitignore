@@ -1,0 +1,15 @@
+# ignore ide file
+*.project
+*.classpath
+*.mymetadata
+*.idea
+*.settings
+
+# ignore maven file
+target
+
+# ignore mac file
+*.DS_Store
+
+# ignore log file
+logs
