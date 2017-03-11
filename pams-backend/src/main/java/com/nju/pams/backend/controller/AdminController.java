@@ -7,9 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.nju.pams.cacheable.service.UserService;
 import com.nju.pams.model.User;
-import com.nju.pams.service.IUserService;
-
 import net.sf.json.JSONObject;
 
 @Controller
@@ -17,7 +16,7 @@ import net.sf.json.JSONObject;
 public class AdminController {
 	
 	@Autowired
-	private IUserService userService;
+	private UserService userService;
 	
 	@RequestMapping("/showUser")  
     public String toIndex(HttpServletRequest request, Model model){  

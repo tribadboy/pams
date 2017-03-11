@@ -6,8 +6,6 @@
   </head>  
     
   <body>  
-  	测试数据  <br>
-    ${user.username}  <br>
-    ${user.password}
+  	删除所有redis用户缓存页面
   </body>  
 </html> 

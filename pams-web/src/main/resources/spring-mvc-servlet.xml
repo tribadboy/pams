@@ -13,6 +13,9 @@
     							http://www.springframework.org/schema/task
     							http://www.springframework.org/schema/task/spring-task-3.2.xsd">
 
+ 	<!-- 激活@Controller模式 -->
+    <mvc:annotation-driven />
+    
 	 <!--避免IE执行AJAX时，返回JSON出现下载文件 -->  
     <bean id="mappingJacksonHttpMessageConverter"  
         class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">  

@@ -1,4 +1,4 @@
-package com.nju.pams.service.dao;
+package com.nju.pams.mapper.dao;
 
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -7,7 +7,7 @@ import com.nju.pams.model.User;
 import com.nju.pams.util.annotation.DAOMapper;
 
 @DAOMapper
-public interface IUserDAO {
+public interface UserDAO {
 	public static final String TABLE = " pams_db.user_t ";
 
     public static final String COL_ALL = " id, username, password, age ";

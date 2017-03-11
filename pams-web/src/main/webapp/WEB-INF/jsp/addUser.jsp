@@ -6,8 +6,6 @@
   </head>  
     
   <body>  
-  	测试数据  <br>
-    ${user.username}  <br>
-    ${user.password}
+  	添加用户页面
   </body>  
 </html> 

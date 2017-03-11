@@ -15,15 +15,22 @@
                         http://mybatis.org/schema/mybatis-spring.xsd
                         http://www.springframework.org/schema/tx 
                         http://www.springframework.org/schema/tx/spring-tx.xsd">  
+    
+    <!-- 可以通过注解方式进行配置 -->
+    <context:annotation-config />
                         
     <!-- 自动扫描的service路径 -->  
-    <context:component-scan base-package="com.nju.pams.service" />  
-    <context:component-scan base-package="com.nju.pams.service.xxx" />  
+    <context:component-scan base-package="com.nju.pams.biz.service" />  
+    <context:component-scan base-package="com.nju.pams.cacheable.service" />  
     
-    <!-- 数据库配置文件 -->  
-    <bean id="propertyConfigurer"  
-        class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">  
-        <property name="location" value="classpath:db/db.properties" />  
+    <!-- mysql和redis配置参数文件 -->  
+    <bean id="propertyConfigurer"  class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">  
+        <property name="locations">
+        	<list>
+        		<value>classpath:db/db.properties</value>
+        		<value>classpath:redis.properties</value>
+        	</list>
+        </property>
     </bean>  
   
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"  destroy-method="close">  
@@ -49,15 +56,8 @@
         <property name="dataSource" ref="dataSource" />  
     </bean>  
     
-    <!--  
-    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">  
-        <property name="basePackage" value="com.nju.pams.service.dao" />  
-        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>  
-    </bean>  
-    -->
-    
     <!-- mybatis基于注解的自定义扫描 -->
-    <mybatis:scan base-package="com.nju.pams.service.dao"
+    <mybatis:scan base-package="com.nju.pams.mapper.dao"
                   annotation="com.nju.pams.util.annotation.DAOMapper"
                   factory-ref="sqlSessionFactory"
     />
@@ -68,5 +68,9 @@
     </bean>  
     <!-- 支持事务处理的注解方式 -->
     <tx:annotation-driven transaction-manager="transactionManager"/>
+    
+    
+    <!-- 引入同文件夹下的redis属性配置文件 -->
+    <import resource="classpath:redis-context.xml"/>
   
 </beans>  
