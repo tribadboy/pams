@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+
+
+    <!-- shiroFilter -->
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="securityManager" ref="securityManager"/>
+        <property name="loginUrl" value="/login.html"/>
+        <property name="unauthorizedUrl" value="/error/unauthorized"/>
+        <property name="filterChainDefinitions">
+            <value>
+                /admin/**=authc
+            </value>
+        </property>
+    </bean>
+
+    <!-- 开启shiro注解-->
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" depends-on="lifecycleBeanPostProcessor">
+        <property name="proxyTargetClass" value="true" />
+    </bean>
+    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+        <property name="securityManager" ref="securityManager"/>
+    </bean>
+
+	<!-- 保证实现了Shiro内部lifecycle函数的bean执行 -->
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"></bean>
+    
+    <!-- md5加密算法，可以考虑使用对数据库中存储的密码进行加密 -->
+    <bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.Md5CredentialsMatcher"></bean>
+  
+  	<!-- shiro异常转发 -->
+  	<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="exceptionMappings">
+			<props>
+    			<prop key="org.apache.shiro.authz.UnauthorizedException">/error/unauthorized</prop>
+    			<prop key="org.apache.shiro.authz.UnauthenticatedException">/error/unauthorized</prop>
+    			<prop key="java.lang.IllegalArgumentException">/error</prop> 
+    			<prop key="java.lang.Exception">/error</prop> 
+			</props>
+		</property>
+	</bean>
+
+    <!-- 使用Shiro自带的JdbcRealm类 -->
+    <bean id="jdbcRealm" class="org.apache.shiro.realm.jdbc.JdbcRealm">
+     <!-- 去掉注释后，用户密码将采用md5加密 -->
+     <!--  <property name="credentialsMatcher" ref="credentialsMatcher"></property> -->
+        <property name="permissionsLookupEnabled" value="true"></property>
+        <property name="dataSource" ref="dataSource"></property>
+        <property name="authenticationQuery"
+                  value="SELECT password FROM t_shiro_user WHERE user_name = ?"></property>
+        <!-- 根据用户名查询该用户拥有的“角色”（一对多） -->
+        <property name="userRolesQuery"
+                  value="SELECT role_name FROM t_shiro_user_role LEFT JOIN t_shiro_role using(role_id) LEFT JOIN t_shiro_user using(user_id) WHERE user_name = ?"></property>
+        <!-- 根据角色名查询该用户拥有的“权限”（一对多） -->
+        <property name="permissionsQuery"
+                  value="SELECT permission_name FROM t_shiro_role_permission LEFT JOIN t_shiro_role using(role_id) LEFT JOIN t_shiro_permission using(permission_id) WHERE role_name = ?"></property>
+    </bean>
+
+    <!-- Shiro安全管理器 -->
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="realm" ref="jdbcRealm"></property>
+        <property name="cacheManager" ref="shiroCacheManager"></property>
+    </bean>    
+    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">  
+        <property name="securityManager" ref="securityManager"/>  
+    </bean>
+    
+    <!-- 缓存管理，暂时不整合redis缓存-->
+    <bean id="shiroCacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager"></bean>
+
+</beans>
