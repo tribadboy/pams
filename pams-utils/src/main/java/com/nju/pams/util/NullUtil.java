@@ -36,6 +36,15 @@ public class NullUtil {
 	}
 	
 	/**
+	 * 非null处理
+	 * @param value
+	 * @return
+	 */
+	public static String notNullProcess(String value) {
+		return (null == value) ? "" : value;
+	}
+	
+	/**
 	 * 检查是否为null或者0
 	 * @param value
 	 * @return

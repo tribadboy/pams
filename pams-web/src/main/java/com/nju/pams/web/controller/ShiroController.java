@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.nju.pams.model.shiro.ShiroUser;
+import com.nju.pams.util.NullUtil;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -52,10 +53,15 @@ public class ShiroController {
                 SavedRequest savedRequest = WebUtils.getSavedRequest(request);
                 // 获取保存的URL
                 if (savedRequest == null || savedRequest.getRequestUrl() == null) {
-                    return "admin/shiroHome";
+                	//直接进入登录后的首页
+                    return "redirect:admin/shiroHome";
                 } else {
                     //服务器请求转发到保存的url
-                    return "forward:" + savedRequest.getRequestUrl();
+                	String lastUrl = savedRequest.getRequestUrl()
+                			.concat(NullUtil.notNullProcess(savedRequest.getQueryString()))
+                			.replaceFirst(NullUtil.notNullProcess(request.getContextPath()), "");
+                	System.out.println(lastUrl);
+                    return "redirect:" + lastUrl;
                 }
             } else {
             	//subject 认证失败

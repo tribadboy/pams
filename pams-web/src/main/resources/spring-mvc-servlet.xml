@@ -13,37 +13,36 @@
     							http://www.springframework.org/schema/task
     							http://www.springframework.org/schema/task/spring-task-3.2.xsd">
 
- 	<!-- 激活@Controller模式 -->
-    <mvc:annotation-driven />
+
     
     <!-- 注册解析注解所需要的几个bean -->
-    <context:annotation-config />  
+    <context:annotation-config />     
     
-    <!-- controller位置-->
-    <!-- 使用org.springframework.beans.factory.support.DefaultBeanNameGenerator来替换org.springframework.context.annotation.AnnotationBeanNameGenerator,解决同名controller不能注入问题-->
-    <context:component-scan base-package="com.nju.pams.web.controller" name-generator="org.springframework.beans.factory.support.DefaultBeanNameGenerator"/>
+    <!-- 激活@Controller模式 -->
+	<!-- <mvc:annotation-driven /> -->
     
     <!-- 导入shiro的相关配置 -->
     <import resource="classpath*:shiro-conf.xml" />   
     
-    <!-- json转换器 -->  
-    <bean  
-        class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">  
-        <property name="messageConverters">  
-            <list>  
-                 <bean class="org.springframework.http.converter.StringHttpMessageConverter">  
-                	<property name="supportedMediaTypes">  
-                    	<list>  
-                        	<value>text/plain;charset=UTF-8</value>  
-                    	</list>  
-                	</property>  
-           		 </bean>  
-            	<bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />  
-            </list>  
-        </property>  
-    </bean>  
+    <!-- 处理请求返回json字符串的中文乱码问题 -->
+    <mvc:annotation-driven>
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <property name="supportedMediaTypes">
+                    <list>
+                        <value>application/json;charset=UTF-8</value>
+                        <value>text/html;charset=UTF-8</value>
+                        <value>text/plain;charset=UTF-8</value>
+                    </list>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
     
-     <!-- 配置根视图 -->
+    <!-- 允许对静态资源文件的访问 -->
+    <mvc:default-servlet-handler />
+    
+    <!-- 配置根视图 -->
     <mvc:view-controller path="/" view-name="forward:/index.jsp"/>
     
     <!-- 视图模式配置 -->
@@ -57,22 +56,21 @@
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">    
         <!-- 默认编码 -->  
         <property name="defaultEncoding" value="UTF-8" />    
-        <!-- 文件大小最大值 -->  
-        <property name="maxUploadSize" value="10485760000" />    
+        <!-- 文件大小最大值 200mb -->  
+        <property name="maxUploadSize" value="209715200" />    
         <!-- 内存中的最大值 -->  
-        <property name="maxInMemorySize" value="40960" />    
+        <property name="maxInMemorySize" value="409600" />    
+        <!-- 支持延迟加载 -->
+        <property name="resolveLazily" value="true" />
     </bean>   
 	
 	<!--  视图解析器 -->
 	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
 		<property name="order" value="0" />
 	</bean>
-
-	<!-- 支持返回json数据 -->
-	<bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJacksonJsonView">
-		<property name="extractValueFromSingleKeyModel" value="true" />
-	</bean>
-	
-  
+    
+    <!-- controller位置,放在配置文件的最下面-->
+    <!-- 使用org.springframework.beans.factory.support.DefaultBeanNameGenerator来替换org.springframework.context.annotation.AnnotationBeanNameGenerator,解决同名controller不能注入问题-->
+    <context:component-scan base-package="com.nju.pams.web.controller" name-generator="org.springframework.beans.factory.support.DefaultBeanNameGenerator"/>
 		
 </beans>
