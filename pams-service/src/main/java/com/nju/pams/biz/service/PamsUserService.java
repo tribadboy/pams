@@ -3,7 +3,7 @@ package com.nju.pams.biz.service;
 import com.nju.pams.model.PamsUser;
 
 public interface PamsUserService {
-	PamsUser getPamsUserById(Integer id);
+	PamsUser getPamsUserByUserId(Integer userId);
 	
 	PamsUser getPamsUserByUsername(String username);
 	

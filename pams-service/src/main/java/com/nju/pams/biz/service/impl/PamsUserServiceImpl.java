@@ -20,8 +20,8 @@ public class PamsUserServiceImpl implements PamsUserService {
     private static final Logger logger = Logger.getLogger(PamsUserServiceImpl.class);
 
 	@Override
-	public PamsUser getPamsUserById(Integer id) {
-		return pamsUserDAO.getPamsUserById(id);
+	public PamsUser getPamsUserByUserId(Integer userId) {
+		return pamsUserDAO.getPamsUserByUserId(userId);
 	}
 
 	@Override

@@ -15,12 +15,12 @@ import com.nju.pams.util.annotation.DAOMapper;
 public interface PamsUserDAO {
 	public static final String TABLE = DatabaseConstant.T_PAMS_USER;
 
-    public static final String COL_ALL = " id, username, password, status, phone,"
+    public static final String COL_ALL = " user_id, username, password, status, phone,"
     		+ " mail, create_time, update_time ";
     
     /**
-     * 根据id查询用户
-     * @param id
+     * 根据userId查询用户
+     * @param userId
      * @return
      */
     @Select(""
@@ -29,9 +29,9 @@ public interface PamsUserDAO {
             + " FROM "
             + TABLE
             + " WHERE "
-            + " id = #{id}"
+            + " user_id = #{userId}"
             + "")
-    public PamsUser getPamsUserById(@Param("id") Integer id);
+    public PamsUser getPamsUserByUserId(@Param("userId") Integer userId);
 
     /**
      * 根据用户名查询用户
@@ -49,7 +49,7 @@ public interface PamsUserDAO {
     public PamsUser getPamsUserByUsername(@Param("username") String username);
     
     /**
-     * 插入用户，id create_time update_time由数据库操作
+     * 插入用户，user_id create_time update_time由数据库操作
      * @param pamsUser
      */
     @Insert(""
@@ -59,7 +59,7 @@ public interface PamsUserDAO {
     		+ " ( " + COL_ALL + " ) "
     		+ " VALUES "
     		+ " ( " 
-    		+ " #{id}, "
+    		+ " #{userId}, "
     		+ " #{username}, "
     		+ " #{password}, "
     		+ " #{status}, "
@@ -69,11 +69,11 @@ public interface PamsUserDAO {
     		+ " NOW() "
     		+ " ) "
     		+ "")
-    @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
+    @Options(useGeneratedKeys = true, keyColumn = "user_id", keyProperty = "userId")
     public void insertPamsUser(PamsUser pamsUser);
     
     /**
-     * 更新用户信息，根据用户id和username
+     * 更新用户信息，根据用户userId和username
      * @param pamsUser
      */
     @Update(""
@@ -85,7 +85,7 @@ public interface PamsUserDAO {
     		+ " phone = #{phone}, "
     		+ " mail = #{mail} "
     		+ " WHERE "
-    		+ " id = #{id} "
+    		+ " user_id = #{userId} "
     		+ " AND "
     		+ " username = #{username} "
     		+ "")

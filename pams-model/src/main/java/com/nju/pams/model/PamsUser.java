@@ -2,7 +2,7 @@ package com.nju.pams.model;
 
 public class PamsUser {
 	
-	private int id;						//用户数据库存储主键
+	private int userId;						//用户数据库存储主键
 	private String username;		
 	private String password;
 	private int status;
@@ -10,6 +10,18 @@ public class PamsUser {
 	private String mail;
     private String  createTime;
     private String  updateTime;
+    
+    public PamsUser() {
+    	
+    }
+    
+    public PamsUser(String username, String password, int status, String phone, String mail) {
+    	this.username = username;
+    	this.password = password;
+    	this.status = status;
+    	this.phone = phone;
+    	this.mail = mail;
+    }
     
     public enum Status { 
         Valid(0),
@@ -24,66 +36,51 @@ public class PamsUser {
         }
     }
 
-	public int getId() {
-		return id;
+	public int getUserId() {
+		return userId;
 	}
-
-	public void setId(int id) {
-		this.id = id;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
-
 	public String getUsername() {
 		return username;
 	}
-
 	public void setUsername(String username) {
 		this.username = username;
 	}
-
 	public String getPassword() {
 		return password;
 	}
-
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
 	public int getStatus() {
 		return status;
 	}
-
 	public void setStatus(int status) {
 		this.status = status;
 	}
-
 	public String getPhone() {
 		return phone;
 	}
-
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-
 	public String getMail() {
 		return mail;
 	}
-
 	public void setMail(String mail) {
 		this.mail = mail;
 	}
-
 	public String getCreateTime() {
 		return createTime;
 	}
-
 	public void setCreateTime(String createTime) {
 		this.createTime = createTime;
 	}
-
 	public String getUpdateTime() {
 		return updateTime;
 	}
-
 	public void setUpdateTime(String updateTime) {
 		this.updateTime = updateTime;
 	}
@@ -92,7 +89,7 @@ public class PamsUser {
 	public String toString() {
 		StringBuffer strBuf = new StringBuffer();
 		strBuf.append("{PamsUser [")
-		.append("id=" + id)
+		.append("userId=" + userId)
 		.append(",username=" + username)
 		.append(",passowrd=" + password)
 		.append(",status=" + status)
