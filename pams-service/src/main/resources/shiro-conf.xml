@@ -9,11 +9,11 @@
     <!-- shiroFilter -->
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager"/>
-        <property name="loginUrl" value="/shiro/login.html"/>
+        <property name="loginUrl" value="/web/anon/login.html"/>
         <property name="unauthorizedUrl" value="/error/unauthorized"/>
         <property name="filterChainDefinitions">
             <value>
-                /shiro/admin/**=authc
+                /web/authc/**=authc
             </value>
         </property>
     </bean>
@@ -38,8 +38,8 @@
 			<props>
     			<prop key="org.apache.shiro.authz.UnauthorizedException">/error/unauthorized</prop>
     			<prop key="org.apache.shiro.authz.UnauthenticatedException">/error/unauthorized</prop>
-    			<prop key="java.lang.IllegalArgumentException">/error</prop> 
-    			<prop key="java.lang.Exception">/error</prop> 
+    			<prop key="java.lang.IllegalArgumentException">/error/error</prop> 
+    			<prop key="java.lang.Exception">/error/error</prop> 
 			</props>
 		</property>
 	</bean>
@@ -51,13 +51,13 @@
         <property name="permissionsLookupEnabled" value="true"></property>
         <property name="dataSource" ref="dataSource"></property>
         <property name="authenticationQuery"
-                  value="SELECT password FROM t_shiro_user WHERE user_name = ?"></property>
+                  value="SELECT password FROM t_pams_user WHERE username = ?"></property>
         <!-- 根据用户名查询该用户拥有的“角色”（一对多） -->
         <property name="userRolesQuery"
-                  value="SELECT role_name FROM t_shiro_user_role LEFT JOIN t_shiro_role using(role_id) LEFT JOIN t_shiro_user using(user_id) WHERE user_name = ?"></property>
+                  value="SELECT role_name FROM t_pams_user_role LEFT JOIN t_pams_role using(role_id) LEFT JOIN t_pams_user using(user_id) WHERE username = ?"></property>
         <!-- 根据角色名查询该用户拥有的“权限”（一对多） -->
         <property name="permissionsQuery"
-                  value="SELECT permission_name FROM t_shiro_role_permission LEFT JOIN t_shiro_role using(role_id) LEFT JOIN t_shiro_permission using(permission_id) WHERE role_name = ?"></property>
+                  value="SELECT permission_name FROM t_pams_role_permission LEFT JOIN t_pams_role using(role_id) LEFT JOIN t_pams_permission using(permission_id) WHERE role_name = ?"></property>
     </bean>
 
     <!-- Shiro安全管理器 -->
