@@ -84,14 +84,14 @@ public class RedisCache implements Cache{
         System.out.println("put key \"" + keyStr + "\" into redis cache \"" + name + "\"");  
         if(!StringUtils.isEmpty(keyStr)) {
         	final Object finalValue = value;
-        	//final long liveTime = 86400;   
+        	final long liveTime = 86400;   	// 24 * 60 * 60 缓存时间设置为1天
         	redisTemplate.execute(new RedisCallback<Boolean>() {    
                 @Override
         		public Boolean doInRedis(RedisConnection connection) throws DataAccessException {    
                      byte[] keyByte = keyStr.getBytes();    
                      byte[] valueByte = SerializeUtil.serialize(finalValue);    
                      connection.set(keyByte, valueByte);   
-                     //connection.expire(keyByte, liveTime);   
+                     connection.expire(keyByte, liveTime);   
                      return true;
                 } 
              });    

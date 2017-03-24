@@ -70,7 +70,7 @@
 	</bean>
     
     <!-- controller位置,放在配置文件的最下面-->
-    <!-- 使用org.springframework.beans.factory.support.DefaultBeanNameGenerator来替换org.springframework.context.annotation.AnnotationBeanNameGenerator,解决同名controller不能注入问题-->
-    <context:component-scan base-package="com.nju.pams.web.controller" name-generator="org.springframework.beans.factory.support.DefaultBeanNameGenerator"/>
+    <context:component-scan base-package="com.nju.pams.web.controller"/>
+    <context:component-scan base-package="com.nju.pams.web.controller.kaptcha"/>
 		
 </beans>

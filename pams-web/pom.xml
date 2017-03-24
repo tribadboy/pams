@@ -101,6 +101,13 @@
 			<artifactId>shiro-spring</artifactId>
 			<version>1.2.1</version>
 		</dependency>
+		
+		<!-- kaptcha 验证码-->  
+		<dependency>  
+    		<groupId>com.github.penggle</groupId>  
+    		<artifactId>kaptcha</artifactId>  
+    		<version>2.3.2</version>  
+		</dependency>
         
         <!-- log -->
         <dependency>

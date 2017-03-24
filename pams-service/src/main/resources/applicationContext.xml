@@ -70,10 +70,13 @@
     <tx:annotation-driven transaction-manager="transactionManager"/>
     
     
-    <!-- 引入同文件夹下的redis属性配置文件 -->
-    <import resource="classpath:redis-context.xml"/>
+    <!-- 导入redis的端相关配置 -->
+    <import resource="classpath:redis-conf.xml"/>
     
     <!-- 导入shiro的相关配置 -->
 	<import resource="classpath:shiro-conf.xml" />
+	
+	<!-- 导入kaptcha的相关配置 -->
+	<import resource="classpath:kaptcha-conf.xml" />
   
 </beans>  
