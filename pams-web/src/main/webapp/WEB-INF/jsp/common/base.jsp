@@ -22,9 +22,7 @@
 <script type="text/javascript" src="${base }/assets/js/easyui/src/jquery.form.js"></script>
 <%-- jqueryform --%>
 <%
-String uri = request.getRequestURI();//http://localhost:8080/project/index.jsp
-String a[] = uri.split("/");
-//request.setAttribute("currentPage", a[a.length-1]);
+String uri = request.getRequestURI();
 request.setAttribute("currentPage", uri);
 
 %>

@@ -10,7 +10,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>title template</title>
+    <title>login page</title>
 
 
     <link href="<%=basePath%>static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -30,21 +30,23 @@
         <input type="password" name="password"/> <br>
         <img src="<%=path %>/web/code/kaptcha-img" width="200" id="kaptchaImage" 
         	title="点击更换图片" alt="点击更换图片" />  
-        <input type="text" name="kaptcha" value=""/> <br>
-        <input type="submit" value="login"/>
+        <input type="text" name="kaptcha" class="kaptcha-code" value=""/> 
+        <div class="tips" style="color:red"></div> <br>
+        <input type="submit" value="login" class="submitBtn"/>
     </form>  
+    
+    <a href="<%=path %>/web/user/registerPage"><button>用户注册</button></a>
        
 	<!-- 从model中获取错误信息 -->
 	<P>${message}</P>
 
+	<!-- js文件依次放在下面 -->
+	<script> 
+   		var path = "<%=path%>"; 
+   		var basePath = "<%=basePath%>";
+	</script>
 	<script src="<%=basePath%>static/bootstrap/js/jquery-3.2.0.min.js"></script>
 	<script src="<%=basePath%>static/bootstrap/js/bootstrap.min.js"></script>
-	<!-- 其他js文件依次放在下面 -->
-	<script type="text/javascript">  
-    $(function() {  
-        $('#kaptchaImage').click(function() {
-        	$(this).attr('src','<%=path %>/web/code/kaptcha-img?#' + Math.floor(Math.random() * 100));});  
-    });  
-	</script>   
+	<script src="<%=basePath%>static/js/login.js"></script>
   </body>
 </html>

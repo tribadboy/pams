@@ -43,8 +43,8 @@ public class ResultUtil {
      */
     public static void processResult(final JSONObject jsonObject, final int resultCode, final String resultMsg) {
         if (null != jsonObject) {
-            jsonObject.put("code", resultCode);
-            jsonObject.put("msg", resultMsg);
+            jsonObject.put("status", resultCode);
+            jsonObject.put("message", resultMsg);
         }
     }
 

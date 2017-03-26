@@ -11,9 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import com.google.code.kaptcha.Constants;
 import com.nju.pams.model.PamsUser;
 import com.nju.pams.model.constant.PathConstant;
 import com.nju.pams.util.NullUtil;
@@ -47,20 +44,9 @@ public class WebLoginController {
     
     //用户在login.jsp填写信息后登录，处理登录的业务逻辑
     @RequestMapping(value = "/doLogin",method = RequestMethod.POST)
-    public String doLogin(PamsUser user,
-    		@RequestParam(value="kaptcha", required=true) final String kaptcha,
-    		HttpServletRequest request, Model model) {
+    public String doLogin(PamsUser user, HttpServletRequest request, Model model) {
+    	
         String message;		//message记录登录的错误信息，同步返回给用户，显示到login.jsp上
-        
-        //首先检查验证码
-        String code = (String) request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY); 
-        if(null == code || !code.equalsIgnoreCase(kaptcha)) {
-        	message = "验证码错误";
-        	model.addAttribute("message", message);
-            logger.info("登录异常：" + message);
-            return "/anon/login";
-        }
-
         UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), user.getPassword());
         token.setRememberMe(true);
         Subject subject = SecurityUtils.getSubject();

@@ -11,12 +11,19 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;  
 import org.springframework.stereotype.Controller;  
-import org.springframework.web.bind.annotation.RequestMapping;  
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;  
   
 import com.google.code.kaptcha.Constants;  
 import com.google.code.kaptcha.Producer;
-import com.nju.pams.model.constant.PathConstant;  
+import com.nju.pams.model.constant.PathConstant;
+import com.nju.pams.util.ResultUtil;
+import com.nju.pams.util.constant.ResultEnum;
+
+import net.sf.json.JSONObject;  
   
 @Controller  
 @RequestMapping(PathConstant.WEB_CODE)
@@ -58,4 +65,26 @@ public class KaptchaController {
         }  
         return null;  
     }  
+    
+    /**
+     * 检查验证码是否正确
+     * @param kaptcha
+     * @param request
+     * @return
+     */
+    @ResponseBody
+	@RequestMapping(value = "verification", method = RequestMethod.POST)
+	public String checkVerificationCode(@RequestParam("kaptcha") final String kaptcha,
+			HttpServletRequest request) {
+		final JSONObject result = new JSONObject();
+		
+		logger.info("收到用户输入的验证码：" + kaptcha);
+		String code = (String) request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
+		if(null == code || null == kaptcha || !code.equalsIgnoreCase(kaptcha)) {
+			ResultUtil.addResult(result, ResultEnum.ErrorVerificationCode);
+			return result.toString();
+		}
+		ResultUtil.addSuccess(result);
+		return result.toString();
+	}
 }  

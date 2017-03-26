@@ -11,7 +11,12 @@ public enum ResultEnum {
 	 */
 	
     Success(0, "成功"),
+    //参数校验错误 1--9
     NullParameter(1, "参数存在空值"),
+    //验证码相关错误 11--19
+    ErrorVerificationCode(11, "验证码输入错误"),
+    //用户信息相关错误 21--29
+    DuplicateUsername(22, "该用户名已经存在"),
     UnknownError(99, "未知错误");
 
     private final int code;
