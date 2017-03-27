@@ -13,7 +13,7 @@
 </head>
 <body>
 
-欢迎${pamsUser.username}登录
+欢迎${username}登录
 
 你有权限访问该页面
 

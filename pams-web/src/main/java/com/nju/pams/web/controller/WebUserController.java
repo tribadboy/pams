@@ -52,12 +52,25 @@ public class WebUserController {
 		return result.toString();
 	}
     
-    // 登录成功的页面
+    /**
+     * 返回注册页面jsp
+     * @return
+     */
     @RequestMapping(value = "registerPage")
     public String registerPage(){
         return "anon/register";
     }
     
+    /**
+     * 接收注册信息，返回注册结果
+     * @param model
+     * @param request
+     * @param username
+     * @param password
+     * @param phone
+     * @param mail
+     * @return
+     */
    	@RequestMapping(value = "register", method = RequestMethod.POST)
    	public String registerUsername(Model model, HttpServletRequest request, 
    			@RequestParam("username") final String username,
@@ -71,12 +84,12 @@ public class WebUserController {
    			message = ResultEnum.NullParameter.getMsg();
    			model.addAttribute("message", message);
    	        logger.info("注册异常：" + message);
-   	        return "/anon/register";
+   	        return "anon/register";
 		} else if(pamsUserService.getPamsUserByUsername(username) != null) {
 			message = ResultEnum.DuplicateUsername.getMsg();
    			model.addAttribute("message", message);
    	        logger.info("注册异常：" + message);
-   	        return "/anon/register";
+   	        return "anon/register";
 		}
    		//创建用户并插入数据库
    		PamsUser newUser = new PamsUser(username, password, 0, phone, mail);
@@ -87,9 +100,41 @@ public class WebUserController {
         token.setRememberMe(true);
         Subject subject = SecurityUtils.getSubject();
         subject.login(token);
-        request.getSession().setAttribute("pamsUser",newUser);
-        logger.info("注册用户成功，在session中记录pamsUser：" + request.getSession().getAttribute("pamsUser"));
-        model.addAttribute("pamsUser",newUser);
+        request.getSession().setAttribute("username",username);
+        logger.info("注册用户成功，在session中记录username：" + request.getSession().getAttribute("username"));
+        model.addAttribute("username",username);
+        
+        return "redirect:" + PathConstant.WEB_AUTHC + "home";
+   	}
+   	
+   	
+   	@RequestMapping(value = "update", method = RequestMethod.POST)
+   	public String updateUserInfo(Model model,
+   			@RequestParam("username") final String username,
+   			@RequestParam("password") final String password,
+   			@RequestParam("phone") final String phone,
+   			@RequestParam("mail") final String mail
+   			) {
+   		logger.info("修改用户信息");
+   		String message;		//修改失败时，存储失败信息，返回给页面
+   		if(null == username || null == password || null == phone || null == mail) {
+   			message = ResultEnum.NullParameter.getMsg();
+   			model.addAttribute("message", message);
+   	        logger.info("用户信息修改异常：" + message);
+   	        return "authc/userInfo";
+		} 
+   		PamsUser pamsUser = pamsUserService.getPamsUserByUsername(username);
+   		if(null == pamsUser) {
+   			message = ResultEnum.UsernameNotExist.getMsg();
+   			model.addAttribute("message", message);
+   	        logger.info("用户信息修改异常：" + message);
+   	        return "anon/login";
+   		}
+   		//更信息用户信息
+   		pamsUser.setPassword(password);
+   		pamsUser.setPhone(phone);
+   		pamsUser.setMail(mail);
+   		pamsUserService.updatePamsUser(pamsUser);
         
         return "redirect:" + PathConstant.WEB_AUTHC + "home";
    	}

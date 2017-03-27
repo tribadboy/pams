@@ -10,7 +10,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>register page</title>
+    <title>user information page</title>
 
 
     <link href="<%=basePath%>static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -21,36 +21,35 @@
     <![endif]-->
   </head>
   <body>
-    <h1>这是注册页面</h1>
+    <h1>这是用户信息显示页面</h1>
     
-	<form action="<%=path %>/web/user/register"  method="POST" id="registerForm">
-        <div>  
+	<form action="<%=path %>/web/user/update"  method="POST" id="updateUserInfoForm">
+        <div>
+        	<label>用户名</label>  
             <input type="text" name="username" class="username" id="username"
-            placeholder="您的用户名" autocomplete="off"/>  
+            value="${pamsUser.username}" readonly/>  
         </div> 
         <div>  
+        	<label>密码</label>
             <input type="password" name="password" class="password" id="password"
-            placeholder="输入密码" oncontextmenu="return false"/>  
+            value="${pamsUser.password}" oncontextmenu="return false"/>  
         </div>  
         <div>  
+        	<label>密码验证</label>
             <input type="password" name="confirm_password" class="confirm_password" 
-            placeholder="再次输入密码" oncontextmenu="return false"/>  
+            value="${pamsUser.password}" oncontextmenu="return false"/>  
         </div>  
         <div>  
+        	<label>电话号码</label>
             <input type="text" name="phone" class="phone" id="phone"
-            placeholder="输入手机号码" autocomplete="off"/>  
+             value="${pamsUser.phone}" autocomplete="off"/>  
         </div>  
         <div>  
+        	<label>电子邮箱</label>
             <input type="text" name="email" class="email" id="email"
-            placeholder="输入邮箱地址" oncontextmenu="return false"/>  
+            value="${pamsUser.mail}" oncontextmenu="return false"/>  
         </div>  
-        <div>  
-            <input type="text"  class="kaptcha" name="kaptcha" style="width:150px;" id="kaptcha"  
-             placeholder="输入验证码" autocomplete="off"/>            
-             <img src="<%=path %>/web/code/kaptcha-img" width="110" height="40" 
-             id="kaptchaImage"  title="点击更换图片" alt="点击更换图片"/>     
-        </div>  
-        <button id="submit" type="submit">注 册</button>  
+        <button id="submit" type="submit">修改信息</button>  
     </form>  
        
 	<!-- 从model中获取错误信息 -->

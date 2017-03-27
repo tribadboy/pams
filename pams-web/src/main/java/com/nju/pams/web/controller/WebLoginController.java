@@ -53,11 +53,11 @@ public class WebLoginController {
         try {
             subject.login(token);
             if (subject.isAuthenticated()) {
-                request.getSession().setAttribute("pamsUser",user);
-                logger.info("doLogin:权限认证成功，在session中记录pamsUser：" + request.getSession().getAttribute("pamsUser"));
+                request.getSession().setAttribute("username",user.getUsername());
+                logger.info("doLogin:权限认证成功，在session中记录username：" + request.getSession().getAttribute("username"));
                 
                 SavedRequest savedRequest = WebUtils.getSavedRequest(request);
-                model.addAttribute("pamsUser",user);
+                model.addAttribute("username",user.getUsername());
                 if (savedRequest == null || savedRequest.getRequestUrl() == null) {
                 	//重定向到登录后的home的请求上，再转到对应的jsp页面
                     return "redirect:" + PathConstant.WEB_AUTHC + "home";

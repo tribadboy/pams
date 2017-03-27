@@ -12,13 +12,15 @@
 </head>
 <body>
 
-欢迎${pamsUser.username}登录
+欢迎${username}登录
 
 <a href="<%=path %>/web/anon/logout.html"><button>退出登录</button></a>
 
 <a href="<%=path %>/web/authc/role"><button>访问需要角色的页面</button></a>
 
 <a href="<%=path %>/web/authc/auth"><button>访问需要权限的页面</button></a>
+
+<a href="<%=path %>/web/authc/userInfo"><button>用户信息修改页面</button></a>
 
 </body>
 </html>
