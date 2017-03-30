@@ -9,7 +9,7 @@
 	<head>  
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">  
 		<title>ajax for springMVC</title>  
- 		<script type="text/javascript" src="<%=basePath%>static/bootstrap/js/jquery-3.2.0.min.js"></script>  
+ 		<script type="text/javascript" src="<%=basePath%>static/js/jquery.min.js"></script>  
 		<script type="text/javascript">  
                 $(function() {  
                     $("#click1").click(function() {  

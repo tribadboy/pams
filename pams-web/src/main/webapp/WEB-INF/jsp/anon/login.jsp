@@ -13,7 +13,7 @@
     <title>login page</title>
 
 
-    <link href="<%=basePath%>static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<%=basePath%>static/css/bootstrap.min.css" rel="stylesheet">
     <!-- 其他css文件下载下面 -->   
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -45,8 +45,8 @@
    		var path = "<%=path%>"; 
    		var basePath = "<%=basePath%>";
 	</script>
-	<script src="<%=basePath%>static/bootstrap/js/jquery-3.2.0.min.js"></script>
-	<script src="<%=basePath%>static/bootstrap/js/bootstrap.min.js"></script>
+	<script src="<%=basePath%>static/js/jquery.min.js"></script>
+	<script src="<%=basePath%>static/js/bootstrap.min.js"></script>
 	<script src="<%=basePath%>static/js/login.js"></script>
   </body>
 </html>

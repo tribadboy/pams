@@ -14,7 +14,7 @@
     <title>现代浏览器博物馆</title>
     
     
-    <link href="<%=basePath%>static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<%=basePath%>static/css/bootstrap.min.css" rel="stylesheet">
 
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -411,8 +411,8 @@
 
 </div>
 
-<script src="<%=basePath%>static/bootstrap/js/jquery-3.2.0.min.js"></script>
-<script src="<%=basePath%>static/bootstrap/js/bootstrap.min.js"></script>
+<script src="<%=basePath%>static/js/jquery.min.js"></script>
+<script src="<%=basePath%>static/js/bootstrap.min.js"></script>
 <script>
     $(function () {
         $('#ad-carousel').carousel();
