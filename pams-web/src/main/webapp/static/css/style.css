@@ -427,7 +427,7 @@ hr.bold {
 .hero h1 { font-size: 40px; letter-spacing: 12px; margin: 40px 0 10px; font-weight: 900; color: #fff;}
 .hero h1 span { color: #a1a9b0; display: inline-block; }
 .hero p { font-size: 24px; font-weight: 400; color: #fefefe; }
-.learn-more-btn { background: rgba(88, 88, 120, 1); padding: 20px 40px; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; -o-border-radius: 5px; color: #fff; text-transform: uppercase; letter-spacing: 1px; display: inline-block; -webkit-box-shadow: 0px 3px 0px 0px #fff; -moz-box-shadow: 0px 3px 0px 0px #309383; box-shadow: 0px 3px 0px 0px #fff; margin: 60px 0 0; font-weight: bold; }
+.learn-more-btn { background: rgba(20, 180, 180, 1); padding: 20px 40px; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; -o-border-radius: 5px; color: #fff; text-transform: uppercase; letter-spacing: 1px; display: inline-block; -webkit-box-shadow: 0px 3px 0px 0px #222; -moz-box-shadow: 0px 3px 0px 0px #309383; box-shadow: 0px 3px 0px 0px #288; margin: 60px 0 0; font-weight: bold; }
 .learn-more-btn:hover, .learn-more-btn:focus { background: rgba(88, 88, 120, 0.4); color: #fff; }
 
 

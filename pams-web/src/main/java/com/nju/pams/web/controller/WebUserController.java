@@ -76,11 +76,11 @@ public class WebUserController {
    			@RequestParam("username") final String username,
    			@RequestParam("password") final String password,
    			@RequestParam("phone") final String phone,
-   			@RequestParam("mail") final String mail
+   			@RequestParam("email") final String email
    			) {
    		logger.info("注册用户");
    		String message;		//注册失败时，存储失败信息，返回给页面
-   		if(null == username || null == password || null == phone || null == mail) {
+   		if(null == username || null == password || null == phone || null == email) {
    			message = ResultEnum.NullParameter.getMsg();
    			model.addAttribute("message", message);
    	        logger.info("注册异常：" + message);
@@ -92,7 +92,7 @@ public class WebUserController {
    	        return "anon/register";
 		}
    		//创建用户并插入数据库
-   		PamsUser newUser = new PamsUser(username, password, 0, phone, mail);
+   		PamsUser newUser = new PamsUser(username, password, 0, phone, email);
    		pamsUserService.insertPamsUser(newUser);
    		
    		//将用户信息通过shiro认证
@@ -113,11 +113,11 @@ public class WebUserController {
    			@RequestParam("username") final String username,
    			@RequestParam("password") final String password,
    			@RequestParam("phone") final String phone,
-   			@RequestParam("mail") final String mail
+   			@RequestParam("email") final String email
    			) {
    		logger.info("修改用户信息");
    		String message;		//修改失败时，存储失败信息，返回给页面
-   		if(null == username || null == password || null == phone || null == mail) {
+   		if(null == username || null == password || null == phone || null == email) {
    			message = ResultEnum.NullParameter.getMsg();
    			model.addAttribute("message", message);
    	        logger.info("用户信息修改异常：" + message);
@@ -133,7 +133,7 @@ public class WebUserController {
    		//更信息用户信息
    		pamsUser.setPassword(password);
    		pamsUser.setPhone(phone);
-   		pamsUser.setMail(mail);
+   		pamsUser.setMail(email);
    		pamsUserService.updatePamsUser(pamsUser);
         
         return "redirect:" + PathConstant.WEB_AUTHC + "home";

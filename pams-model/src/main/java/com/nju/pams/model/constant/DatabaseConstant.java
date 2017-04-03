@@ -14,4 +14,5 @@ public final class DatabaseConstant {
 	final public static String T_PAMS_PERMISSION = DB_NAME + "." + "t_pams_permission";
 	final public static String T_PAMS_USER_ROLE = DB_NAME + "." + "t_pams_user_role";
 	final public static String T_PAMS_ROLE_PERMISSION = DB_NAME + "." + "t_pams_role_permission";
+	final public static String T_PAMS_ACCOUNT = DB_NAME + "." + "t_pams_account";
 }

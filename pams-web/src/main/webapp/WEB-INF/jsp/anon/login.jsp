@@ -14,6 +14,7 @@
 
 
     <link href="<%=basePath%>static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<%=basePath%>static/css/login.css" rel="stylesheet">
     <!-- 其他css文件下载下面 -->   
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -21,25 +22,26 @@
     <![endif]-->
   </head>
   <body>
-    <h1>这是登录页面</h1>
-    
+  <div id="login">
+    <h1>登录</h1>
 	<form action="<%=path %>/web/anon/doLogin"  method="POST">
-        <label>username</label>
-        <input type="text" name="username" maxLength="32"/>
-        <label>password</label>
-        <input type="password" name="password"/> <br>
-        <img src="<%=path %>/web/code/kaptcha-img" width="200" id="kaptchaImage" 
-        	title="点击更换图片" alt="点击更换图片" />  
-        <input type="text" name="kaptcha" class="kaptcha-code" value=""/> 
-        <div class="tips" style="color:red"></div> <br>
-        <input type="submit" value="login" class="submitBtn"/>
+        <input type="text" name="username" maxLength="32" placeholder="请输入用户名"/>
+        <input type="password" name="password" maxLength="32" placeholder="请输入密码"/> <br>
+        <img src="<%=path %>/web/code/kaptcha-img" id="kaptchaImage" 
+        	title="点击更换图片" alt="点击更换图片" class="kaptchaImage" />  
+        <input type="text" name="kaptcha" class="kaptcha-code" value=""
+             placeholder="请输入验证码"/>   
+        <div class="tips" style="color:red"></div>  
+        <input type="submit" value="login" class="submitBtn"/><br>
+        <a href="<%=path %>/web/user/registerPage">用户注册</a>
+        <a href="<%=path %>/static/view/home.html">返回主页</a>
+
+        <h5>${message}</h5>
     </form>  
     
-    <a href="<%=path %>/web/user/registerPage"><button>用户注册</button></a>
-       
-	<!-- 从model中获取错误信息 -->
-	<P>${message}</P>
 
+       
+</div>
 	<!-- js文件依次放在下面 -->
 	<script> 
    		var path = "<%=path%>"; 

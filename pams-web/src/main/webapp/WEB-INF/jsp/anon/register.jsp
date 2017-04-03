@@ -14,6 +14,7 @@
 
 
     <link href="<%=basePath%>static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<%=basePath%>static/css/register.css" rel="stylesheet">
     <!-- 其他css文件下载下面 -->   
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -21,9 +22,9 @@
     <![endif]-->
   </head>
   <body>
-    <h1>这是注册页面</h1>
-    
+   <div id ="register">
 	<form action="<%=path %>/web/user/register"  method="POST" id="registerForm">
+        <h1>用户注册</h1>
         <div>  
             <input type="text" name="username" class="username" id="username"
             placeholder="您的用户名" autocomplete="off"/>  
@@ -45,17 +46,18 @@
             placeholder="输入邮箱地址" oncontextmenu="return false"/>  
         </div>  
         <div>  
-            <input type="text"  class="kaptcha" name="kaptcha" style="width:150px;" id="kaptcha"  
-             placeholder="输入验证码" autocomplete="off"/>            
-             <img src="<%=path %>/web/code/kaptcha-img" width="110" height="40" 
-             id="kaptchaImage"  title="点击更换图片" alt="点击更换图片"/>     
+            <img src="<%=path %>/web/code/kaptcha-img" class="kaptchaImage"
+             id="kaptchaImage"  title="点击更换图片" alt="点击更换图片"/><br>
+            <input type="text"  class="kaptcha" name="kaptcha" id="kaptcha"  
+             placeholder="输入验证码" autocomplete="off"/>                
         </div>  
-        <button id="submit" type="submit">注 册</button>  
-    </form>  
-       
-	<!-- 从model中获取错误信息 -->
-	<P>${message}</P>
+        <button id="submit" type="submit" class="submitBtn">注 册</button><br>&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="<%=path %>/web/anon/login.html">用户登录</a> &nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="<%=path %>/static/view/home.html">返回主页</a>
 
+        <h5>${message}</h5>
+    </form>  
+    </div>
 	<!-- js文件依次放在下面 -->
 	<script> 
    		var path = "<%=path%>"; 

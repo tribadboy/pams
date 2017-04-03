@@ -1,0 +1,75 @@
+html{   
+    width: 100%;   
+    height: 100%;   
+    overflow-x: hidden;  
+    overflow-y: auto; 
+    font-style: sans-serif;   
+}   
+body{   
+    width: 100%;   
+    height: 100%;   
+    font-family: 'Open Sans',sans-serif;   
+    margin: 0;   
+    background-image: url(../img/login.jpg);
+    background-position: center 0; 
+    background-repeat: no-repeat; 
+    background-attachment:fixed; 
+    background-size: cover; 
+}   
+#login{   
+    position: absolute;   
+    top: 50%;   
+    left:50%;   
+    margin: -150px 0 0 -150px;   
+    width: 300px;   
+    height: 300px;   
+    text-align: center; 
+}   
+#login h1{   
+    color: #fff;   
+    text-shadow:0 0 10px;   
+    letter-spacing: 1px;   
+    text-align: center;   
+}  
+#login h5{   
+    color: #f00;   
+    text-shadow:0 0 0px;   
+    letter-spacing: 1px;   
+    text-align: center;   
+}  
+input{   
+    width: 200px;   
+    height: 40px;   
+    margin-bottom: 10px;   
+    outline: none;   
+    padding: 10px;   
+    font-size: 13px;   
+    color: #fff;   
+    text-shadow:1px 1px 1px;   
+    border-top: 1px solid #312E3D;   
+    border-left: 1px solid #312E3D;   
+    border-right: 1px solid #312E3D;   
+    border-bottom: 1px solid #56536A;   
+    border-radius: 4px;   
+    background-color: #2D2D3F;   
+}   
+.kaptchaImage{   
+    width: 200px;   
+    height: 40px;   
+    margin-bottom: 10px;   
+    outline: none;   
+    text-shadow:1px 1px 1px;    
+    border-radius: 4px;
+}  
+.tips{   
+    height: 20px;
+}
+.submitBtn{   
+    width: 200px;   
+    height: 40px;   
+    background-color: #4a77d4;   
+    color: #fff;    
+    outline: none;   
+    text-shadow:1px 1px 1px;    
+    border-radius: 4px; 
+}  

@@ -29,7 +29,7 @@ public interface PamsUserDAO {
             + " FROM "
             + TABLE
             + " WHERE "
-            + " user_id = #{userId}"
+            + " user_id = #{userId} "
             + "")
     public PamsUser getPamsUserByUserId(@Param("userId") Integer userId);
 
@@ -44,7 +44,7 @@ public interface PamsUserDAO {
             + " FROM "
             + TABLE
             + " WHERE "
-            + " username = #{username}"
+            + " username = #{username} "
             + "")
     public PamsUser getPamsUserByUsername(@Param("username") String username);
     

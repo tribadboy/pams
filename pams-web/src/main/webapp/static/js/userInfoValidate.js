@@ -5,12 +5,10 @@ $(function() {
 }); 
 //注册表单验证 
 $("#registerForm").validate({  
-    errorPlacement: function(error, element) {   //把错误信息放在验证的元素后面
-        error.appendTo(element.parent());   
+    errorPlacement: function(error, element) {   //把错误信息放在验证的元素后面;   
+    	error.appendTo( element.parent());
     },  
-    onfocusout: function(element){		//	仅在失去焦点时做验证
-        $(element).valid();
-    },
+    onfocusout: function(element) { $(element).valid(); },
     onkeyup: false,
     onclick: false,
     rules:{  
