@@ -1,4 +1,4 @@
-/*global jQuery:false */
+
 (function ($) {
 
 

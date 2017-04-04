@@ -22,5 +22,7 @@
 
 <a href="<%=path %>/web/authc/userInfo"><button>用户信息修改页面</button></a>
 
+<a href="<%=path %>/web/download/excel?fileModel=test_excel"><button>下载测试</button></a>
+
 </body>
 </html>

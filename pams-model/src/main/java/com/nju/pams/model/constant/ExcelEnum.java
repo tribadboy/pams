@@ -1,7 +1,11 @@
 package com.nju.pams.model.constant;
 
 public enum ExcelEnum {
-	TestFile(1, "test.excel", "测试文档");
+	TestFile(1, "test_excel", "测试文档"),
+	
+	
+	
+	Unknown(99, "", "未知参数");
 	
 	private int code;
 	private String model;
@@ -23,5 +27,13 @@ public enum ExcelEnum {
 		return message;
 	}
 	
+	public static ExcelEnum getExcelEnumFromModel(String model) {
+		for(ExcelEnum e : ExcelEnum.values()) {
+			if(e.getModel().equals(model)) {
+				return e;
+			}
+		}
+		return Unknown;
+	}
 	
 }
