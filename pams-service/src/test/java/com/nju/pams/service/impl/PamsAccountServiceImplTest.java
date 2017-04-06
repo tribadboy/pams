@@ -2,6 +2,7 @@ package com.nju.pams.service.impl;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
+
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,6 +13,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.nju.pams.biz.service.PamsAccountService;
 import com.nju.pams.model.asset.ConsumptionAccount;
 import com.nju.pams.model.asset.ConsumptionCondition;
+import com.nju.pams.model.asset.ConsumptionEnum;
+import com.nju.pams.util.DateUtil;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:applicationContext.xml"})  
@@ -69,4 +72,19 @@ public class PamsAccountServiceImplTest {
 		 pamsAccountService.deleteConsumptionAccountByAccountId(a5.getAccountId());
 	 }
 	 
+	//@Ignore
+	@Test
+	public void makeDataForAccountsTest() {
+		for(ConsumptionEnum e : ConsumptionEnum.values()) {
+			System.out.println(e);
+			for(int i = 1; i <= 200; i++) {
+				String randomDateStr = DateUtil.getRandomDateString("2016-01-01", "2016-12-31");
+				ConsumptionAccount c = new ConsumptionAccount(10, e.getCode(),
+						BigDecimal.valueOf(Math.random() * 100), 
+						randomDateStr, "msg_" + e.getCode() + "_" + i);
+				pamsAccountService.insertConsumptionAccount(c);
+			}
+		}
+		
+	}
 }

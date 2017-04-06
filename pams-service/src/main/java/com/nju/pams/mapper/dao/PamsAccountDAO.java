@@ -24,7 +24,7 @@ public interface PamsAccountDAO {
     		+ " message, create_time, update_time ";
     
     /**
-     * 根据accountId查询用户
+     * 根据accountId查询用户账目
      * @param accountId
      * @return
      */

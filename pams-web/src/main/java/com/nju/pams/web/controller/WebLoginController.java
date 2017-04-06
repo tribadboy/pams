@@ -64,7 +64,7 @@ public class WebLoginController {
                 } else {
                     //服务器请求转发到保存的url
                 	String lastUrl = savedRequest.getRequestUrl()
-                			.concat(NullUtil.notNullProcess(savedRequest.getQueryString()))
+                		//	.concat(NullUtil.notNullProcess(savedRequest.getQueryString()))
                 			.replaceFirst(NullUtil.notNullProcess(request.getContextPath()), "");
                 	logger.info("登录后跳转到原请求页面：" + lastUrl);
                     return "redirect:" + lastUrl;

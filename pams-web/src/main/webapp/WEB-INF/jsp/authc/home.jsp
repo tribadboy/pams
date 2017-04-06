@@ -22,7 +22,9 @@
 
 <a href="<%=path %>/web/authc/userInfo"><button>用户信息修改页面</button></a>
 
-<a href="<%=path %>/web/download/excel?fileModel=test_excel"><button>下载测试</button></a>
+<a href="<%=path %>/web/download/excel?fileCode=11&startDate=2016-01-01&endDate=2017-01-01"><button>下载测试1</button></a>
+<a href="<%=path %>/web/download/excel?fileCode=12&spendMonth=2016-03"><button>下载测试2</button></a>
+<a href="<%=path %>/web/download/excel?fileCode=13&spendYear=2016"><button>下载测试3</button></a>
 
 </body>
 </html>

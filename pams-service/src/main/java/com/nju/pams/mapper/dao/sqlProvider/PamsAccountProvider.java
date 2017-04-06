@@ -39,7 +39,7 @@ public class PamsAccountProvider {
 			strBuf.append(" AND spend_time >= \"" + condition.getStartTime() + "\"");
 		}
 		if(condition.getEndTime() != null) {
-			strBuf.append(" AND spend_time <= \"" + condition.getEndTime() + "\"");
+			strBuf.append(" AND spend_time < \"" + condition.getEndTime() + "\"");
 		}
 		if(condition.getMinCost() != null) {
 			strBuf.append(" AND cost >= " + condition.getMinCost());

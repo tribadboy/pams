@@ -21,6 +21,7 @@
                         
     <!-- 自动扫描的service路径 -->  
     <context:component-scan base-package="com.nju.pams.biz.service" />  
+    <context:component-scan base-package="com.nju.pams.biz.excel.service" />  
     <context:component-scan base-package="com.nju.pams.cacheable.service" />  
     
     <!-- mysql和redis配置参数文件 -->  
