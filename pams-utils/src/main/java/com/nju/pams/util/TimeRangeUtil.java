@@ -7,6 +7,19 @@ import com.nju.pams.util.constant.TimeRange.TimeRangeEnum;
 
 public class TimeRangeUtil {
 	
+	//显示一个字符串显示的日期累加一定天数后得到的另一个字符串日期
+	public static String getSomedayPlusDays(String sourceDate, int daysCount) {
+		LocalDate targetDate = new LocalDate(sourceDate).plusDays(daysCount);
+		return targetDate.toString(DateUtil.FormatString);
+	}
+	
+	//显示两个字符串日期之间相差的天数
+	public static int getPeriodDaysBetweenTwoDate(String startDate, String endDate) {
+		LocalDate firstDate = new LocalDate(startDate);
+		LocalDate lastDate = new LocalDate(endDate);
+		return (int) ((lastDate.toDate().getTime() - firstDate.toDate().getTime()) / (24*60*60*1000));
+	}
+	
 	//返回以某一天为源头，计算该对应阶段的起始日期和结束日期
 	public static TimeRange getTimeRange(TimeRangeEnum timeEnum, LocalDate sourceDate) {
 	    if(null == sourceDate) {

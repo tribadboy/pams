@@ -5,7 +5,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import com.nju.pams.mapper.dao.PamsAccountDAO;
-import com.nju.pams.model.asset.ConsumptionCondition;
+import com.nju.pams.model.consumption.ConsumptionCondition;
 
 public class PamsAccountProvider {
 	

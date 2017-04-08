@@ -11,9 +11,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.nju.pams.biz.service.PamsAccountService;
-import com.nju.pams.model.asset.ConsumptionAccount;
-import com.nju.pams.model.asset.ConsumptionCondition;
-import com.nju.pams.model.asset.ConsumptionEnum;
+import com.nju.pams.model.consumption.ConsumptionAccount;
+import com.nju.pams.model.consumption.ConsumptionCondition;
+import com.nju.pams.model.consumption.ConsumptionEnum;
 import com.nju.pams.util.DateUtil;
 
 @RunWith(SpringJUnit4ClassRunner.class)

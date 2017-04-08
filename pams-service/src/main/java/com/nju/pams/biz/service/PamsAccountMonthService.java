@@ -2,7 +2,7 @@ package com.nju.pams.biz.service;
 
 import java.util.List;
 
-import com.nju.pams.model.asset.AccountOfMonth;
+import com.nju.pams.model.consumption.AccountOfMonth;
 
 public interface PamsAccountMonthService {
 	

@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.nju.pams.biz.service.PamsAccountMonthService;
 import com.nju.pams.mapper.dao.PamsAccountMonthDAO;
-import com.nju.pams.model.asset.AccountOfMonth;
+import com.nju.pams.model.consumption.AccountOfMonth;
 
 @Service
 @Transactional(propagation=Propagation.REQUIRED)

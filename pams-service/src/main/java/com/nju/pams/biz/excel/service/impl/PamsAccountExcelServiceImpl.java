@@ -13,10 +13,10 @@ import com.nju.pams.biz.model.vo.AccountExcelVO;
 import com.nju.pams.biz.model.vo.AccountOfMonthExcelVO;
 import com.nju.pams.biz.service.PamsAccountMonthService;
 import com.nju.pams.biz.service.PamsAccountService;
-import com.nju.pams.model.asset.AccountOfMonth;
-import com.nju.pams.model.asset.ConsumptionAccount;
-import com.nju.pams.model.asset.ConsumptionCondition;
-import com.nju.pams.model.asset.ConsumptionEnum;
+import com.nju.pams.model.consumption.AccountOfMonth;
+import com.nju.pams.model.consumption.ConsumptionAccount;
+import com.nju.pams.model.consumption.ConsumptionCondition;
+import com.nju.pams.model.consumption.ConsumptionEnum;
 import com.nju.pams.util.BigDecimalUtil;
 import com.nju.pams.util.constant.CommonTime;
 

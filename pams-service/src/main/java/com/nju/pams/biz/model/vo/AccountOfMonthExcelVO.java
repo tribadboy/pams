@@ -3,7 +3,7 @@ package com.nju.pams.biz.model.vo;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-import com.nju.pams.model.asset.AccountOfMonth;
+import com.nju.pams.model.consumption.AccountOfMonth;
 import com.nju.pams.util.BigDecimalUtil;
 
 public class AccountOfMonthExcelVO {

@@ -11,9 +11,9 @@ import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.Update;
 
 import com.nju.pams.mapper.dao.sqlProvider.PamsAccountProvider;
-import com.nju.pams.model.asset.ConsumptionAccount;
-import com.nju.pams.model.asset.ConsumptionCondition;
 import com.nju.pams.model.constant.DatabaseConstant;
+import com.nju.pams.model.consumption.ConsumptionAccount;
+import com.nju.pams.model.consumption.ConsumptionCondition;
 import com.nju.pams.util.annotation.DAOMapper;
 
 @DAOMapper

@@ -9,8 +9,8 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
-import com.nju.pams.model.asset.AccountOfMonth;
 import com.nju.pams.model.constant.DatabaseConstant;
+import com.nju.pams.model.consumption.AccountOfMonth;
 import com.nju.pams.util.annotation.DAOMapper;
 
 @DAOMapper

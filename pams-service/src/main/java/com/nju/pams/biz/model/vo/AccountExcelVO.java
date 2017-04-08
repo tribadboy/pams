@@ -1,7 +1,7 @@
 package com.nju.pams.biz.model.vo;
 
-import com.nju.pams.model.asset.ConsumptionAccount;
-import com.nju.pams.model.asset.ConsumptionEnum;
+import com.nju.pams.model.consumption.ConsumptionAccount;
+import com.nju.pams.model.consumption.ConsumptionEnum;
 import com.nju.pams.util.BigDecimalUtil;
 
 public class AccountExcelVO {

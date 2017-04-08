@@ -1,4 +1,4 @@
-package com.nju.pams.model.asset;
+package com.nju.pams.model.consumption;
 
 import java.math.BigDecimal;
 

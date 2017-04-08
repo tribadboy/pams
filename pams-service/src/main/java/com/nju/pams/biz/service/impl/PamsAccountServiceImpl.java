@@ -12,9 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.nju.pams.biz.service.PamsAccountService;
 import com.nju.pams.mapper.dao.PamsAccountDAO;
 import com.nju.pams.mapper.dao.PamsAccountMonthDAO;
-import com.nju.pams.model.asset.AccountOfMonth;
-import com.nju.pams.model.asset.ConsumptionAccount;
-import com.nju.pams.model.asset.ConsumptionCondition;
+import com.nju.pams.model.consumption.AccountOfMonth;
+import com.nju.pams.model.consumption.ConsumptionAccount;
+import com.nju.pams.model.consumption.ConsumptionCondition;
 import com.nju.pams.util.DateUtil;
 
 @Service

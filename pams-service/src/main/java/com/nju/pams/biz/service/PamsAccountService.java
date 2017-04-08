@@ -2,8 +2,8 @@ package com.nju.pams.biz.service;
 
 import java.util.List;
 
-import com.nju.pams.model.asset.ConsumptionAccount;
-import com.nju.pams.model.asset.ConsumptionCondition;
+import com.nju.pams.model.consumption.ConsumptionAccount;
+import com.nju.pams.model.consumption.ConsumptionCondition;
 
 public interface PamsAccountService {
 	ConsumptionAccount getConsumptionAccountByAccountId(Integer accountId);

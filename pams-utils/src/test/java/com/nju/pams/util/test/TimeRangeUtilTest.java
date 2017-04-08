@@ -19,4 +19,23 @@ public class TimeRangeUtilTest {
 			System.out.println(TimeRangeUtil.getTimeRange(timeEnum, d1));
 		}	
 	}
+	
+	@Test
+	public void testGetSomedayPlusDays() {
+		System.out.println(TimeRangeUtil.getSomedayPlusDays("2017-08-20", 20));
+		System.out.println(TimeRangeUtil.getSomedayPlusDays("2017-04-12", 30));
+		System.out.println(TimeRangeUtil.getSomedayPlusDays("2017-02-01", 15));
+		System.out.println(TimeRangeUtil.getSomedayPlusDays("2017-03-25", 2));
+	}
+	
+	@Test
+	public void testGetPeriodDaysBetweenTwoDate() {
+		System.out.println(TimeRangeUtil.getPeriodDaysBetweenTwoDate("2017-08-20", "2017-09-09"));
+		System.out.println(TimeRangeUtil.getPeriodDaysBetweenTwoDate("2017-04-12", "2017-05-12"));
+		System.out.println(TimeRangeUtil.getPeriodDaysBetweenTwoDate("2017-02-01", "2017-02-16"));
+		System.out.println(TimeRangeUtil.getPeriodDaysBetweenTwoDate("2017-03-25", "2017-03-27"));
+		System.out.println(TimeRangeUtil.getPeriodDaysBetweenTwoDate("2017-03-27", "2017-03-27"));
+		
+	}
+	
 }
