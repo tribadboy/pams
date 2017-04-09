@@ -80,7 +80,8 @@ public class PamsDepositServiceImpl implements PamsDepositService {
 		if(record.getDepositTimeId() == DepositTimeEnum.NoTime.getIndex()) {
 			//该存款账户为活期账户
 			BigDecimal capital = changeList.get(0).getChangeAmount();
-			for(DepositChange change : changeList) {
+			String startDate = changeList.get(0).getChangeTime();
+			for(DepositChange change : getChangeListBetweenDays(changeList, startDate, checkDate)) {
 				int typeId = change.getChangeTypeId();
 				if(typeId == DepositChange.ChangeType.Inflow.toIntValue()) {
 					capital = capital.add(change.getChangeAmount());
@@ -101,35 +102,51 @@ public class PamsDepositServiceImpl implements PamsDepositService {
 			String tmpDate = TimeRangeUtil.getSomedayPlusDays(startDate, daysCount);
 			while(checkDate.compareTo(tmpDate) >= 0) {
 				//检查日在一个存储周期之后，更新本金和利息，重置周期
+				BigDecimal currentCapital = BigDecimal.ZERO;
 				for(DepositChange change : getChangeListBetweenDays(changeList, startDate, tmpDate)) {
 					int typeId = change.getChangeTypeId();
-					String changeDate = change.getChangeTime();
+					String changeDate = change.getChangeTime();		
 					if(typeId == DepositChange.ChangeType.Inflow.toIntValue()) {
 						BigDecimal inflowAmount = change.getChangeAmount();
 						int keepDays = TimeRangeUtil.getPeriodDaysBetweenTwoDate(changeDate, tmpDate);
 						interest  = interest.add(inflowAmount.multiply(
-								BigDecimal.valueOf(currentProfitPercent * keepDays / daysOfYear)));
-						interest = interest.add(inflowAmount);
+								BigDecimal.valueOf(currentProfitPercent * keepDays / daysOfYear /100)));
+						currentCapital = currentCapital.add(inflowAmount);
 					} else if(typeId == DepositChange.ChangeType.Outflow.toIntValue()) {
 						BigDecimal outflowAmount = change.getChangeAmount();
-						int keepDays = TimeRangeUtil.getPeriodDaysBetweenTwoDate(startDate, changeDate);
-						interest  = interest.add(outflowAmount.multiply(
-								BigDecimal.valueOf(currentProfitPercent * keepDays / daysOfYear)));
-						capital = capital.subtract(outflowAmount);
+						if(outflowAmount.compareTo(currentCapital) > 0) {
+							BigDecimal subtractCaptial = outflowAmount.subtract(currentCapital);
+							int period1 = TimeRangeUtil.getPeriodDaysBetweenTwoDate(startDate, changeDate);
+							int period2 = TimeRangeUtil.getPeriodDaysBetweenTwoDate(changeDate, tmpDate);
+							interest  = interest.add(subtractCaptial.multiply(
+									BigDecimal.valueOf(currentProfitPercent * period1 / daysOfYear /100)));
+							capital = capital.subtract(subtractCaptial);
+							interest  = interest.subtract(currentCapital.multiply(
+									BigDecimal.valueOf(currentProfitPercent * period2 / daysOfYear /100)));
+							currentCapital = BigDecimal.ZERO;						
+						} else {
+							int period2 = TimeRangeUtil.getPeriodDaysBetweenTwoDate(changeDate, tmpDate);
+							interest  = interest.subtract(outflowAmount.multiply(
+									BigDecimal.valueOf(currentProfitPercent * period2 / daysOfYear /100)));
+							currentCapital = currentCapital.subtract(outflowAmount);	
+						}
 					} 
 				}
 				interest  = interest.add(capital.multiply(
-						BigDecimal.valueOf(fixedProfitPercent * daysCount / daysOfYear)));
+						BigDecimal.valueOf(fixedProfitPercent * daysCount / daysOfYear /100)));
 				capital = capital.add(interest);
+				capital = capital.add(currentCapital);
 				interest = BigDecimal.ZERO;
 				startDate = tmpDate;
 				tmpDate = TimeRangeUtil.getSomedayPlusDays(startDate, daysCount);
 			}
-			//此时检查日在一个存储周期之中，可转出的最大值为 该周期的本金累计减去周期内转出，得出的剩余额度
-			for(DepositChange change : getChangeListBetweenDays(changeList, startDate, tmpDate)) {
+			//此时检查日在一个存储周期之中，可当作活期处理
+			for(DepositChange change : getChangeListBetweenDays(changeList, startDate, checkDate)) {
 				int typeId = change.getChangeTypeId();
 				if(typeId == DepositChange.ChangeType.Outflow.toIntValue()) {
 					capital = capital.subtract(change.getChangeAmount());
+				} else if(typeId == DepositChange.ChangeType.Inflow.toIntValue()) {
+					capital = capital.add(change.getChangeAmount());
 				}
 			}
 			return BigDecimalUtil.generateFormatNumber(capital);
@@ -180,7 +197,8 @@ public class PamsDepositServiceImpl implements PamsDepositService {
 			BigDecimal value = BigDecimal.ZERO;
 			int daysOfYear = 360;
 			float currentProfitPercent = record.getCurrentProfitPercent();
-			for(DepositChange change : changeList) {
+			String startDate = changeList.get(0).getChangeTime();
+			for(DepositChange change : getChangeListBetweenDays(changeList, startDate, checkDate)) {
 				int typeId = change.getChangeTypeId();
 				String changeDate = change.getChangeTime();
 				BigDecimal amount = change.getChangeAmount();
@@ -189,11 +207,11 @@ public class PamsDepositServiceImpl implements PamsDepositService {
 						typeId == DepositChange.ChangeType.MakeAccount.toIntValue()) {				
 					value = value.add(amount);
 					value = value.add(amount.multiply(
-							BigDecimal.valueOf(currentProfitPercent * keepDays / daysOfYear)));
+							BigDecimal.valueOf(currentProfitPercent * keepDays / daysOfYear /100)));
 				} else if(typeId == DepositChange.ChangeType.Outflow.toIntValue()) {
 					value = value.subtract(amount);
 					value = value.subtract(amount.multiply(
-							BigDecimal.valueOf(currentProfitPercent * keepDays / daysOfYear)));
+							BigDecimal.valueOf(currentProfitPercent * keepDays / daysOfYear /100)));
 				} 
 			}
 			return BigDecimalUtil.generateFormatNumber(value);
@@ -209,26 +227,40 @@ public class PamsDepositServiceImpl implements PamsDepositService {
 			String tmpDate = TimeRangeUtil.getSomedayPlusDays(startDate, daysCount);
 			while(checkDate.compareTo(tmpDate) >= 0) {
 				//检查日在一个存储周期之后，更新本金和利息，重置周期
+				BigDecimal currentCapital = BigDecimal.ZERO;
 				for(DepositChange change : getChangeListBetweenDays(changeList, startDate, tmpDate)) {
 					int typeId = change.getChangeTypeId();
-					String changeDate = change.getChangeTime();
+					String changeDate = change.getChangeTime();		
 					if(typeId == DepositChange.ChangeType.Inflow.toIntValue()) {
 						BigDecimal inflowAmount = change.getChangeAmount();
 						int keepDays = TimeRangeUtil.getPeriodDaysBetweenTwoDate(changeDate, tmpDate);
 						interest  = interest.add(inflowAmount.multiply(
-								BigDecimal.valueOf(currentProfitPercent * keepDays / daysOfYear)));
-						interest = interest.add(inflowAmount);
+								BigDecimal.valueOf(currentProfitPercent * keepDays / daysOfYear /100)));
+						currentCapital = currentCapital.add(inflowAmount);
 					} else if(typeId == DepositChange.ChangeType.Outflow.toIntValue()) {
 						BigDecimal outflowAmount = change.getChangeAmount();
-						int keepDays = TimeRangeUtil.getPeriodDaysBetweenTwoDate(startDate, changeDate);
-						interest  = interest.add(outflowAmount.multiply(
-								BigDecimal.valueOf(currentProfitPercent * keepDays / daysOfYear)));
-						capital = capital.subtract(outflowAmount);
+						if(outflowAmount.compareTo(currentCapital) > 0) {
+							BigDecimal subtractCaptial = outflowAmount.subtract(currentCapital);
+							int period1 = TimeRangeUtil.getPeriodDaysBetweenTwoDate(startDate, changeDate);
+							int period2 = TimeRangeUtil.getPeriodDaysBetweenTwoDate(changeDate, tmpDate);
+							interest  = interest.add(subtractCaptial.multiply(
+									BigDecimal.valueOf(currentProfitPercent * period1 / daysOfYear /100)));
+							capital = capital.subtract(subtractCaptial);
+							interest  = interest.subtract(currentCapital.multiply(
+									BigDecimal.valueOf(currentProfitPercent * period2 / daysOfYear /100)));
+							currentCapital = BigDecimal.ZERO;						
+						} else {
+							int period2 = TimeRangeUtil.getPeriodDaysBetweenTwoDate(changeDate, tmpDate);
+							interest  = interest.subtract(outflowAmount.multiply(
+									BigDecimal.valueOf(currentProfitPercent * period2 / daysOfYear /100)));
+							currentCapital = currentCapital.subtract(outflowAmount);	
+						}
 					} 
 				}
 				interest  = interest.add(capital.multiply(
-						BigDecimal.valueOf(fixedProfitPercent * daysCount / daysOfYear)));
+						BigDecimal.valueOf(fixedProfitPercent * daysCount / daysOfYear /100)));
 				capital = capital.add(interest);
+				capital = capital.add(currentCapital);
 				interest = BigDecimal.ZERO;
 				startDate = tmpDate;
 				tmpDate = TimeRangeUtil.getSomedayPlusDays(startDate, daysCount);
@@ -236,20 +268,20 @@ public class PamsDepositServiceImpl implements PamsDepositService {
 			//此时检查日在一个存储周期之中，按活期计算总价值
 			int capitalKeepDays = TimeRangeUtil.getPeriodDaysBetweenTwoDate(startDate, checkDate);
 			capital = capital.add(capital.multiply(
-					BigDecimal.valueOf(currentProfitPercent * capitalKeepDays / daysOfYear)));
-			for(DepositChange change : getChangeListBetweenDays(changeList, startDate, tmpDate)) {
+					BigDecimal.valueOf(currentProfitPercent * capitalKeepDays / daysOfYear /100)));
+			for(DepositChange change : getChangeListBetweenDays(changeList, startDate, checkDate)) {
 				int typeId = change.getChangeTypeId();
 				String changeDate = change.getChangeTime();
 				BigDecimal amount = change.getChangeAmount();
 				int keepDays = TimeRangeUtil.getPeriodDaysBetweenTwoDate(changeDate, checkDate);
-				if(typeId == DepositChange.ChangeType.MakeAccount.toIntValue()) {				
+				if(typeId == DepositChange.ChangeType.Inflow.toIntValue()) {				
 					capital = capital.add(amount);
 					capital = capital.add(amount.multiply(
-							BigDecimal.valueOf(currentProfitPercent * keepDays / daysOfYear)));
+							BigDecimal.valueOf(currentProfitPercent * keepDays / daysOfYear /100)));
 				} else if(typeId == DepositChange.ChangeType.Outflow.toIntValue()) {
 					capital = capital.subtract(amount);
 					capital = capital.subtract(amount.multiply(
-							BigDecimal.valueOf(currentProfitPercent * keepDays / daysOfYear)));
+							BigDecimal.valueOf(currentProfitPercent * keepDays / daysOfYear /100)));
 				} 
 			}
 			return BigDecimalUtil.generateFormatNumber(capital);
@@ -260,6 +292,21 @@ public class PamsDepositServiceImpl implements PamsDepositService {
 	public void deleteDepositRecordAndChange(Integer depositId) {
 		pamsDepositRecordDAO.deleteDepositRecordByDepositId(depositId);
 		pamsDepositChangeDAO.deleteDepositChangeByDepositId(depositId);
+	}
+
+	@Override
+	public List<DepositRecord> getValidDepositRecordsByUserId(Integer userId) {
+		return pamsDepositRecordDAO.getValidDepositRecordsByUserId(userId);
+	}
+
+	@Override
+	public List<DepositChange> getDepositChangeListByDepositId(Integer depositId) {
+		return pamsDepositChangeDAO.getDepositChangeListByDepositId(depositId);
+	}
+
+	@Override
+	public List<DepositRecord> getAllDepositRecordsByUserId(Integer userId) {
+		return pamsDepositRecordDAO.getAllDepositRecordsByUserId(userId);
 	}
 
 	

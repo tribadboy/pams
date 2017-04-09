@@ -1,11 +1,18 @@
 package com.nju.pams.biz.service;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import com.nju.pams.model.asset.DepositChange;
 import com.nju.pams.model.asset.DepositRecord;
 
 public interface PamsDepositService {
+	List<DepositRecord> getValidDepositRecordsByUserId(Integer userId);
+	
+	List<DepositRecord> getAllDepositRecordsByUserId(Integer userId);
+	
+	List<DepositChange> getDepositChangeListByDepositId(Integer depositId);
+	
 	void makeDepositRecord(DepositRecord depositRecord, BigDecimal changeAmount, String changeTime);
 
 	boolean checkDateValid(Integer depositId, String checkDate);

@@ -18,6 +18,8 @@ public interface PamsLoanService {
 	
 	List<LoanRecord> getValidLoanRecordsByUserId(Integer userId);
 	
+	List<LoanRecord> getAllLoanRecordsByUserId(Integer userId);
+	
 	void deleteLoanRecordAndChange(Integer loanId);
 	
 	void deleteLoanChange(Integer changeId);

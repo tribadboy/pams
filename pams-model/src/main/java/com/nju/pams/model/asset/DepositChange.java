@@ -10,7 +10,18 @@ public class DepositChange {
 	private String changeTime;
     private String  createTime;
     private String  updateTime;
+    
+    public DepositChange() {
+    	
+    }
 	
+    public DepositChange(int depositId, int changeTypeId, BigDecimal changeAmount, String changeTime) {
+    	this.depositId = depositId;
+    	this.changeTypeId = changeTypeId;
+    	this.changeAmount = changeAmount;
+    	this.changeTime = changeTime;
+    }
+    
 	 public enum ChangeType { 
 		 MakeAccount(0),
 	     Inflow(1),

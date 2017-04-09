@@ -11,6 +11,21 @@ public class DepositRecord {
     private String  createTime;
     private String  updateTime;
     
+    public DepositRecord() {
+    	
+    }
+    
+    public DepositRecord(int userId, int status, int depositTimeId, float currentProfitPercent, 
+    		float fixedProfitPercent, String message) {
+    	this.userId = userId;
+    	this.status = status;
+    	this.depositTimeId = depositTimeId;
+    	this.currentProfitPercent = currentProfitPercent;
+    	this.fixedProfitPercent = fixedProfitPercent;
+    	this.message = message;
+    }
+    
+    
     public enum Status { 
         Valid(0),
         InValid(1);

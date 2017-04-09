@@ -52,6 +52,21 @@ public interface PamsDepositRecordDAO {
             + "")
     public List<DepositRecord> getValidDepositRecordsByUserId(@Param("userId") Integer userId);
     
+    /**
+     * 根据userId查询该用户的所有存储账户
+     * @param userId
+     * @return
+     */
+    @Select(""
+            + " SELECT "
+            + COL_ALL
+            + " FROM "
+            + TABLE
+            + " WHERE "
+            + " user_id = #{userId} "
+            + "")
+    public List<DepositRecord> getAllDepositRecordsByUserId(@Param("userId") Integer userId);
+    
 
     /**
      * 插入存储账户，deposit_id create_time update_time由数据库操作

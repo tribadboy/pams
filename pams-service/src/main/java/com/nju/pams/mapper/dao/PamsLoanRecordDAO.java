@@ -52,6 +52,21 @@ public interface PamsLoanRecordDAO {
             + "")
     public List<LoanRecord> getValidLoanRecordsByUserId(@Param("userId") Integer userId);
     
+    /**
+     * 根据userId查询该用户的所有贷款账户
+     * @param userId
+     * @return
+     */
+    @Select(""
+            + " SELECT "
+            + COL_ALL
+            + " FROM "
+            + TABLE
+            + " WHERE "
+            + " user_id = #{userId} "
+            + "")
+    public List<LoanRecord> getAllLoanRecordsByUserId(@Param("userId") Integer userId);
+    
 
     /**
      * 插入贷款账户，load_id create_time update_time由数据库操作

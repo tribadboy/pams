@@ -85,6 +85,11 @@ public class PamsLoanServiceImpl implements PamsLoanService {
 	public List<LoanRecord> getValidLoanRecordsByUserId(Integer userId) {
 		return pamsLoanRecordDAO.getValidLoanRecordsByUserId(userId);
 	}
+
+	@Override
+	public List<LoanRecord> getAllLoanRecordsByUserId(Integer userId) {
+		return pamsLoanRecordDAO.getAllLoanRecordsByUserId(userId);
+	}
 	
 	
 }
