@@ -31,4 +31,9 @@ public final class DatabaseConstant {
 	final public static String T_PAMS_LOAN_RECORD = DB_NAME + "." + "t_pams_loan_record";
 	final public static String T_PAMS_LOAN_CHANGE = DB_NAME + "." + "t_pams_loan_change";
 	
+	//社交相关的表格
+	final public static String T_PAMS_FRIEND = DB_NAME + "." + "t_pams_friend";
+	final public static String T_PAMS_FRIEND_REQUEST = DB_NAME + "." + "t_pams_friend_request";
+	final public static String T_PAMS_FRIEND_LETTER = DB_NAME + "." + "t_pams_friend_letter";
+	
 }
