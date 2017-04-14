@@ -36,4 +36,8 @@ public final class DatabaseConstant {
 	final public static String T_PAMS_FRIEND_REQUEST = DB_NAME + "." + "t_pams_friend_request";
 	final public static String T_PAMS_FRIEND_LETTER = DB_NAME + "." + "t_pams_friend_letter";
 	
+	//金融相关的表格
+	final public static String T_PAMS_STOCK = DB_NAME + "." + "t_pams_stock";
+	final public static String T_PAMS_STOCK_HISTORY = DB_NAME + "." + "t_pams_stock_history";
+	
 }

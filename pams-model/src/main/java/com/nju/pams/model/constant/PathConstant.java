@@ -19,5 +19,7 @@ public final class PathConstant {
 	final public static String WEB_USER = "/web/user/";
 	//web路径下载接口
 	final public static String WEB_DOWNLOAD = "/web/download/";
+	//金融数据更新接口
+	final public static String WEB_FINANCE = "/web/finance/";
 
 }

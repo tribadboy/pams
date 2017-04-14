@@ -1,7 +1,11 @@
 package com.nju.pams.web.controller;
 
+import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpMethod;
+import org.apache.commons.httpclient.methods.GetMethod;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,7 +16,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.nju.pams.util.ResultUtil;
 import com.nju.pams.util.constant.ResultEnum;
-
 import net.sf.json.JSONObject;
 
 
@@ -95,4 +98,30 @@ public class HomeController {
 		ResultUtil.addSuccess(result);
 		return result.toString();
 	}
+    
+    //根据基金关键词进行模糊查询
+  	@RequestMapping(value = "/testUrl")
+  	@ResponseBody
+  	public String search(){
+  		StringBuffer strBuf = new StringBuffer();
+  		for(int i = 601000; i <= 601999; i++) {
+  			strBuf.append("0").append(i).append(",");
+  		}
+  		String allList = strBuf.toString();
+  		System.out.println(allList);
+  		String localUrl = "http://api.money.126.net/data/feed/" + allList + ",money.api";	
+  		String result = null;
+        HttpClient client = new HttpClient();
+        HttpMethod httpMethod = new GetMethod(localUrl);
+        try {
+        	int httpCode = client.executeMethod(httpMethod);
+        	if (httpCode == 200) {
+        		result = httpMethod.getResponseBodyAsString();
+        	}
+        } catch (IOException e) {
+        	e.printStackTrace();
+        	return null;
+        }
+  		return result;
+  	}
 }
