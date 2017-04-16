@@ -39,5 +39,8 @@ public final class DatabaseConstant {
 	//金融相关的表格
 	final public static String T_PAMS_STOCK = DB_NAME + "." + "t_pams_stock";
 	final public static String T_PAMS_STOCK_HISTORY = DB_NAME + "." + "t_pams_stock_history";
+	final public static String T_PAMS_STOCK_CAPITAL = DB_NAME + "." + "t_pams_stock_capital";
+	final public static String T_PAMS_STOCK_HOLD = DB_NAME + "." + "t_pams_stock_hold";
+	final public static String T_PAMS_STOCK_CHANGE = DB_NAME + "." + "t_pams_stock_change";
 	
 }
