@@ -21,5 +21,16 @@ public final class PathConstant {
 	final public static String WEB_DOWNLOAD = "/web/download/";
 	//金融数据更新接口
 	final public static String WEB_FINANCE = "/web/finance/";
+	
+	//登录后的主页分成几个导航栏
+	
+	//home bar
+	final public static String WEB_AUTHC_HOME_SYSTEM = "/web/authc/home/system/";
+	final public static String WEB_AUTHC_HOME_ACCOUNT = "/web/authc/home/account/";
+	final public static String WEB_AUTHC_HOME_ABOUT = "/web/authc/home/about/";
+	
+	//consumption bar
+	final public static String WEB_AUTHC_CONSUMPTION_RECORD = "/web/authc/consumption/record";
+	final public static String WEB_AUTHC_CONSUMPTION_EXCEL = "/web/authc/consumption/excel";
 
 }

@@ -72,5 +72,10 @@
     <!-- controller位置,放在配置文件的最下面-->
     <context:component-scan base-package="com.nju.pams.web.controller"/>
     <context:component-scan base-package="com.nju.pams.web.controller.kaptcha"/>
+    <context:component-scan base-package="com.nju.pams.web.controller.bar.home"/>
+    <context:component-scan base-package="com.nju.pams.web.controller.bar.consumption"/>
+    <context:component-scan base-package="com.nju.pams.web.controller.bar.asset"/>
+    <context:component-scan base-package="com.nju.pams.web.controller.bar.finance"/>
+    <context:component-scan base-package="com.nju.pams.web.controller.bar.user"/>
 		
 </beans>

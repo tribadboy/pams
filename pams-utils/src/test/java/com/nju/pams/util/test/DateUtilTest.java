@@ -22,4 +22,10 @@ public class DateUtilTest {
 		Assert.assertEquals(29, DateUtil.getDaysInMonth("2016-02"));
 		Assert.assertEquals(28, DateUtil.getDaysInMonth("2017-02"));
 	}
+	
+	@Test
+	public void testGetCurrentTime() {
+		System.out.println(DateUtil.getCurrentTime(DateUtil.FormatString));
+		System.out.println(DateUtil.getCurrentTime(DateUtil.FormatString2));
+	}
 }

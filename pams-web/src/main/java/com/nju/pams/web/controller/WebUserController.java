@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;  
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,9 +14,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.nju.pams.biz.service.PamsLoginInfoService;
 import com.nju.pams.biz.service.PamsUserService;
+import com.nju.pams.model.PamsLoginInfo;
 import com.nju.pams.model.PamsUser;
 import com.nju.pams.model.constant.PathConstant;
+import com.nju.pams.util.DateUtil;
+import com.nju.pams.util.NetworkUtil;
 import com.nju.pams.util.ResultUtil;
 import com.nju.pams.util.constant.ResultEnum;
 
@@ -27,6 +33,9 @@ public class WebUserController {
 	
 	@Autowired
 	PamsUserService pamsUserService;
+	
+	@Autowired
+	PamsLoginInfoService pamsLoginInfoService;
     
     private static final Logger logger = Logger.getLogger(WebUserController.class);
     
@@ -51,6 +60,7 @@ public class WebUserController {
 		ResultUtil.addSuccess(result);
 		return result.toString();
 	}
+    
     
     /**
      * 返回注册页面jsp
@@ -94,6 +104,10 @@ public class WebUserController {
    		//创建用户并插入数据库
    		PamsUser newUser = new PamsUser(username, password, 0, phone, email);
    		pamsUserService.insertPamsUser(newUser);
+   		String ip = NetworkUtil.getIpAddress(request);
+   		String loginTime = LocalDate.now().toString(DateUtil.FormatString2);
+   		PamsLoginInfo loginInfo = new PamsLoginInfo(newUser.getUserId(), ip, loginTime);
+   		pamsLoginInfoService.insertPamsLoginInfo(loginInfo);
    		
    		//将用户信息通过shiro认证
         UsernamePasswordToken token = new UsernamePasswordToken(newUser.getUsername(), newUser.getPassword());
@@ -101,13 +115,22 @@ public class WebUserController {
         Subject subject = SecurityUtils.getSubject();
         subject.login(token);
         request.getSession().setAttribute("username",username);
-        logger.info("注册用户成功，在session中记录username：" + request.getSession().getAttribute("username"));
+        request.getSession().setAttribute("userId",newUser.getUserId());
+        logger.info("注册用户成功，在session中记录username和userId：" + request.getSession().getAttribute("username"));
         model.addAttribute("username",username);
         
         return "redirect:" + PathConstant.WEB_AUTHC + "home";
    	}
    	
-   	
+   	/**
+   	 * 修改个人信息
+   	 * @param model
+   	 * @param username
+   	 * @param password
+   	 * @param phone
+   	 * @param email
+   	 * @return
+   	 */
    	@RequestMapping(value = "update", method = RequestMethod.POST)
    	public String updateUserInfo(Model model,
    			@RequestParam("username") final String username,
@@ -121,7 +144,7 @@ public class WebUserController {
    			message = ResultEnum.NullParameter.getMsg();
    			model.addAttribute("message", message);
    	        logger.info("用户信息修改异常：" + message);
-   	        return "authc/userInfo";
+   	        return "authc/home-bar/change-info";
 		} 
    		PamsUser pamsUser = pamsUserService.getPamsUserByUsername(username);
    		if(null == pamsUser) {
@@ -135,7 +158,7 @@ public class WebUserController {
    		pamsUser.setPhone(phone);
    		pamsUser.setMail(email);
    		pamsUserService.updatePamsUser(pamsUser);
-        
-        return "redirect:" + PathConstant.WEB_AUTHC + "home";
+        model.addAttribute("message", "修改信息成功");
+        return "redirect:/web/authc/home/account/change-info";
    	}
 }  

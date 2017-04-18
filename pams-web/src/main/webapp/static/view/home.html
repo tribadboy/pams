@@ -1,325 +1,153 @@
-<!DOCTYPE html>
-<html lang="zh-cn">
+<!DOCTYPE HTML>
+<html>
+ <head>
+  <title>PAMS 个人消费与财务管理系统</title>
+   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+   
+  <link href="./assets/css/dpl-min.css" rel="stylesheet" type="text/css" />
+  <link href="./assets/css/bui-min.css" rel="stylesheet" type="text/css" />
+  <link href="./assets/css/main-min.css" rel="stylesheet" type="text/css" />
+  <!-- 预先执行的js -->
+  <script src="../js/common.js"></script>
+ </head>
+ <body>
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <title>pams 主页</title>
-	
-    <!-- css -->
-    <link href="../css/bootstrap.min.css" rel="stylesheet" >
+  <div class="header">
     
-    <link href="../css/style.css" rel="stylesheet">
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-</head>
+	<div class="dl-title">PAMS 个人消费与财务管理系统</div>
+    <div class="dl-log">欢迎您，
+    	<span class="dl-log-user" id="username"></span>
+    	<a href="###" title="退出系统" class="dl-log-quit" id="quitMenu">[退出]</a>
+    	<script type="text/javascript">
+			document.getElementById("quitMenu").href=basePath+'/web/anon/logout.html';
+			document.getElementById("username").innerHTML=username;
+		</script>
+    </div>
+  </div>
+   <div class="content">
+    <div class="dl-main-nav">
+      <ul id="J_Nav"  class="nav-list ks-clear">
+        <li class="nav-item dl-selected">
+        <div class="nav-item-inner nav-home">首页</div></li>
+        <li class="nav-item"><div class="nav-item-inner nav-order">表单页</div></li>
+        <li class="nav-item"><div class="nav-item-inner nav-inventory">搜索页</div></li>
+        <li class="nav-item"><div class="nav-item-inner nav-supplier">详情页</div></li>
+        <li class="nav-item"><div class="nav-item-inner nav-marketing">图表</div></li>
+        <li class="nav-item"><div class="nav-item-inner nav-order">消费管理</div></li>
+        <li class="nav-item"><div class="nav-item-inner nav-inventory">资产管理</div></li>
+        <li class="nav-item"><div class="nav-item-inner nav-marketing">金融服务</div></li>
+        <li class="nav-item"><div class="nav-item-inner nav-supplier">个人社交</div></li>
+      </ul>
+    </div>
+    <ul id="J_NavContent" class="dl-tab-conten">
 
-<body id="page-top" data-spy="scroll" data-target=".navbar-custom">
-	
-	<section class="hero" id="intro">
-            <div class="container">
-              <div class="row">
-                <div class="col-md-12 text-right navicon">
-                  <a id="nav-toggle" class="nav_slide_button" href="#"><span></span></a>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-8 col-md-offset-2 text-center inner">
-					<div class="animatedParent">
-						<h1>PAMS SYSTEM</h1>
-						<p>personal asset management system</p>
-					</div>
-			    </div>
-              </div>
-              <div class="row">
-                <div class="col-md-6 col-md-offset-3 text-center">
-               		<a href="http://172.26.45.15:8080/pams-web/web/authc/home" class="learn-more-btn btn-scroll">开始使用</a>
-               		<!-- <a href="http://localhost:8080/pams-web/web/authc/home" class="learn-more-btn btn-scroll">开始使用</a> -->
-                </div>
-              </div>
-            </div>
-    </section>
-	
-	
-    <!-- Navigation -->
-    <div id="navigation">
-        <nav class="navbar navbar-custom" role="navigation">
-                              <div class="container">
-                                    <div class="row">
-                                          <div class="col-md-2">
-                                                   <div class="site-logo">
-                                                            <h6>PAMS</h6>
-                                                    </div>
-                                          </div>
-                                          
+    </ul>
+   </div>
+  <script type="text/javascript" src="./assets/js/jquery-1.8.1.min.js"></script>
+<script type="text/javascript" src="./assets/js/bui-min.js"></script>
+  <script type="text/javascript" src="./assets/js/config-min.js"></script>
 
-                                          <div class="col-md-10">
-                         
-                                                      <!-- Brand and toggle get grouped for better mobile display -->
-                                          <div class="navbar-header">
-                                                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#menu">
-                                                <i class="fa fa-bars"></i>
-                                                </button>
-                                          </div>
-                                                      <!-- Collect the nav links, forms, and other content for toggling -->
-                                                      <div class="collapse navbar-collapse" id="menu">
-                                                            <ul class="nav navbar-nav navbar-right">
-                                                                  <li class="active"><a href="#intro">主页</a></li>
-                                                                  <li><a href="#about">简介</a></li>
-																   <li><a href="#service">功能与服务</a></li>
-                                                                  <li><a href="#works">特色</a></li>				                                                                  
-                                                                  
-                                                                  <li><a href="#contact">关于</a></li>
-                                                            </ul>
-                                                      </div>
-                                                      <!-- /.Navbar-collapse -->
-                             
-                                          </div>
-                                    </div>
-                              </div>
-                              <!-- /.container -->
-                        </nav>
-    </div> 
-    <!-- /Navigation -->  
-
-	<!-- Section: about -->
-    <section id="about" class="home-section color-dark bg-white">
-		<div class="container marginbot-50">
-			<div class="row">
-				<div class="col-lg-8 col-lg-offset-2">
-					<div class="animatedParent">
-					<div class="section-heading text-center animated bounceInDown">
-					<h2 class="h-bold">个人消费与财务管理系统</h2>
-					</div>
-					</div>
-				</div>
-			</div>
-
-		</div>
-
-		<div class="container">
-
-		
-        <div class="row">
-		
-		
-            <div class="col-lg-8 col-lg-offset-2 animatedParent">		
-				<div class="text-center">
-					<p>
-					 如今，随着经济水平的发展，人们进入了一个消费和理财的时代。2016年万众期待的“双十一”刚过，其交易额达到了惊人的一千两百多亿，而消费欲的提高体现了民众资产和收入的增加。互联网的发展也进一步促进了人们开始投资于互联网金融服务之中，如消费、信贷、资产、金融这些概念都与互联网交织在一起。
-					</p>
-					<p>
-					 项目针对互联网+环境下的个人理财需求，设计并实现一款可以帮助人们进行消费与资产管理的系统。该系统不仅涵盖了生活中所需的消费分类与统计功能，还囊括了收支和信贷的计算功能，以及资产变动、理财分析与评估等一些金融服务功能。
-					</p>
-					<a href="#service" class="btn btn-skin btn-scroll">简介</a>
-				</div>
-            </div>
-		
-
-        </div>		
-		</div>
-
-	</section>
-	<!-- /Section: about -->
-	
-	
-	<!-- Section: services -->
-    <section id="service" class="home-section color-dark bg-gray">
-		<div class="container marginbot-50">
-			<div class="row">
-				<div class="col-lg-8 col-lg-offset-2">
-					<div>
-					<div class="section-heading text-center">
-					<h2 class="h-bold">功能与服务</h2>
-					</div>
-					</div>
-				</div>
-			</div>
-
-		</div>
-
-		<div class="text-center">
-		<div class="container">
-
-        <div class="row animatedParent">
-            <div class="col-md-4">
-				<div class="animated rotateInDownLeft">
-                <div class="service-box">
-					<div class="service-icon">
-						<span class="fa fa-laptop fa-2x"></span> 
-					</div>
-					<div class="service-desc">						
-						<h5>消费管理</h5>
-						<p>
-						用户可以记录每天的账目，通过系统查看自己的消费分类与统计，并生成相应的财务报表。
-						</p>
-						<a href="#" class="btn btn-skin">Learn more</a>
-					</div>
-                </div>
-				</div>
-            </div>
-			<div class="col-md-4">
-				<div class="animated rotateInDownLeft slow">
-                <div class="service-box">
-					<div class="service-icon">
-						<span class="fa fa-camera fa-2x"></span> 
-					</div>
-					<div class="service-desc">
-						<h5>资产管理</h5>
-						<p>
-						资产管理包括用户的收支、信贷和财产管理等内容，帮助用户计算不同阶段的盈亏和贷款利率。
-						</p>
-						<a href="#" class="btn btn-skin">Learn more</a>
-					</div>
-                </div>
-				</div>
-            </div>
-			<div class="col-md-4">
-				<div class="animated rotateInDownLeft slower">
-                <div class="service-box">
-					<div class="service-icon">
-						<span class="fa fa-code fa-2x"></span> 
-					</div>
-					<div class="service-desc">
-						<h5>金融服务</h5>
-						<p>
-						用户可以在该模块下进行模拟理财，根据用户的投资组合，对用户数据进行分析并提供推荐。
-						</p>
-						<a href="#" class="btn btn-skin">Learn more</a>
-					</div>
-                </div>
-				</div>
-            </div>
-
-        </div>		
-		</div>
-		</div>
-	</section>
-	<!-- /Section: services -->
-	
-
-	<!-- Section: works -->
-    <section id="works" class="home-section color-dark text-center bg-white">
-		<div class="container marginbot-50">
-			<div class="row">
-				<div class="col-lg-8 col-lg-offset-2">
-					<div>
-					<div class="animatedParent">
-					<div class="section-heading text-center">
-					<h2 class="h-bold animated bounceInDown">特色</h2>
-					</div>
-					</div>
-					</div>
-				</div>
-			</div>
-
-		</div>
-
-		<div class="container">
-
-            <div class="row animatedParent">
-                <div class="col-sm-12 col-md-12 col-lg-12" >
-                    <div class="row gallery-item">
-                        <div class="col-md-3 animated fadeInUp">
-								<img src="../img/feature/1.jpeg" class="img-responsive" alt="img">
-								<label>记账能手</label>
-						</div>
-						<div class="col-md-3 animated fadeInUp slow">
-								<img src="../img/feature/2.jpeg" class="img-responsive" alt="img">
-								<label>资产管理</label>
-						</div>
-						<div class="col-md-3 animated fadeInUp slower">
-								<img src="../img/feature/3.jpeg" class="img-responsive" alt="img">
-								<label>模拟理财</label>
-						</div>
-						<div class="col-md-3 animated fadeInUp">
-								<img src="../img/feature/4.jpeg" class="img-responsive" alt="img">
-								<label>社交金融</label>
-						</div>
-					</div>
-	
-                </div>
-            </div>	
-		</div>
-
-	</section>
-	<!-- /Section: works -->
-
-	<!-- Section: contact -->
-    <section id="contact" class="home-section nopadd-bot color-dark bg-gray text-center">
-		<div class="container marginbot-50">
-			<div class="row">
-				<div class="col-lg-8 col-lg-offset-2">
-					<div class="animatedParent">
-					<div class="section-heading text-center">
-					<h2 class="h-bold animated bounceInDown">关于</h2>
-					</div>
-					</div>
-				</div>
-			</div>
-
-		</div>
-		
-		<div class="container">
-
-			<div class="row marginbot-80">
-				<div class="col-md-8 col-md-offset-2">
-				    <div class="col-lg-8 col-lg-offset-2 animatedParent">		
-						<div class="text-center">
-						<p>
-						 本web系统仅用于学习和研究使用，没有任何其他用途。如果您有任何的建议或意见，请发送至dxqzyyy@163.com。
-						</p>
-						<p>
-						 在开发软件系统的过程中，遇到了诸多问题，再次感谢导师与同学对于软件研发提供的帮助。软件系统的部分前端页面参考了bootstrap的开源主题和模版。
-						</p>
-						</div>
-					</div>
-				</div>
-			</div>	
-		</div>
-	</section>
-	<!-- /Section: contact -->
-
-
-	<footer>
-		<div class="container">
-			<div class="row">
-				<div class="col-md-6 text-left">
-						联系方式： dxqzyyy@163.com
-				</div>
-				<div class="col-md-6 text-right copyright">
-					&copy;Copyright - Bocor. All Rights Reserved
-                    <div class="credits">
-                        <!-- 
-                            All the links in the footer should remain intact. 
-                            You can delete the links only if you purchased the pro version.
-                            Licensing information: https://bootstrapmade.com/license/
-                            Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/buy/?theme=Bocor
-                        -->
-                        <a href="https://bootstrapmade.com/free-business-bootstrap-themes-website-templates/">Business Bootstrap Themes</a> by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-                    </div>
-				</div>
-			</div>	
-		</div>
-	</footer>
-
-    <!-- Core JavaScript Files -->
-    <script src="../js/jquery.min.js"></script>	 
-    <script src="../js/bootstrap.min.js"></script>
-	<script src="../js/jquery.sticky.js"></script>
-    <script src="../js/jquery.easing.min.js"></script>	
-	<script src="../js/jquery.scrollTo.js"></script>
-	<script src="../js/jquery.appear.js"></script>
-	<script src="../js/stellar.js"></script>
-	<script src="../js/nivo-lightbox.min.js"></script>
-	
-    <script src="../js/custom.js"></script>
-	<script src="../js/css3-animate-it.js"></script>
-    
+  <script>
+    BUI.use('common/main',function(){
+      var config = [{
+          id:'menu', 
+          homePage : 'code',
+          menu:[{
+              text:'首页内容',
+              items:[
+                {id:'code',text:'首页代码',href:'main/code.html',closeable : false},
+                {id:'main-menu',text:'顶部导航',href:'main/menu.html'},
+                {id:'second-menu',text:'右边菜单',href:'main/second-menu.html'},
+                {id:'dyna-menu',text:'动态菜单',href:'main/dyna-menu.html'}
+              ]
+            },{
+              text:'页面操作',
+              items:[
+                {id:'operation',text:'页面常见操作',href:'main/operation.html'},
+                {id:'quick',text:'页面操作快捷方式',href:'main/quick.html'}  
+              ]
+            },{
+              text:'文件结构',
+              items:[
+                {id:'resource',text:'资源文件结构',href:'main/resource.html'},
+                {id:'loader',text:'引入JS方式',href:'main/loader.html'}  
+              ]
+            }]
+          },{
+            id:'form',
+            menu:[{
+                text:'表单页面',
+                items:[
+                  {id:'code',text:'表单代码',href:'form/code.html'},
+                  {id:'example',text:'表单示例',href:'form/example.html'},
+                  {id:'introduce',text:'表单简介',href:'form/introduce.html'},
+                  {id:'valid',text:'表单基本验证',href:'form/basicValid.html'},
+                  {id:'advalid',text:'表单复杂验证',href:'form/advalid.html'},
+                  {id:'remote',text:'远程调用',href:'form/remote.html'},
+                  {id:'group',text:'表单分组',href:'form/group.html'},
+                  {id:'depends',text:'表单联动',href:'form/depends.html'}
+                ]
+              },{
+                text:'成功失败页面',
+                items:[
+                  {id:'success',text:'成功页面',href:'form/success.html'},
+                  {id:'fail',text:'失败页面',href:'form/fail.html'}
+                
+                ]
+              },{
+                text:'可编辑表格',
+                items:[
+                  {id:'grid',text:'可编辑表格',href:'form/grid.html'},
+                  {id:'form-grid',text:'表单中的可编辑表格',href:'form/form-grid.html'},
+                  {id:'dialog-grid',text:'使用弹出框',href:'form/dialog-grid.html'},
+                  {id:'form-dialog-grid',text:'表单中使用弹出框',href:'form/form-dialog-grid.html'}
+                ]
+              }]
+          },{
+            id:'search',
+            menu:[{
+                text:'搜索页面',
+                items:[
+                  {id:'code',text:'搜索页面代码',href:'search/code.html'},
+                  {id:'example',text:'搜索页面示例',href:'search/example.html'},
+                  {id:'example-dialog',text:'搜索页面编辑示例',href:'search/example-dialog.html'},
+                  {id:'introduce',text:'搜索页面简介',href:'search/introduce.html'}, 
+                  {id:'config',text:'搜索配置',href:'search/config.html'}
+                ]
+              },{
+                text : '更多示例',
+                items : [
+                  {id : 'tab',text : '使用tab过滤',href : 'search/tab.html'}
+                ]
+              }]
+          },{
+            id:'detail',
+            menu:[{
+                text:'详情页面',
+                items:[
+                  {id:'code',text:'详情页面代码',href:'detail/code.html'},
+                  {id:'example',text:'详情页面示例',href:'detail/example.html'},
+                  {id:'introduce',text:'详情页面简介',href:'detail/introduce.html'}
+                ]
+              }]
+          },{
+            id : 'chart',
+            menu : [{
+              text : '图表',
+              items:[
+                  {id:'code',text:'引入代码',href:'chart/code.html'},
+                  {id:'line',text:'折线图',href:'chart/line.html'},
+                  {id:'area',text:'区域图',href:'chart/area.html'},
+                  {id:'column',text:'柱状图',href:'chart/column.html'},
+                  {id:'pie',text:'饼图',href:'chart/pie.html'}, 
+                  {id:'radar',text:'雷达图',href:'chart/radar.html'}
+              ]
+            }]
+          }];
+      new PageUtil.MainPage({
+        modulesConfig : config
+      });
+    });
+  </script>
 </body>
-
 </html>

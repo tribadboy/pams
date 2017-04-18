@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.nju.pams.util.NetworkUtil;
 import com.nju.pams.util.ResultUtil;
 import com.nju.pams.util.constant.ResultEnum;
 import net.sf.json.JSONObject;
@@ -124,4 +125,14 @@ public class HomeController {
         }
   		return result;
   	}
+
+    @ResponseBody
+	@RequestMapping(value = "/getIpAddress", method = RequestMethod.GET)
+	public String getIpAddress(HttpServletRequest request) {
+		final JSONObject result = new JSONObject();
+		String ip = NetworkUtil.getIpAddress(request);
+		result.put("ip", ip);
+		ResultUtil.addSuccess(result);
+		return result.toString();
+	}
 }

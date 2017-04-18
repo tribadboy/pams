@@ -34,13 +34,11 @@
         <div class="tips" style="color:red"></div>  
         <input type="submit" value="login" class="submitBtn"/><br>
         <a href="<%=path %>/web/user/registerPage">用户注册</a>
-        <a href="<%=path %>/static/view/home.html">返回主页</a>
+        <a href="<%=path %>/static/view/index.html">返回主页</a>
 
         <h5>${message}</h5>
     </form>  
-    
-
-       
+           
 </div>
 	<!-- js文件依次放在下面 -->
 	<script> 

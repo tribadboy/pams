@@ -39,20 +39,29 @@ public class WebFinanceController {
     private static final Logger logger = Logger.getLogger(WebFinanceController.class);
     
     //TODO  本页面部分接口应限制管理员权限
-    //TODO 需要保证在下午三点之前history 的api中不会出现当天数据 *********************************************
  
     /**
      * 重置所有股票的最新数据和其历史数据
      * 需保证联网
      * 暂时仅考虑 沪市A股 600 601 603 开头的股票  
      * 时间为2013年至今
+     * 数据重置时间需要保证在每天17:00之后
      * @return
      */
     @ResponseBody
 	@RequestMapping(value = "resetStockData", method = RequestMethod.GET)
 	public String resetStockInfo() {
-    	logger.info("股票最新信息与历史信息重置工作开始-----------------------------------------------");
 		final JSONObject result = new JSONObject();	
+		
+		//检查更新时间是否复合要求
+    	int currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+    	if(currentHour < 17) {
+    		logger.info("为保证当天数据不再变化，更新时间应该在下午五点之后，拒绝股票数据重置");
+    		ResultUtil.addSuccess(result);
+    		return result.toString();
+    	}
+    	
+    	logger.info("股票最新信息与历史信息重置工作开始-----------------------------------------------");
 		List<Map<String, Object>> mapsList = new LinkedList<Map<String, Object>>();
 		//通过网易api获取股票信息
 		for(int i = 600000; i < 604000; i += 1000) {

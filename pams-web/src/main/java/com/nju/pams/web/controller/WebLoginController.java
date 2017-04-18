@@ -7,12 +7,19 @@ import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.util.SavedRequest;
 import org.apache.shiro.web.util.WebUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.nju.pams.biz.service.PamsLoginInfoService;
+import com.nju.pams.biz.service.PamsUserService;
+import com.nju.pams.model.PamsLoginInfo;
 import com.nju.pams.model.PamsUser;
 import com.nju.pams.model.constant.PathConstant;
+import com.nju.pams.util.DateUtil;
+import com.nju.pams.util.NetworkUtil;
 import com.nju.pams.util.NullUtil;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +29,12 @@ import javax.servlet.http.HttpServletRequest;
 public class WebLoginController {
 	
     private static final Logger logger = Logger.getLogger(WebLoginController.class);
+    
+    @Autowired
+    PamsUserService pamsUserService;
+    
+    @Autowired
+    PamsLoginInfoService pamsLoginInfoService;
     
     //登录页面
     //url: http://localhost:8080/pams-web/web/anon/login.html
@@ -34,8 +47,8 @@ public class WebLoginController {
     //浏览器重定向到登录页面
     //url: http://localhost:8080/pams-web/web/anon/logout.html
     @RequestMapping(value = "/logout.html")
-    public String doLogout(HttpServletRequest request, Model model) {
-        logger.info("======用户"+request.getSession().getAttribute("pamsUser")+"退出了系统");
+    public String doLogout(HttpServletRequest request) {
+        logger.info("======用户"+request.getSession().getAttribute("username")+"退出了系统");
         SecurityUtils.getSubject().logout();
         //使用重定向重新请求，而非直接到jsp
         return "redirect:" + PathConstant.WEB_ANON + "login.html";
@@ -53,11 +66,24 @@ public class WebLoginController {
         try {
             subject.login(token);
             if (subject.isAuthenticated()) {
-                request.getSession().setAttribute("username",user.getUsername());
-                logger.info("doLogin:权限认证成功，在session中记录username：" + request.getSession().getAttribute("username"));
+            	String username = user.getUsername();
+                Integer userId = pamsUserService.getPamsUserByUsername(username).getUserId();
                 
-                SavedRequest savedRequest = WebUtils.getSavedRequest(request);
-                model.addAttribute("username",user.getUsername());
+                request.getSession().setAttribute("username", username);
+                request.getSession().setAttribute("userId", userId);
+                logger.info("doLogin:权限认证成功，在session中记录username和userId：" + request.getSession().getAttribute("username"));
+                
+                //记录登录信息
+           		String ip = NetworkUtil.getIpAddress(request);
+           		String loginTime = DateUtil.getCurrentTime(DateUtil.FormatString2);
+           		PamsLoginInfo loginInfo = new PamsLoginInfo(userId, ip, loginTime);
+           		pamsLoginInfoService.insertPamsLoginInfo(loginInfo);
+           		
+           		
+                SavedRequest savedRequest = WebUtils.getSavedRequest(request);   
+                //不再将username放入model中，原因在于重定向后model中的参数会加入到url中
+                //model.addAttribute("username",user.getUsername());
+                
                 if (savedRequest == null || savedRequest.getRequestUrl() == null) {
                 	//重定向到登录后的home的请求上，再转到对应的jsp页面
                     return "redirect:" + PathConstant.WEB_AUTHC + "home";

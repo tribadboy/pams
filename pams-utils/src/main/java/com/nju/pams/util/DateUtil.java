@@ -5,9 +5,17 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.joda.time.DateTime;
+
 public class DateUtil {
 	
 	public static final String FormatString = "yyyy-MM-dd";
+	
+	public static final String FormatString2 = "yyyy-MM-dd HH:mm";
+	
+	public static String getCurrentTime(String formatStr) {
+		return DateTime.now().toString(formatStr);
+	}
 
 	/**
 	 * 判断某个月份的天数

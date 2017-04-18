@@ -53,7 +53,7 @@
         </div>  
         <button id="submit" type="submit" class="submitBtn">注 册</button><br>&nbsp;&nbsp;&nbsp;&nbsp;
         <a href="<%=path %>/web/anon/login.html">用户登录</a> &nbsp;&nbsp;&nbsp;&nbsp;
-        <a href="<%=path %>/static/view/home.html">返回主页</a>
+        <a href="<%=path %>/static/view/index.html">返回主页</a>
 
         <h5>${message}</h5>
     </form>  
