@@ -1,5 +1,6 @@
 package com.nju.pams.biz.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +21,22 @@ public class PamsAccountMonthServiceImpl implements PamsAccountMonthService {
 
 	@Override
 	public List<AccountOfMonth> getAccountOfMonthListByCertainMonth(Integer userId, String spendMonth) {
-		return pamsAccountMonthDAO.getAccountOfMonthListByCertainMonth(userId, spendMonth);
+		List<AccountOfMonth> resultList = pamsAccountMonthDAO.getAccountOfMonthListByCertainMonth(userId, spendMonth);
+		if(null == resultList) {
+			return new ArrayList<AccountOfMonth>();
+		} else {
+			return resultList;
+		}
 	}
 
 	@Override
 	public List<AccountOfMonth> getAccountOfMonthListByPeriodMonth(Integer userId, String startMonth, String endMonth) {
-		return pamsAccountMonthDAO.getAccountOfMonthListByPeriodMonth(userId, startMonth, endMonth);
+		List<AccountOfMonth> resultList = pamsAccountMonthDAO.getAccountOfMonthListByPeriodMonth(userId, startMonth, endMonth);
+		if(null == resultList) {
+			return new ArrayList<AccountOfMonth>();
+		} else {
+			return resultList;
+		}
 	}
 
 }

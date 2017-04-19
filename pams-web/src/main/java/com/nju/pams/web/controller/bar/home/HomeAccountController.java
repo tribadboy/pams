@@ -50,7 +50,7 @@ public class HomeAccountController {
     	if(null == username || null == userId) {
     		logger.info("session失效，需要用户重新登录");
     		SecurityUtils.getSubject().logout();
-   	        return "anon/login";
+   	        return "error/logout";
     	}
     	PamsUser user = pamsUserService.getPamsUserByUsername(username);
     	model.addAttribute("user", user);
@@ -99,7 +99,7 @@ public class HomeAccountController {
     	if(null == username || null == userId) {
     		logger.info("session失效，需要用户重新登录");
     		SecurityUtils.getSubject().logout();
-   	        return "anon/login";
+   	        return "error/logout";
     	}
     	
     	PamsUser user = pamsUserService.getPamsUserByUsername(username);

@@ -151,7 +151,7 @@ public class WebUserController {
    			message = ResultEnum.UsernameNotExist.getMsg();
    			model.addAttribute("message", message);
    	        logger.info("用户信息修改异常：" + message);
-   	        return "anon/login";
+   	        return "error/logout";
    		}
    		//更信息用户信息
    		pamsUser.setPassword(password);

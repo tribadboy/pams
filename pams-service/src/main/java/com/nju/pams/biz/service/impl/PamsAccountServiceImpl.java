@@ -1,6 +1,7 @@
 package com.nju.pams.biz.service.impl;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -36,12 +37,22 @@ public class PamsAccountServiceImpl implements PamsAccountService {
 
 	@Override
 	public List<ConsumptionAccount> getConsumptionAccountListByUserId(Integer userId) {
-		return pamsAccountDAO.getConsumptionAccountListByUserId(userId);
+		List<ConsumptionAccount> list = pamsAccountDAO.getConsumptionAccountListByUserId(userId);
+		if(null == list) {
+			return new ArrayList<ConsumptionAccount>();
+		} else {
+			return list;
+		}
 	}
 
 	@Override
 	public List<ConsumptionAccount> selectAccountByCondition(ConsumptionCondition consumptionCondition) {
-		return pamsAccountDAO.selectAccountByCondition(consumptionCondition);
+		List<ConsumptionAccount> list = pamsAccountDAO.selectAccountByCondition(consumptionCondition);
+		if(null == list) {
+			return new ArrayList<ConsumptionAccount>();
+		} else {
+			return list;
+		}
 	}
 	
 	/**

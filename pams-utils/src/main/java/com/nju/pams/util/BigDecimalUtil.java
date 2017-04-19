@@ -23,4 +23,12 @@ public class BigDecimalUtil {
 		decimal = decimal.setScale(FORMAT_SCALE, RoundingMode.HALF_UP);
 		return decimal;
 	}
+	
+	public static String generateFormatString(double num) {
+		return generateFormatString(BigDecimal.valueOf(num));
+	}
+	
+	public static BigDecimal generateFormatNumber(double num) {
+		return generateFormatNumber(BigDecimal.valueOf(num));
+	}
 }

@@ -15,12 +15,16 @@ public enum ResultEnum {
     //参数校验错误 1--9
     NullParameter(1, "参数存在空值"),
     
+    
     //验证码相关错误 11--19
     ErrorVerificationCode(11, "验证码输入错误"),
     
     //用户信息相关错误 21--29
     DuplicateUsername(21, "该用户名已经存在"),
     UsernameNotExist(22, "该用户名找不到对应的用户信息"),
+    
+    //session已经结束
+    SessionClose(31, "会话已经结束，用户请重新登录"),
     
     UnknownError(99, "未知错误");
 

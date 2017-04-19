@@ -30,7 +30,7 @@ public final class PathConstant {
 	final public static String WEB_AUTHC_HOME_ABOUT = "/web/authc/home/about/";
 	
 	//consumption bar
-	final public static String WEB_AUTHC_CONSUMPTION_RECORD = "/web/authc/consumption/record";
-	final public static String WEB_AUTHC_CONSUMPTION_EXCEL = "/web/authc/consumption/excel";
+	final public static String WEB_AUTHC_CONSUMPTION_RECORD = "/web/authc/consumption/record/";
+	final public static String WEB_AUTHC_CONSUMPTION_EXCEL = "/web/authc/consumption/excel/";
 
 }

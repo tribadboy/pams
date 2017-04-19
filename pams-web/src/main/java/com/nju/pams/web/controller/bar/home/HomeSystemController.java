@@ -22,7 +22,7 @@ public class HomeSystemController {
     	if(null == username || null == userId) {
     		logger.info("session失效，需要用户重新登录");
     		SecurityUtils.getSubject().logout();
-   	        return "anon/login";
+   	        return "error/logout";
     	}
     	
         return "authc/home-bar/welcome";
@@ -36,7 +36,7 @@ public class HomeSystemController {
     	if(null == username || null == userId) {
     		logger.info("session失效，需要用户重新登录");
     		SecurityUtils.getSubject().logout();
-   	        return "anon/login";
+   	        return "error/logout";
     	}
     	
         return "authc/home-bar/notice";
@@ -50,7 +50,7 @@ public class HomeSystemController {
     	if(null == username || null == userId) {
     		logger.info("session失效，需要用户重新登录");
     		SecurityUtils.getSubject().logout();
-   	        return "anon/login";
+   	        return "error/logout";
     	}
     	
         return "authc/home-bar/news";

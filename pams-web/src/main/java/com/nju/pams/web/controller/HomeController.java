@@ -100,6 +100,15 @@ public class HomeController {
 		return result.toString();
 	}
     
+    //测试json返回值
+    @ResponseBody
+	@RequestMapping(value = "getAjaxJson3", method = RequestMethod.GET)
+	public String getAjaxJson3() {
+		final JSONObject result = new JSONObject();
+		ResultUtil.addSuccess(result);
+		return result.toString();
+	}
+    
     //根据基金关键词进行模糊查询
   	@RequestMapping(value = "/testUrl")
   	@ResponseBody
