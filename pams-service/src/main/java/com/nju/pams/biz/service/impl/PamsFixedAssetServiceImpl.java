@@ -1,7 +1,10 @@
 package com.nju.pams.biz.service.impl;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -25,13 +28,23 @@ public class PamsFixedAssetServiceImpl implements PamsFixedAssetService {
 
 	@Override
 	public List<FixedAsset> getFixedAssetListByUserId(Integer userId) {
-		return pamsFixedAssetDAO.getFixedAssetListByUserId(userId);
+		List<FixedAsset> resultList = pamsFixedAssetDAO.getFixedAssetListByUserId(userId);
+		if(null == resultList) {
+			return new ArrayList<FixedAsset>();
+		} else {
+			return resultList;
+		}
 	}
 	
 	@Override
 	public List<FixedAsset> getFixedAssetListByUserIdInPeriodTime(Integer userId,
 			String startDate, String endDate) {
-		return pamsFixedAssetDAO.getFixedAssetListByUserIdInPeriodTime(userId, startDate, endDate);
+		List<FixedAsset> resultList = pamsFixedAssetDAO.getFixedAssetListByUserIdInPeriodTime(userId, startDate, endDate);
+		if(null == resultList) {
+			return new ArrayList<FixedAsset>();
+		} else {
+			return resultList;
+		}
 	}
 	
 	@Override
@@ -47,6 +60,18 @@ public class PamsFixedAssetServiceImpl implements PamsFixedAssetService {
 	@Override
 	public void deleteFixedAssetByAssetId(Integer assetId) {
 		pamsFixedAssetDAO.deleteFixedAssetByAssetId(assetId);
+	}
+
+	@Override
+	public BigDecimal computeAllConsumptionValue(Integer userId) {
+		BigDecimal result = BigDecimal.ZERO;
+		List<FixedAsset> resultList = pamsFixedAssetDAO.getFixedAssetListByUserId(userId);
+		if(CollectionUtils.isNotEmpty(resultList)) {
+			for(FixedAsset asset : resultList) {
+				result = result.add(asset.getRecordValue());
+			}
+		}
+		return result;
 	}
 	
 }

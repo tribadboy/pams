@@ -31,6 +31,8 @@ public enum ResultEnum {
     CloseDepositError(41, "结转存款错误"),
     CloseLoanError(42, "结束贷款错误"),
     
+    DeleteLoanChangeError(51, "还款记录中不能直接删除创建贷款的记录"),
+    
     
     UnknownError(99, "未知错误");
 

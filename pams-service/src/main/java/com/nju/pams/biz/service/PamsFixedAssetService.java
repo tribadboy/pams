@@ -1,5 +1,6 @@
 package com.nju.pams.biz.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.nju.pams.model.asset.FixedAsset;
@@ -16,4 +17,6 @@ public interface PamsFixedAssetService {
 	void updateFixedAsset(FixedAsset fixedAsset);
 	
 	void deleteFixedAssetByAssetId(Integer assetId);
+	
+	BigDecimal computeAllConsumptionValue(Integer userId);
 }

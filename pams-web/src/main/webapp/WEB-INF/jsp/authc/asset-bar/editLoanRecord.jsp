@@ -174,16 +174,12 @@
         	  var loanId = record.loanId;
         	  if(top.topManager){
         		  //打开左侧菜单中配置过的页面
-        		  console.log(loanId);
         		  top.topManager.openPage({
-        		    //id : 'loanChange',
-        		    //reload : true,
-        		    //search : 'loanId='+record.loanId
         		    id : 'loanChange',
-        		    href : '<%=path%>/web/authc/asset/loan/loanChange',
         		    reload : true,
-        		    search : 'loanId=4',//+loanId,
-        		    title : '贷入与贷出'
+        		    search : 'loanId='+record.loanId,
+        		    href : '<%=path%>/web/authc/asset/loan/loanChange?loanId='+loanId,
+        		 	title : '贷入与贷出'
         		  });
         		}
           }

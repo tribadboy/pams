@@ -1,5 +1,6 @@
 package com.nju.pams.biz.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.nju.pams.model.consumption.ConsumptionAccount;
@@ -17,4 +18,6 @@ public interface PamsAccountService {
 	void updateConsumptionAccount(ConsumptionAccount consumptionAccount);
 	
 	void deleteConsumptionAccountByAccountId(Integer accountId);
+	
+	BigDecimal computeAllConsumptionValue(Integer userId);
 }

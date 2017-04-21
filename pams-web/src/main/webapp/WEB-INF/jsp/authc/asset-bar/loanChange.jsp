@@ -21,44 +21,47 @@
  <body>
   <div class="container">  
   	<div class="row">
-  		<div class="control-group span8">
+  		<div class="control-group span3">
             <label class="control-label">贷款类型：${direction }</label>
          </div>
-         <div class="control-group span8">
+         <div class="control-group span4">
             <label class="control-label">预期还款数额：${exceptRepayAmount }</label>
          </div>
-         <div class="control-group span8">
+         <div class="control-group span4">
             <label class="control-label">累计还款数额：${realRepayAmount }</label>
          </div>
-         <div class="control-group span8">
+         <div class="control-group span3">
             <label class="control-label">状态：${statusName }</label>
          </div>
         <form id="searchForm" class="form-horizontal" tabindex="0" style="outline: none;">
             <input type=text style="display:none" name="loanId" id="loanId" value="${loanId }">
          	<div class="control-group span5">
           		<label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-          		<button type="submit" class="button button-primary" >搜索所有记录</button>
+          		<button type="submit" class="button button-primary" id="btnSearch" style="display:none;">刷新</button>
           	</div>  
         </form>    
   	</div>  
     <hr>
     <form id="J_Form" class="form-horizontal" action="<%=path %>/web/authc/asset/loan/addLoanChange"  method="POST">
     <div class="row">      
-    <input type=text style="display:none" name="loanId2" id="loanId2" value="${loanId }">
-          <div class="control-group span10 ">
+    	  <input type=text style="display:none" name="loanId2" id="loanId2" value="${loanId }">
+          <div class="control-group span">
             <label class="control-label"><span class="redText">*</span> 记录日期：</label>
             <div id="single_range" class="controls bui-form-group"  data-rules="{dateRange:true}">
               <input name="changeTime" class="calendar"   data-rules="{required:true}"  type="text">
             </div>
           </div>
-          <div class="control-group span15">
+          <div class="control-group span">
             <label class="control-label"><span class="redText">*</span> 还款金额：</label>
             <div class="controls">
               <input name="changeAmount" type="text" data-rules="{number:true,required:true,min:0}" class="input-normal control-text">
             </div>
           </div>
-          <div class="control-group span5">
-          	<label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+          <!-- <div class="control-group span9">
+            <label class="control-label span10">(注：还款日期可以任意填写，均计入累计还款总额)</label>
+          </div> -->
+          <div class="control-group span">
+          	<label class="control-label">&nbsp;&nbsp;&nbsp;</label>
           	<button type="submit" class="button button-primary" >创建还款记录</button>
           </div>      
       </div>   
@@ -97,7 +100,7 @@
           columns = [
 			{ title: '类别',width: 100,  sortable: false, dataIndex: 'changeTypeName'},
             { title: '数额', width: 100, sortable: false, dataIndex: 'changeAmount'},
-            { title: '时间',width: 10, sortable: false,  dataIndex: 'changeTime'},
+            { title: '时间',width: 100, sortable: false,  dataIndex: 'changeTime'},
             { title: '操作', width: 100, sortable: false, dataIndex: '',renderer:function(value,obj){         
                 return '<span class="grid-command btn-del">删除</span>';
             }}
@@ -153,16 +156,16 @@
             if(ids.length > 0){
               BUI.Message.Confirm('确认要删除记录么？',function(){
                 $.ajax({
-                  url : '/pams-web/web/authc/asset/loan/deleteLoanChange',
+                  url : '/pams-web/web/authc/asset/loan/deleteLoanChangeInfo',
                   type: "post",
                   dataType : 'json',
                   data : "changeIds="+ids,
                   success : function(data){
                     if(data.status == 0){ 
-                  	  BUI.Message.Alert('删除成功！');
-                  	  store.load();
+                  	  BUI.Message.Alert('删除成功！'); 
+                  	  top.topManager.reloadPage();
                     }else{ 
-                      BUI.Message.Alert('删除失败！');
+                      BUI.Message.Alert('删除失败！本页面只能删除还款记录');
                     }
                   }
               });

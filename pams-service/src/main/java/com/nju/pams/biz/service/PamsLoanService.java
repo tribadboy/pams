@@ -9,6 +9,8 @@ import com.nju.pams.model.asset.LoanRecord;
 public interface PamsLoanService {
 	LoanRecord getLoanRecordByLoanId(Integer loanId);
 	
+	LoanChange getLoanChangeByChangeId(Integer changeId);
+	
 	List<LoanChange> getLoanChangeListByLoanId(Integer loanId);
 	
 	void makeLoanRecord(LoanRecord loanRecord, BigDecimal changeAmount, String changeTime);

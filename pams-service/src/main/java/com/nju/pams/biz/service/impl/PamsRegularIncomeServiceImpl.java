@@ -1,7 +1,10 @@
 package com.nju.pams.biz.service.impl;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -25,13 +28,23 @@ public class PamsRegularIncomeServiceImpl implements PamsRegularIncomeService {
 
 	@Override
 	public List<RegularIncome> getRegularIncomeListByUserId(Integer userId) {
-		return pamsRegularIncomeDAO.getRegularIncomeListByUserId(userId);
+		List<RegularIncome> resultList = pamsRegularIncomeDAO.getRegularIncomeListByUserId(userId);
+		if(null == resultList) {
+			return new ArrayList<RegularIncome>();
+		} else {
+			return resultList;
+		}
 	}
 
 	@Override
 	public List<RegularIncome> getRegularIncomeListByUserIdInPeriodTime(Integer userId, String startDate,
 			String endDate) {
-		return pamsRegularIncomeDAO.getRegularIncomeListByUserIdInPeriodTime(userId, startDate, endDate);
+		List<RegularIncome> resultList = pamsRegularIncomeDAO.getRegularIncomeListByUserIdInPeriodTime(userId, startDate, endDate);
+		if(null == resultList) {
+			return new ArrayList<RegularIncome>();
+		} else {
+			return resultList;
+		}
 	}
 
 	@Override
@@ -47,6 +60,18 @@ public class PamsRegularIncomeServiceImpl implements PamsRegularIncomeService {
 	@Override
 	public void deleteRegularIncomeByIncomeId(Integer incomeId) {
 		pamsRegularIncomeDAO.deleteRegularIncomeByIncomeId(incomeId);
+	}
+
+	@Override
+	public BigDecimal computeAllConsumptionValue(Integer userId) {
+		BigDecimal result = BigDecimal.ZERO;
+		List<RegularIncome> resultList = pamsRegularIncomeDAO.getRegularIncomeListByUserId(userId);
+		if(CollectionUtils.isNotEmpty(resultList)) {
+			for(RegularIncome income : resultList) {
+				result = result.add(income.getRecordAmount());
+			}
+		}
+		return result;
 	}
 
 	

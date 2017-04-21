@@ -35,6 +35,14 @@ public class PamsLoanServiceImpl implements PamsLoanService {
 	public LoanRecord getLoanRecordByLoanId(Integer loanId) {
 		return pamsLoanRecordDAO.getLoanRecordByLoanId(loanId);
 	}
+	
+	/**
+	 * 根据changeId 获取还款信息
+	 */
+	@Override
+	public LoanChange getLoanChangeByChangeId(Integer changeId) {
+		return pamsLoanChangeDAO.getLoanChangeByChangeId(changeId);
+	}
 
 	/**
 	 * 获取某个贷款的所有变更记录

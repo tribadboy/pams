@@ -1,8 +1,6 @@
 package com.nju.pams.web.controller.bar.asset;
 
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,11 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.nju.pams.biz.service.PamsDepositService;
 import com.nju.pams.biz.service.PamsLoanService;
-import com.nju.pams.model.asset.DepositChange;
-import com.nju.pams.model.asset.DepositRecord;
-import com.nju.pams.model.asset.DepositTimeEnum;
 import com.nju.pams.model.asset.LoanChange;
 import com.nju.pams.model.asset.LoanRecord;
 import com.nju.pams.model.constant.PathConstant;
@@ -74,7 +68,7 @@ public class LoanController {
         return "authc/asset-bar/editLoanRecord";
     }
     
-    //返回搜索和编辑存款页面
+    //返回搜索和编辑贷款页面
     @RequestMapping(value = "loanChange")
     public String getLoanChangePage(HttpServletRequest request, Model model,
     		@RequestParam(value = "loanId", required = false) final Integer loanId){
@@ -97,7 +91,7 @@ public class LoanController {
     
     //创建贷款，然后自动返回添加页面
 	@RequestMapping(value = "addLoanRecord", method = RequestMethod.POST)
-   	public String addDepositRecord(Model model, HttpServletRequest request,
+   	public String addLoanRecord(Model model, HttpServletRequest request,
    			@RequestParam("direction") final Integer direction,
    			@RequestParam("changeAmount") final Double changeAmount,
    			@RequestParam("changeTime") final String changeTime,
@@ -139,7 +133,7 @@ public class LoanController {
      */
 	@ResponseBody
 	@RequestMapping(value = "searchLoanRecordInfo")
-	public String searchDepositRecordInfo( HttpServletRequest request,
+	public String searchLoanRecordInfo( HttpServletRequest request,
    			@RequestParam("type") final Integer type,
    			@RequestParam("start") final Integer start,
    			@RequestParam("limit") final Integer limit
@@ -189,7 +183,7 @@ public class LoanController {
 	//删除贷款记录和相应的变更记录
     @ResponseBody
 	@RequestMapping(value = "deleteLoanRecordInfo", method = RequestMethod.POST)
-	public String deleteDepositRecordInfo(HttpServletRequest request,
+	public String deleteLoanRecordInfo(HttpServletRequest request,
 			@RequestParam(value="loanIds") final List<Integer> loanIds
 			) {
     	
@@ -212,7 +206,7 @@ public class LoanController {
 	//关闭单条贷款记录
     @ResponseBody
 	@RequestMapping(value = "closeLoanRecordInfo", method = RequestMethod.POST)
-	public String closeDepositRecordInfo(HttpServletRequest request,
+	public String closeLoanRecordInfo(HttpServletRequest request,
 			@RequestParam(value="loanIds") final List<Integer> loanIds,
 			@RequestParam(value="closeTime") final String closeTime
 			) {
@@ -260,7 +254,7 @@ public class LoanController {
      */
 	@ResponseBody
 	@RequestMapping(value = "searchLoanChangeInfo")
-	public String searchDepositChangeInfo( HttpServletRequest request,
+	public String searchLoanChangeInfo( HttpServletRequest request,
    			@RequestParam("loanId") final Integer loanId,
    			@RequestParam("start") final Integer start,
    			@RequestParam("limit") final Integer limit
@@ -286,6 +280,7 @@ public class LoanController {
     	JSONArray array = new JSONArray();
     	for(LoanChange change : resultList) {
     		JSONObject json = new JSONObject();
+    		json.put("changeId", change.getChangeId());
     		json.put("changeTypeName", LoanChange.ChangeType.getMsgFromInt(change.getChangeTypeId()));
     		json.put("changeAmount", BigDecimalUtil.generateFormatNumber(change.getChangeAmount()));
     		json.put("changeTime", change.getChangeTime());
@@ -298,7 +293,7 @@ public class LoanController {
     	return result.toString();
 	}	
 	
-    //创建存款交易，然后自动返回添加页面
+    //创建贷款还款记录，然后自动返回添加页面
 	@RequestMapping(value = "addLoanChange", method = RequestMethod.POST)
    	public String addLoanChange(Model model, HttpServletRequest request,
    			@RequestParam("loanId2") final Integer loanId2,
@@ -313,23 +308,47 @@ public class LoanController {
     		SecurityUtils.getSubject().logout();
    	        return "error/logout";
     	}
-    	LoanRecord record = pamsLoanService.getLoanRecordByLoanId(loanId2);
+    	LoanRecord record = pamsLoanService.getLoanRecordByLoanId(loanId2);	
+    	if(record.getStatus() == LoanRecord.Status.InValid.getIndex()) {
+    		model.addAttribute("msg", "该贷款已经结束，创建还款记录失败");
+    	} else {
+    		LoanChange loanChange = new LoanChange(loanId2, BigDecimalUtil.generateFormatNumber(changeAmount), changeTime);
+        	pamsLoanService.insertLoanChange(loanChange);
+        	model.addAttribute("msg", "创建还款记录成功");
+    	}
+    	model.addAttribute("loanId", loanId2);
     	model.addAttribute("direction", LoanRecord.Direction.getMsgFromInt(record.getDirection()));
     	model.addAttribute("exceptRepayAmount", BigDecimalUtil.generateFormatNumber(record.getExceptRepayAmount()));
     	model.addAttribute("realRepayAmount", pamsLoanService.computeSumAmountInRealLoanChange(record.getLoanId()));
     	model.addAttribute("statusName", LoanRecord.Status.getMsgFromInt(record.getStatus()));
-    	model.addAttribute("loanId", loanId2);
-    	
-    	if(record.getStatus() == LoanRecord.Status.InValid.getIndex()) {
-    		model.addAttribute("msg", "该贷款已经结束，创建还款记录失败");
-            return "authc/asset-bar/inflowAndOutflow";
-    	}
-    	LoanChange loanChange = new LoanChange(loanId2, BigDecimalUtil.generateFormatNumber(changeAmount), changeTime);
-    	pamsLoanService.insertLoanChange(loanChange);
-    	model.addAttribute("msg", "创建还款记录成功");
-        return "authc/asset-bar/inflowAndOutflow";
+        return "authc/asset-bar/loanChange";
    	}
 
-	
+	//删除贷款的还款记录
+    @ResponseBody
+	@RequestMapping(value = "deleteLoanChangeInfo", method = RequestMethod.POST)
+	public String deleteLoanChangeInfo(HttpServletRequest request,
+			@RequestParam(value="changeIds") final List<Integer> changeIds
+			) {
+    	
+		final JSONObject result = new JSONObject();	
+		String username = (String) request.getSession().getAttribute("username");
+    	Integer userId = (Integer) request.getSession().getAttribute("userId");
+    	if(null == username || null == userId) {
+    		ResultUtil.addResult(result, ResultEnum.SessionClose);
+			return result.toString();
+    	}
+    	if(CollectionUtils.isNotEmpty(changeIds)) {
+    		int changeId = changeIds.get(0);
+    		if(pamsLoanService.getLoanChangeByChangeId(changeId).getChangeTypeId() 
+    				== LoanChange.ChangeType.MakeLoan.getIndex()) {
+    			ResultUtil.addResult(result, ResultEnum.DeleteLoanChangeError);
+    			return result.toString();
+    		}
+    		pamsLoanService.deleteLoanChange(changeId);
+    	}	
+		ResultUtil.addSuccess(result);
+		return result.toString();
+	}
     
 }  

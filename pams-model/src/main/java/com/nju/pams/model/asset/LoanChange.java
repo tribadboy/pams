@@ -29,8 +29,8 @@ public class LoanChange {
     }
 	
 	 public enum ChangeType { 
-		 MakeLoan(0, ""),
-	     Repay(1, "");
+		 MakeLoan(0, "创建贷款"),
+	     Repay(1, "还款");
 
 	     private final int index;
 	     private final String msg;

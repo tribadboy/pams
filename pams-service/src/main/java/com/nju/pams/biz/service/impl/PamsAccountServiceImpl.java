@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -140,6 +141,18 @@ public class PamsAccountServiceImpl implements PamsAccountService {
 			String spendMonth = consumptionAccount.getSpendTime().substring(0, 7);
 			return pamsAccountMonthDAO.getAccountOfMonthByMonth(userId, consumptionId, spendMonth);
 		}
+	}
+
+	@Override
+	public BigDecimal computeAllConsumptionValue(Integer userId) {
+		BigDecimal result = BigDecimal.ZERO;
+		List<ConsumptionAccount> list = pamsAccountDAO.getConsumptionAccountListByUserId(userId);
+		if(CollectionUtils.isNotEmpty(list)) {
+			for(ConsumptionAccount account : list) {
+				result = result.add(account.getCost());
+			}
+		}
+		return result;
 	}
 	
 }
