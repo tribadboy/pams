@@ -75,7 +75,7 @@
                 text:'消费账目',
                 items:[
                    {id:'addConsumption',text:'添加账目',href:'<%=path %>/web/authc/consumption/record/addConsumption'},
-                   {id:'searchAndEdit',text:'搜索账目',href:'<%=path %>/web/authc/consumption/record/searchAndEditConsumption'}  
+                   {id:'searchAndEditConsumption',text:'搜索账目',href:'<%=path %>/web/authc/consumption/record/searchAndEditConsumption'}  
                 ]
               },{
                 text:'消费报表',
@@ -88,19 +88,35 @@
           },{
             id:'asset-bar',
             menu:[{
-                text:'搜索页面',
+                text:'资产总揽',
                 items:[
-                  {id:'code',text:'搜索页面代码',href:'<%=basePath%>static/view/search/code.html'},
-                  {id:'example',text:'搜索页面示例',href:'<%=basePath%>static/view/search/example.html'},
-                  {id:'example-dialog',text:'搜索页面编辑示例',href:'<%=basePath%>static/view/search/example-dialog.html'},
-                  {id:'introduce',text:'搜索页面简介',href:'<%=basePath%>static/view/search/introduce.html'}, 
-                  {id:'config',text:'搜索配置',href:'<%=basePath%>static/view/search/config.html'}
+                  {id:'generalAsset',text:'资产概要',href:'<%=path %>/web/authc/asset/generalAsset/overall'}
                 ]
               },{
-                text : '更多示例',
+                text : '固定资产',
                 items : [
-                  {id : 'tab',text : '使用tab过滤',href : '<%=basePath%>static/view/search/tab.html'}
+                   {id:'addFixedAsset',text:'创建固定资产',href:'<%=path %>/web/authc/asset/fixedAsset/addFixedAsset'},
+                   {id:'searchAndEditFixedAsset',text:'查询固定资产',href:'<%=path %>/web/authc/asset/fixedAsset/searchAndEditFixedAsset'}
                 ]
+              },{
+                  text : '常规收入',
+                  items : [
+                     {id:'addRegularIncome',text:'创建常规收入',href:'<%=path %>/web/authc/asset/regularIncome/addRegularIncome'},
+                     {id:'searchAndEditRegularIncome',text:'查询常规收入',href:'<%=path %>/web/authc/asset/regularIncome/searchAndEditRegularIncome'}
+                  ]
+              },{
+                  text : '带息存款',
+                  items : [
+					{id:'addDepositRecord',text:'创建存款',href:'<%=path %>/web/authc/asset/deposit/addDepositRecordPage'},
+					{id:'editDepositRecord',text:'结算存款',href:'<%=path %>/web/authc/asset/deposit/editDepositRecordPage'},
+					{id:'inflowAndOutflow',text:'转入与转出',href:'<%=path %>/web/authc/asset/deposit/inflowAndOutflow'},
+                  ]
+              },{
+                  text : '个人信贷',
+                  items : [
+					{id:'addLoanRecord',text:'创建贷款',href:'<%=path %>/web/authc/asset/loan/addLoanRecordPage'},
+					{id:'editLoanRecord',text:'结算贷款',href:'<%=path %>/web/authc/asset/loan/editLoanRecordPage'}
+                  ]
               }]
           },{
             id:'finance-bar',

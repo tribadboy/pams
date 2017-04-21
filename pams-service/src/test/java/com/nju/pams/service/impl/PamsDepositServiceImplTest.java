@@ -27,7 +27,7 @@ public class PamsDepositServiceImplTest {
 	 public void depositServiceTest1() {
 		 
 		 //创建一个活期存款记录，并插入数据库		 
-		 DepositRecord record = new DepositRecord(10,0,1,(float)2.25,0,"msg1");
+		 DepositRecord record = new DepositRecord(10, "",1,(float)2.25,0,"msg1");
 		 pamsDepositService.makeDepositRecord(record, BigDecimal.valueOf(10000), "2016-01-01");
 		 int depositId = record.getDepositId();
 		 
@@ -77,7 +77,7 @@ public class PamsDepositServiceImplTest {
 	 public void depositServiceTest2() {
 		 
 		 //创建一个定期存款记录，并插入数据库	(3个月)	 
-		 DepositRecord record = new DepositRecord(10,0,2,(float)1.0,(float)5.0,"msg1");
+		 DepositRecord record = new DepositRecord(10, "",2,(float)1.0,(float)5.0,"msg1");
 		 pamsDepositService.makeDepositRecord(record, BigDecimal.valueOf(10000), "2016-01-01");
 		 int depositId = record.getDepositId();
 		 

@@ -64,6 +64,8 @@
 
 BUI.use('bui/chart',function (Chart) {
 	 $("#spendYear").val("${spendYear}");
+/* 	 var nameArray = ${nameArray};
+	 var resultArray = ${resultArray}; */
   
     var chart1 = new Chart.Chart({
       render : '#canvas1',

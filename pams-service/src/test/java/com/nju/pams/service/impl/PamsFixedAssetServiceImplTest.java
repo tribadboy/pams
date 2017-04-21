@@ -25,11 +25,11 @@ public class PamsFixedAssetServiceImplTest {
 	 public void fixedAccountTest() {
 
 		 //创建5条固定资产，并插入数据库		 
-		 FixedAsset fa1 = new FixedAsset(1, BigDecimal.valueOf(10000.50), "2017-02-05", "msg1");
-		 FixedAsset fa2 = new FixedAsset(1, BigDecimal.valueOf(34520.50), "2017-02-09", "msg2");
-		 FixedAsset fa3 = new FixedAsset(1, BigDecimal.valueOf(8000.50), "2017-03-12", "msg3");
-		 FixedAsset fa4 = new FixedAsset(2, BigDecimal.valueOf(9000.33), "2017-02-07", "msg4");
-		 FixedAsset fa5 = new FixedAsset(2, BigDecimal.valueOf(5600.50), "2017-02-15", "msg5");
+		 FixedAsset fa1 = new FixedAsset(1, "", BigDecimal.valueOf(10000.50), "2017-02-05", "msg1");
+		 FixedAsset fa2 = new FixedAsset(1, "", BigDecimal.valueOf(34520.50), "2017-02-09", "msg2");
+		 FixedAsset fa3 = new FixedAsset(1, "", BigDecimal.valueOf(8000.50), "2017-03-12", "msg3");
+		 FixedAsset fa4 = new FixedAsset(2, "", BigDecimal.valueOf(9000.33), "2017-02-07", "msg4");
+		 FixedAsset fa5 = new FixedAsset(2, "", BigDecimal.valueOf(5600.50), "2017-02-15", "msg5");
 		 pamsFixedAssetService.insertFixedAsset(fa1);
 		 pamsFixedAssetService.insertFixedAsset(fa2);
 		 pamsFixedAssetService.insertFixedAsset(fa3);

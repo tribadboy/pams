@@ -3,6 +3,7 @@ package com.nju.pams.model.asset;
 public class DepositRecord {
 	private int depositId;					
 	private int userId;		
+	private String depositName;
 	private int status;
 	private int depositTimeId;
 	private float currentProfitPercent;				//活期利率
@@ -15,10 +16,11 @@ public class DepositRecord {
     	
     }
     
-    public DepositRecord(int userId, int status, int depositTimeId, float currentProfitPercent, 
+    public DepositRecord(int userId, String depositName, int depositTimeId, float currentProfitPercent, 
     		float fixedProfitPercent, String message) {
     	this.userId = userId;
-    	this.status = status;
+    	this.depositName = depositName;
+    	this.status = DepositRecord.Status.Valid.toIntValue();
     	this.depositTimeId = depositTimeId;
     	this.currentProfitPercent = currentProfitPercent;
     	this.fixedProfitPercent = fixedProfitPercent;
@@ -27,15 +29,28 @@ public class DepositRecord {
     
     
     public enum Status { 
-        Valid(0),
-        InValid(1);
+        Valid(0, "未结束"),
+        InValid(1, "已结束");
 
         private final int value;
-        private Status(int value) {
+        private final String msg;
+        private Status(int value, String msg) {
             this.value = value;
+            this.msg = msg;
         }
         public int toIntValue() {
             return value;
+        }
+        public String toMsgValue() {
+            return msg;
+        }
+        public static String getMsgFromInt(int value) {
+        	for(Status s : Status.values()) {
+        		if(s.toIntValue() == value) {
+        			return s.toMsgValue();
+        		}
+        	}
+        	return "";
         }
     }
 	public int getDepositId() {
@@ -49,6 +64,12 @@ public class DepositRecord {
 	}
 	public void setUserId(int userId) {
 		this.userId = userId;
+	}
+	public String getDepositName() {
+		return depositName;
+	}
+	public void setDepositName(String depositName) {
+		this.depositName = depositName;
 	}
 	public int getStatus() {
 		return status;

@@ -27,14 +27,14 @@ public class PamsLoanServiceImplTest {
 	 public void loanServiceTest() {
 		 
 		 //创建一个贷款记录，并插入数据库
-		 LoanRecord record = new LoanRecord(1, 0, 0, BigDecimal.valueOf(10000.00), 1, "record1");
+		 LoanRecord record = new LoanRecord(1, 0, BigDecimal.valueOf(10000.00), "record1");
 		 pamsLoanService.makeLoanRecord(record, BigDecimal.valueOf(8000.00), "2017-02-02");
 		 
 		 //创建几条还款记录，并插入数据库
-		 LoanChange c1 = new LoanChange(record.getLoanId(), 1, BigDecimal.valueOf(1000.00), "2017-03-01");
-		 LoanChange c2 = new LoanChange(record.getLoanId(), 1, BigDecimal.valueOf(2000.00), "2017-03-02");
-		 LoanChange c3 = new LoanChange(record.getLoanId(), 1, BigDecimal.valueOf(3000.00), "2017-03-03");
-		 LoanChange c4 = new LoanChange(record.getLoanId(), 1, BigDecimal.valueOf(4000.00), "2017-03-04");
+		 LoanChange c1 = new LoanChange(record.getLoanId(), BigDecimal.valueOf(1000.00), "2017-03-01");
+		 LoanChange c2 = new LoanChange(record.getLoanId(), BigDecimal.valueOf(2000.00), "2017-03-02");
+		 LoanChange c3 = new LoanChange(record.getLoanId(), BigDecimal.valueOf(3000.00), "2017-03-03");
+		 LoanChange c4 = new LoanChange(record.getLoanId(), BigDecimal.valueOf(4000.00), "2017-03-04");
 		 pamsLoanService.insertLoanChange(c1);
 		 pamsLoanService.insertLoanChange(c2);
 		 pamsLoanService.insertLoanChange(c3);

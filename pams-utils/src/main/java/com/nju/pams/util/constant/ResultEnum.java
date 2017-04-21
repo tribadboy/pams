@@ -26,6 +26,12 @@ public enum ResultEnum {
     //session已经结束
     SessionClose(31, "会话已经结束，用户请重新登录"),
     
+    
+    //完全结转存款错误
+    CloseDepositError(41, "结转存款错误"),
+    CloseLoanError(42, "结束贷款错误"),
+    
+    
     UnknownError(99, "未知错误");
 
     private final int code;

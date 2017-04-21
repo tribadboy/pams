@@ -7,7 +7,7 @@
 <!DOCTYPE HTML>
 <html>
  <head>
-  <title>添加消费账目</title>
+  <title>新建贷款</title>
    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link href="<%=basePath%>static/view/assets/css/dpl-min.css" rel="stylesheet" type="text/css" />
     <link href="<%=basePath%>static/view/assets/css/bui-min.css" rel="stylesheet" type="text/css" />
@@ -23,39 +23,39 @@
   <div class="container">
     <div class="row">
       <form id="J_Form" class="form-horizontal span24" 
-      		action="<%=path %>/web/authc/consumption/record/add"  method="POST" >
+      		action="<%=path %>/web/authc/asset/loan/addLoanRecord"  method="POST" >
         <div class="row">
           <div class="control-group span8">
-            <label class="control-label"><span class="redText">*</span> 消费类型：</label>
+            <label class="control-label"><span class="redText">*</span> 贷款方向：</label>
             <div class="controls">
-              <select  data-rules="{required:true}"  name="consumptionId" class="input-normal"> 
-                <option value="1">饮食消费</option>
-                <option value="2">服装消费</option>
-                <option value="3">住房消费</option>
-                <option value="4">交通消费</option>
-                <option value="5">电话消费</option>
-                <option value="6">日用品消费</option>
-                <option value="7">书籍消费</option>
-                <option value="8">旅行消费</option>
-                <option value="9">生活消费(水电煤)</option>
-                <option value="10">其他消费</option>
+              <select  data-rules="{required:true}"  name="direction" class="input-normal"> 
+                <option value="0">贷入</option>
+                <option value="1">贷出</option>
               </select>
             </div>
           </div>
         </div>
         <div class="row">
-          <div class="control-group span15 ">
-            <label class="control-label"><span class="redText">*</span> 消费日期：</label>
-            <div id="single_range" class="controls bui-form-group"  data-rules="{dateRange:true}">
-              <input name="spendTime" class="calendar"   data-rules="{required:true}"  type="text">
+           <div class="control-group span8">
+            <label class="control-label"><span class="redText">*</span> 贷款数额：</label>
+            <div class="controls">
+              <input name="changeAmount" type="text" data-rules="{number:true,required:true,min:0}" class="input-normal control-text">
             </div>
           </div>
         </div>
         <div class="row">
-           <div class="control-group span8">
-            <label class="control-label"><span class="redText">*</span> 花费金额：</label>
+          <div class="control-group span15 ">
+            <label class="control-label"><span class="redText">*</span> 记录日期：</label>
+            <div id="single_range" class="controls bui-form-group"  data-rules="{dateRange:true}">
+              <input name="changeTime" class="calendar"   data-rules="{required:true}"  type="text">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+           <div class="control-group span20">
+            <label class="control-label"><span class="redText">*</span> 预期还款数额：</label>
             <div class="controls">
-              <input name="cost" type="text" data-rules="{number:true,required:true,min:0}" class="input-normal control-text">
+              <input name="exceptRepayAmount" type="text" data-rules="{number:true,required:true,min:0}" class="input-normal control-text">
             </div>
           </div>
         </div>
@@ -63,7 +63,7 @@
           <div class="control-group span15">
             <label class="control-label"><span class="redText">*</span> 备注：</label>
             <div class="controls control-row4">
-              <textarea name="message" class="input-large" data-tip="{text:'请填写备注信息！'}" 
+              <textarea name="message" class="input-large" data-tip="{text:'请填写该存款的相关信息！'}" 
               data-rules="{required:true}"></textarea>
             </div>
           </div>

@@ -23,17 +23,30 @@ public class DepositChange {
     }
     
 	 public enum ChangeType { 
-		 MakeAccount(0),
-	     Inflow(1),
-	     Outflow(2),
-	     CloseAccount(3);
+		 MakeAccount(0, "开户"),
+	     Inflow(1, "转入"),
+	     Outflow(2, "转出"),
+	     CloseAccount(3, "全部转出");
 
 	     private final int index;
-	     private ChangeType(int index) {
+	     private final String msg;
+	     private ChangeType(int index, String msg) {
 	    	 this.index = index;
+	    	 this.msg = msg;
 	     }
 	     public int toIntValue() {
 	    	 return index;
+	     }
+	     public String getMsg() {
+	    	 return msg;
+	     }
+	     public static String getMsgFromInt(int index) {
+	    	 for(ChangeType type : ChangeType.values()) {
+	    		 if(index == type.toIntValue()) {
+	    			 return type.getMsg();
+	    		 }
+	    	 }
+	    	 return "";
 	     }
 	 }
 

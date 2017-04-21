@@ -7,6 +7,8 @@ import com.nju.pams.model.asset.DepositChange;
 import com.nju.pams.model.asset.DepositRecord;
 
 public interface PamsDepositService {
+	DepositRecord getDepositRecordByDepositId(Integer depositId);
+	
 	List<DepositRecord> getValidDepositRecordsByUserId(Integer userId);
 	
 	List<DepositRecord> getAllDepositRecordsByUserId(Integer userId);

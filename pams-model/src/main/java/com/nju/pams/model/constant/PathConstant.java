@@ -32,5 +32,12 @@ public final class PathConstant {
 	//consumption bar
 	final public static String WEB_AUTHC_CONSUMPTION_RECORD = "/web/authc/consumption/record/";
 	final public static String WEB_AUTHC_CONSUMPTION_EXCEL = "/web/authc/consumption/excel/";
+	
+	//asset bar
+	final public static String WEB_AUTHC_ASSET_GENERAL_ASSET = "/web/authc/asset/generalAsset/";
+	final public static String WEB_AUTHC_ASSET_FIXED_ASSET = "/web/authc/asset/fixedAsset/";
+	final public static String WEB_AUTHC_ASSET_REGULAR_INCOME = "/web/authc/asset/regularIncome/";
+	final public static String WEB_AUTHC_ASSET_DEPOSIT = "/web/authc/asset/deposit/";
+	final public static String WEB_AUTHC_ASSET_LOAN = "/web/authc/asset/loan/";
 
 }

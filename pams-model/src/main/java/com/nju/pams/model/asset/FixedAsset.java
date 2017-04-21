@@ -6,6 +6,7 @@ public class FixedAsset {
 	
 	private int assetId;
 	private int userId;
+	private String recordName;
 	private BigDecimal recordValue;
 	private String recordTime;
 	private String message;
@@ -16,8 +17,9 @@ public class FixedAsset {
     	
     }
     
-    public FixedAsset(int userId, BigDecimal recordValue, String recordTime, String message) {
+    public FixedAsset(int userId, String recordName, BigDecimal recordValue, String recordTime, String message) {
     	this.userId = userId;
+    	this.recordName = recordName;
     	this.recordValue = recordValue;
     	this.recordTime = recordTime;
     	this.message = message;
@@ -34,6 +36,12 @@ public class FixedAsset {
 	}
 	public void setUserId(int userId) {
 		this.userId = userId;
+	}
+	public String getRecordName() {
+		return recordName;
+	}
+	public void setRecordName(String recordName) {
+		this.recordName = recordName;
 	}
 	public BigDecimal getRecordValue() {
 		return recordValue;
@@ -72,6 +80,7 @@ public class FixedAsset {
 		strBuf.append("{FixedAsset [")
 		.append("assetId=" + assetId)
 		.append(",userId=" + userId)
+		.append(",recordName=" + recordName)
 		.append(",recordValue=" + recordValue)
 		.append(",recordTime=" + recordTime)
 		.append(",message=" + message)

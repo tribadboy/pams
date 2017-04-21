@@ -17,7 +17,7 @@ import com.nju.pams.util.annotation.DAOMapper;
 public interface PamsFixedAssetDAO {
 	public static final String TABLE = DatabaseConstant.T_PAMS_FIXED_ASSET;
 
-    public static final String COL_ALL = " asset_id, user_id, record_value, record_time,"
+    public static final String COL_ALL = " asset_id, user_id, record_name, record_value, record_time,"
     		+ " message, create_time, update_time ";
     
     /**
@@ -89,6 +89,7 @@ public interface PamsFixedAssetDAO {
     		+ " ( " 
     		+ " #{assetId}, "
     		+ " #{userId}, "
+    		+ " #{recordName}, "
     		+ " #{recordValue}, "
     		+ " #{recordTime}, "
     		+ " #{message}, "
@@ -107,6 +108,7 @@ public interface PamsFixedAssetDAO {
     		+ " UPDATE "
     		+ TABLE
     		+ " SET "
+    		+ " record_name = #{recordName}, "
     		+ " record_value = #{recordValue}, "
     		+ " record_time = #{recordTime}, "
     		+ " message = #{message} "

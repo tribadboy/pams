@@ -17,7 +17,7 @@ import com.nju.pams.util.annotation.DAOMapper;
 public interface PamsDepositRecordDAO {
 	public static final String TABLE = DatabaseConstant.T_PAMS_DEPOSIT_RECORD;
 
-    public static final String COL_ALL = " deposit_id, user_id, status, deposit_time_id,"
+    public static final String COL_ALL = " deposit_id, user_id, deposit_name, status, deposit_time_id,"
     		+ " current_profit_percent, fixed_profit_percent, message, create_time, update_time ";
     
     /**
@@ -81,6 +81,7 @@ public interface PamsDepositRecordDAO {
     		+ " ( " 
     		+ " #{depositId}, "
     		+ " #{userId}, "
+    		+ " #{depositName}, "
     		+ " #{status}, "
     		+ " #{depositTimeId}, "
     		+ " #{currentProfitPercent}, "

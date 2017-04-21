@@ -8,7 +8,7 @@ public class LoanRecord {
 	private int status;
 	private int direction;
 	private BigDecimal exceptRepayAmount;
-	private int exceptKeepTime;
+	private int exceptKeepTime;					//暂时不考虑预期还款时间
 	private String message;
     private String  createTime;
     private String  updateTime;
@@ -17,40 +17,64 @@ public class LoanRecord {
     	
     }
     
-    public LoanRecord(int userId, int status, int direction, BigDecimal exceptRepayAmount, 
-    		int  exceptKeepTime, String message) {
+    public LoanRecord(int userId, int direction, BigDecimal exceptRepayAmount, String message) {
     	this.userId = userId;
-    	this.status = status;
+    	this.status = LoanRecord.Status.Valid.getIndex();
     	this.direction = direction;
     	this.exceptRepayAmount = exceptRepayAmount;
-    	this.exceptKeepTime = exceptKeepTime;
+    	this.exceptKeepTime = 0;
     	this.message = message;
-    }
-    
+    } 
     
     public enum Status { 
-        Valid(0),
-        InValid(1);
+        Valid(0, "进行中"),
+        InValid(1 ,"已结束");
 
         private final int index;
-        private Status(int index) {
+        private final String msg;
+        private Status(int index, String msg) {
             this.index = index;
+            this.msg = msg;
         }
         public int getIndex() {
             return index;
         }
+        public String getMsg() {
+        	return msg;
+        }
+        public static String getMsgFromInt(int index) {
+        	for(Status status : Status.values()) {
+        		if(index == status.getIndex()) {
+        			return status.getMsg();
+        		}
+        	}
+        	return "";
+        }
     }
     
     public enum Direction { 
-        Inflow(0),
-        Outflow(1);
+        Inflow(0, "贷入"),
+        Outflow(1, "贷出");
 
         private final int index;
-        private Direction(int index) {
+        private final String msg;
+        private Direction(int index, String msg) {
             this.index = index;
+            this.msg = msg;
         }
         public int toIndex() {
             return index;
+        }
+        public String getMsg() {
+        	return msg;
+        }
+        public static String getMsgFromInt(int index) {
+        	for(Direction d : Direction.values()) {
+        		if(index == d.toIndex()) {
+        			return d.getMsg();
+        		}
+        	}
+        	return "";
         }
     }
 	

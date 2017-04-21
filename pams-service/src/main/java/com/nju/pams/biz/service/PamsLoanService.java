@@ -7,6 +7,7 @@ import com.nju.pams.model.asset.LoanChange;
 import com.nju.pams.model.asset.LoanRecord;
 
 public interface PamsLoanService {
+	LoanRecord getLoanRecordByLoanId(Integer loanId);
 	
 	List<LoanChange> getLoanChangeListByLoanId(Integer loanId);
 	
@@ -25,5 +26,7 @@ public interface PamsLoanService {
 	void deleteLoanChange(Integer changeId);
 	
 	void updateLoanRecord(LoanRecord loanRecord);
+	
+	BigDecimal computeSumAmountInRealLoanChange(Integer loanId);
 	
 }

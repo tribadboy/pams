@@ -15,23 +15,42 @@ public class LoanChange {
     	
     }
     
-    public LoanChange(int loanId, int changeTypeId, BigDecimal changeAmount, String changeTime) {
+    /**
+     * 创建还款记录
+     * @param loanId
+     * @param changeAmount
+     * @param changeTime
+     */
+    public LoanChange(int loanId, BigDecimal changeAmount, String changeTime) {
     	this.loanId = loanId;
-    	this.changeTypeId = changeTypeId;
+    	this.changeTypeId = ChangeType.Repay.getIndex();
     	this.changeAmount = changeAmount;
     	this.changeTime = changeTime;
     }
 	
 	 public enum ChangeType { 
-		 MakeLoan(0),
-	     Repay(1);
+		 MakeLoan(0, ""),
+	     Repay(1, "");
 
 	     private final int index;
-	     private ChangeType(int index) {
+	     private final String msg;
+	     private ChangeType(int index, String msg) {
 	    	 this.index = index;
+	    	 this.msg = msg;
 	     }
 	     public int getIndex() {
 	    	 return index;
+	     }
+	     public String getMsg() {
+	    	 return msg;
+	     }
+	     public static String getMsgFromInt(int index) {
+	    	 for(ChangeType type : ChangeType.values()) {
+	    		 if(index == type.getIndex()) {
+	    			 return type.getMsg();
+	    		 }
+	    	 }
+	    	 return "";
 	     }
 	 }
 

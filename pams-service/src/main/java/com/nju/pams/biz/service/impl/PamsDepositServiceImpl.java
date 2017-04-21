@@ -28,6 +28,14 @@ public class PamsDepositServiceImpl implements PamsDepositService {
 	
 	@Autowired
 	PamsDepositChangeDAO pamsDepositChangeDAO;
+	
+	/**
+	 * 根据存款id获取存款记录
+	 */
+	@Override
+	public DepositRecord getDepositRecordByDepositId(Integer depositId) {
+		return pamsDepositRecordDAO.getDepositRecordByDepositId(depositId);
+	}
 
 	/**
 	 * 首次创建存款账户
@@ -167,11 +175,17 @@ public class PamsDepositServiceImpl implements PamsDepositService {
 		return ansList;
 	}
 
+	/**
+	 * 插入转入或者转出记录，此时不做任何检查
+	 */
 	@Override
 	public void insertDepositChangeForInflowAndOutflow(DepositChange depositChange) {
 		pamsDepositChangeDAO.insertDepositChange(depositChange);
 	}
 
+	/**
+	 * 关闭存款记录，此时不做任何检查
+	 */
 	@Override
 	public void closeDepositRecord(Integer depositId, String checkDate) {
 		BigDecimal allAmount = computeDepositRecordValue(depositId, checkDate);
@@ -185,12 +199,18 @@ public class PamsDepositServiceImpl implements PamsDepositService {
 		
 	}
 
+	/**
+	 * 计算当前存款的总金额（含利息），不检查当前是否可以转出
+	 */
 	@Override
 	public BigDecimal computeDepositRecordValue(Integer depositId, String checkDate) {
 		DepositRecord record = pamsDepositRecordDAO.getDepositRecordByDepositId(depositId);
 		List<DepositChange> changeList = pamsDepositChangeDAO.getDepositChangeListByDepositId(depositId);
 		if(null == record || null == changeList || changeList.size() == 0) {
 			return null;
+		}
+		if(record.getStatus() == DepositRecord.Status.InValid.toIntValue()) {
+			return BigDecimal.valueOf(0.0);
 		}
 		if(record.getDepositTimeId() == DepositTimeEnum.NoTime.getIndex()) {
 			//该存款账户为活期账户
@@ -288,25 +308,52 @@ public class PamsDepositServiceImpl implements PamsDepositService {
 		}
 	}
 
+	/**
+	 * 删除存款记录和相应的变更记录
+	 */
 	@Override
 	public void deleteDepositRecordAndChange(Integer depositId) {
 		pamsDepositRecordDAO.deleteDepositRecordByDepositId(depositId);
 		pamsDepositChangeDAO.deleteDepositChangeByDepositId(depositId);
 	}
 
+	/**
+	 * 获取当前所有有效的存款记录
+	 */
 	@Override
 	public List<DepositRecord> getValidDepositRecordsByUserId(Integer userId) {
-		return pamsDepositRecordDAO.getValidDepositRecordsByUserId(userId);
+		List<DepositRecord> resultList = pamsDepositRecordDAO.getValidDepositRecordsByUserId(userId);
+		if(null == resultList) {
+			return new ArrayList<DepositRecord>();
+		} else {
+			return resultList;
+		}
 	}
 
+	/**
+	 * 根据某个存款获取其所有的变更记录
+	 */
 	@Override
 	public List<DepositChange> getDepositChangeListByDepositId(Integer depositId) {
-		return pamsDepositChangeDAO.getDepositChangeListByDepositId(depositId);
+		List<DepositChange> resultList = pamsDepositChangeDAO.getDepositChangeListByDepositId(depositId);
+		if(null == resultList) {
+			return new ArrayList<DepositChange>();
+		} else {
+			return resultList;
+		}
 	}
 
+	/**
+	 * 获取某个用户的所有存款记录，不论是否有效
+	 */
 	@Override
 	public List<DepositRecord> getAllDepositRecordsByUserId(Integer userId) {
-		return pamsDepositRecordDAO.getAllDepositRecordsByUserId(userId);
+		List<DepositRecord> resultList = pamsDepositRecordDAO.getAllDepositRecordsByUserId(userId);
+		if(null == resultList) {
+			return new ArrayList<DepositRecord>();
+		} else {
+			return resultList;
+		}
 	}
 
 	
