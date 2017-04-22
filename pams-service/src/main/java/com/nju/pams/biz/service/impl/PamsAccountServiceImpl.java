@@ -11,13 +11,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.nju.pams.biz.model.vo.ConsumptionOverallVO;
 import com.nju.pams.biz.service.PamsAccountService;
 import com.nju.pams.mapper.dao.PamsAccountDAO;
 import com.nju.pams.mapper.dao.PamsAccountMonthDAO;
 import com.nju.pams.model.consumption.AccountOfMonth;
 import com.nju.pams.model.consumption.ConsumptionAccount;
 import com.nju.pams.model.consumption.ConsumptionCondition;
+import com.nju.pams.util.BigDecimalUtil;
 import com.nju.pams.util.DateUtil;
+import com.nju.pams.util.EmptyUtil;
 
 @Service
 @Transactional(propagation=Propagation.REQUIRED)
@@ -152,7 +155,23 @@ public class PamsAccountServiceImpl implements PamsAccountService {
 				result = result.add(account.getCost());
 			}
 		}
-		return result;
+		return BigDecimalUtil.generateFormatNumber(result);
+	}
+
+	@Override
+	public ConsumptionOverallVO getConsumptionOverall(Integer userId) {
+		BigDecimal result = BigDecimal.ZERO;
+		int count = 0;
+		List<ConsumptionAccount> list = pamsAccountDAO.getConsumptionAccountListByUserId(userId);
+		if(CollectionUtils.isNotEmpty(list)) {
+			for(ConsumptionAccount account : list) {
+				result = result.add(account.getCost());
+			}
+			count = list.size();
+		}
+		String maxDate = EmptyUtil.notEmtpyProcess(pamsAccountDAO.getMaxDateByUserId(userId));
+		String minDate = EmptyUtil.notEmtpyProcess(pamsAccountDAO.getMinDateByUserId(userId));
+		return new ConsumptionOverallVO(BigDecimalUtil.generateFormatNumber(result), count, minDate, maxDate);
 	}
 	
 }

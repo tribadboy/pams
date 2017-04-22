@@ -53,6 +53,36 @@ public interface PamsRegularIncomeDAO {
     public List<RegularIncome> getRegularIncomeListByUserId(@Param("userId") Integer userId);
     
     /**
+     * 获取用户记录的最大日期
+     * @param userId
+     * @return
+     */
+    @Select(""
+            + " SELECT "
+            + " MAX(record_time) "
+            + " FROM "
+            + TABLE
+            + " WHERE "
+            + " user_id = #{userId} "
+            + "")
+    public String getMaxDateByUserId(@Param("userId") Integer userId);
+    
+    /**
+     * 获取用户记录的最小日期
+     * @param userId
+     * @return
+     */
+    @Select(""
+            + " SELECT "
+            + " MIN(record_time) "
+            + " FROM "
+            + TABLE
+            + " WHERE "
+            + " user_id = #{userId} "
+            + "")
+    public String getMinDateByUserId(@Param("userId") Integer userId);
+    
+    /**
      * 根据userId查询该用户的某个阶段记录的所有收入，并按照记录时间排序 [startDate, endDate)
      * @param userId
      * @param startDate

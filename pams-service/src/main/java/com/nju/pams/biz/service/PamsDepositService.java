@@ -3,6 +3,7 @@ package com.nju.pams.biz.service;
 import java.math.BigDecimal;
 import java.util.List;
 
+import com.nju.pams.biz.model.vo.DepositOverallVO;
 import com.nju.pams.model.asset.DepositChange;
 import com.nju.pams.model.asset.DepositRecord;
 
@@ -28,5 +29,7 @@ public interface PamsDepositService {
 	BigDecimal computeDepositRecordValue(Integer depositId, String checkDate);
 	
 	void deleteDepositRecordAndChange(Integer depositId);
+	
+	DepositOverallVO getDepositOverall(Integer userId);
 	
 }

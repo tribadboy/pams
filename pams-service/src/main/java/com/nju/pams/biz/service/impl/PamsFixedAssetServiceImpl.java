@@ -10,9 +10,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.nju.pams.biz.model.vo.FixedAssetOverallVO;
 import com.nju.pams.biz.service.PamsFixedAssetService;
 import com.nju.pams.mapper.dao.PamsFixedAssetDAO;
 import com.nju.pams.model.asset.FixedAsset;
+import com.nju.pams.util.BigDecimalUtil;
+import com.nju.pams.util.EmptyUtil;
 
 @Service
 @Transactional(propagation=Propagation.REQUIRED)
@@ -71,7 +74,23 @@ public class PamsFixedAssetServiceImpl implements PamsFixedAssetService {
 				result = result.add(asset.getRecordValue());
 			}
 		}
-		return result;
+		return BigDecimalUtil.generateFormatNumber(result);
+	}
+
+	@Override
+	public FixedAssetOverallVO getFixedAssetOverall(Integer userId) {
+		BigDecimal result = BigDecimal.ZERO;
+		int count = 0;
+		List<FixedAsset> resultList = pamsFixedAssetDAO.getFixedAssetListByUserId(userId);
+		if(CollectionUtils.isNotEmpty(resultList)) {
+			for(FixedAsset asset : resultList) {
+				result = result.add(asset.getRecordValue());
+			}
+			count = resultList.size();
+		}
+		String minDate = EmptyUtil.notEmtpyProcess(pamsFixedAssetDAO.getMinDateByUserId(userId));
+		String maxDate = EmptyUtil.notEmtpyProcess(pamsFixedAssetDAO.getMaxDateByUserId(userId));
+		return new FixedAssetOverallVO(BigDecimalUtil.generateFormatNumber(result), count, minDate, maxDate);
 	}
 	
 }

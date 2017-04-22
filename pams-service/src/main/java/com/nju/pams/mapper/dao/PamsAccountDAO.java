@@ -40,6 +40,36 @@ public interface PamsAccountDAO {
     		@Param("accountId") Integer accountId);
     
     /**
+     * 根据userId获取最大消费日期
+     * @param userId
+     * @return
+     */
+    @Select(""
+            + " SELECT "
+            + " MAX(spend_time) "
+            + " FROM "
+            + TABLE
+            + " WHERE "
+            + " user_id = #{userId} "
+            + "")
+    public String getMaxDateByUserId(@Param("userId") Integer userId);
+    
+    /**
+     * 根据userId获取最小消费日期
+     * @param userId
+     * @return
+     */
+    @Select(""
+            + " SELECT "
+            + " MIN(spend_time) "
+            + " FROM "
+            + TABLE
+            + " WHERE "
+            + " user_id = #{userId} "
+            + "")
+    public String getMinDateByUserId(@Param("userId") Integer userId);
+    
+    /**
      * 根据userId查询该用户的所有账目列表，并按照账目时间排序
      * @param userId
      * @return

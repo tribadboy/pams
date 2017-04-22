@@ -53,6 +53,23 @@ public interface PamsLoanRecordDAO {
     public List<LoanRecord> getValidLoanRecordsByUserId(@Param("userId") Integer userId);
     
     /**
+     * 根据userId查询该用户的所有无效的贷款账户
+     * @param userId
+     * @return
+     */
+    @Select(""
+            + " SELECT "
+            + COL_ALL
+            + " FROM "
+            + TABLE
+            + " WHERE "
+            + " user_id = #{userId} "
+            + " AND "
+            + " status = 1 "
+            + "")
+    public List<LoanRecord> getInvalidLoanRecordsByUserId(@Param("userId") Integer userId);
+    
+    /**
      * 根据userId查询该用户的所有贷款账户
      * @param userId
      * @return

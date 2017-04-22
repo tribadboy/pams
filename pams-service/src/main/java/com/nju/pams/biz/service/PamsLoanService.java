@@ -3,6 +3,7 @@ package com.nju.pams.biz.service;
 import java.math.BigDecimal;
 import java.util.List;
 
+import com.nju.pams.biz.model.vo.LoanOverallVO;
 import com.nju.pams.model.asset.LoanChange;
 import com.nju.pams.model.asset.LoanRecord;
 
@@ -21,6 +22,8 @@ public interface PamsLoanService {
 	
 	List<LoanRecord> getValidLoanRecordsByUserId(Integer userId);
 	
+	List<LoanRecord> getInvalidLoanRecordsByUserId(Integer userId);
+	
 	List<LoanRecord> getAllLoanRecordsByUserId(Integer userId);
 	
 	void deleteLoanRecordAndChange(Integer loanId);
@@ -30,5 +33,7 @@ public interface PamsLoanService {
 	void updateLoanRecord(LoanRecord loanRecord);
 	
 	BigDecimal computeSumAmountInRealLoanChange(Integer loanId);
+	
+	LoanOverallVO getLoanOverall(Integer userId);
 	
 }

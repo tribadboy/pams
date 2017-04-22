@@ -5,11 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.nju.pams.biz.model.vo.DepositOverallVO;
 import com.nju.pams.biz.service.PamsDepositService;
 import com.nju.pams.mapper.dao.PamsDepositChangeDAO;
 import com.nju.pams.mapper.dao.PamsDepositRecordDAO;
@@ -17,6 +19,7 @@ import com.nju.pams.model.asset.DepositChange;
 import com.nju.pams.model.asset.DepositRecord;
 import com.nju.pams.model.asset.DepositTimeEnum;
 import com.nju.pams.util.BigDecimalUtil;
+import com.nju.pams.util.DateUtil;
 import com.nju.pams.util.TimeRangeUtil;
 
 @Service
@@ -207,7 +210,7 @@ public class PamsDepositServiceImpl implements PamsDepositService {
 		DepositRecord record = pamsDepositRecordDAO.getDepositRecordByDepositId(depositId);
 		List<DepositChange> changeList = pamsDepositChangeDAO.getDepositChangeListByDepositId(depositId);
 		if(null == record || null == changeList || changeList.size() == 0) {
-			return null;
+			return BigDecimal.valueOf(0.0);
 		}
 		if(record.getStatus() == DepositRecord.Status.InValid.toIntValue()) {
 			return BigDecimal.valueOf(0.0);
@@ -354,6 +357,48 @@ public class PamsDepositServiceImpl implements PamsDepositService {
 		} else {
 			return resultList;
 		}
+	}
+
+	@Override
+	public DepositOverallVO getDepositOverall(Integer userId) {
+		int countOfInvalid = 0;									//已结束的存款数量
+		int countOfValid = 0;									//正在进行中的存款数量
+		BigDecimal invalidValue = BigDecimal.ZERO;				//已结束的存款最终收益值
+		BigDecimal payValue = BigDecimal.ZERO;					//进行中的存款累计投入值
+		BigDecimal exceptValue = BigDecimal.ZERO;				//进行中的存款的预期收益值
+		String checkDate = LocalDate.now().toString(DateUtil.FormatString);
+		
+		List<DepositRecord> resultList = pamsDepositRecordDAO.getAllDepositRecordsByUserId(userId);
+		if(CollectionUtils.isNotEmpty(resultList)) {			
+			for(DepositRecord record : resultList) {
+				BigDecimal value = BigDecimal.ZERO;
+				List<DepositChange> changeList = getDepositChangeListByDepositId(record.getDepositId());
+				if(CollectionUtils.isNotEmpty(changeList)) {
+					for(DepositChange change : changeList) {
+						int typeId = change.getChangeTypeId();
+						if(typeId == DepositChange.ChangeType.MakeAccount.toIntValue()) {
+							value = value.subtract(change.getChangeAmount());
+						} else if(typeId == DepositChange.ChangeType.Inflow.toIntValue()) {
+							value = value.subtract(change.getChangeAmount());
+						} else if(typeId == DepositChange.ChangeType.Outflow.toIntValue()) {
+							value = value.add(change.getChangeAmount());
+						} else if(typeId == DepositChange.ChangeType.CloseAccount.toIntValue()) {
+							value = value.add(change.getChangeAmount());
+						}
+					}
+				}
+				if(record.getStatus() == DepositRecord.Status.InValid.toIntValue()) {
+					countOfInvalid++;
+					invalidValue = invalidValue.add(value);
+				} else if(record.getStatus() == DepositRecord.Status.Valid.toIntValue()) {
+					countOfValid++;
+					payValue = payValue.add(value);
+					exceptValue = exceptValue.add(computeDepositRecordValue(record.getDepositId(), checkDate));
+				}
+			}
+		}
+		return new DepositOverallVO(countOfInvalid, countOfValid, BigDecimalUtil.generateFormatNumber(invalidValue), 
+				BigDecimalUtil.generateFormatNumber(payValue), BigDecimalUtil.generateFormatNumber(exceptValue));
 	}
 
 	

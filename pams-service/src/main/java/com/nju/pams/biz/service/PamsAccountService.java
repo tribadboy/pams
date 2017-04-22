@@ -3,6 +3,7 @@ package com.nju.pams.biz.service;
 import java.math.BigDecimal;
 import java.util.List;
 
+import com.nju.pams.biz.model.vo.ConsumptionOverallVO;
 import com.nju.pams.model.consumption.ConsumptionAccount;
 import com.nju.pams.model.consumption.ConsumptionCondition;
 
@@ -20,4 +21,6 @@ public interface PamsAccountService {
 	void deleteConsumptionAccountByAccountId(Integer accountId);
 	
 	BigDecimal computeAllConsumptionValue(Integer userId);
+	
+	ConsumptionOverallVO getConsumptionOverall(Integer userId);
 }

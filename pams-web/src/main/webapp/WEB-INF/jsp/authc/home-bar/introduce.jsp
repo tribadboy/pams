@@ -18,65 +18,18 @@
       
   <div class="container">
     <div class="detail-page">
-      <h2>学生信息</h2>
+      <h2>系统背景</h2>
       <div class="detail-section">  
-        <h3>基本信息</h3>
-        <div class="row detail-row">
-          <div class="span8">
-            <label>姓名：</label><span class="detail-text">张三</span>
-          </div>
-          <div class="span8">
-            <label>编号：</label><span class="detail-text">1223</span>
-          </div>
-           <div class="span8">
-            <label>性别：</label><span class="detail-text">男</span>
-          </div>
-        </div>
-        <div class="row detail-row">
-          <div class="span8">
-            <label>班级：</label><span class="detail-text">一年级一班</span>
-          </div>
-          <div class="span8">
-            <label>年龄：</label><span class="detail-text">21</span>
-          </div>
-           <div class="span8">
-            <label>家庭住址：</label><span class="detail-text">速度发撒旦法师打法是否撒反对撒范德萨发撒旦法倒萨发生</span>
-          </div>
-        </div>
+        <p>  如今，随着经济水平的发展，人们进入了一个消费和理财的时代。2016年万众期待的“双十一”刚过，其交易额达到了惊人的一千两百多亿，而消费欲的提高体现了民众资产和收入的增加。互联网的发展也进一步促进了人们开始投资于互联网金融服务之中，如消费、信贷、资产、金融这些概念都与互联网交织在一起。</p>
+		<p>  本项目针对互联网+环境下的个人理财需求，设计并实现一款可以帮助人们进行消费与资产管理的系统。该系统不仅涵盖了生活中所需的消费分类与统计功能，还囊括了收支和信贷的计算功能，以及资产变动、理财分析与评估等一些金融服务功能。</p>
       </div>
+      <br>
       <div class="detail-section"> 
-        <h3>学校信息</h3>
-        <div class="row detail-row">
-          <div class="span8">
-            <label>入学时间：</label><span class="detail-text">2001-10-8</span>
-          </div>
-          <div class="span8">
-            <label>专业：</label><span class="detail-text">信息自动化</span>
-          </div>
-          <div class="span8">
-            <label>班主任：</label><span class="detail-text">王五</span>
-          </div>
-        </div>
-        <div class="row detail-row">
-          <div class="span8">
-            <label>入学时间：</label><span class="detail-text">2001-10-8</span>
-          </div>
-          <div class="span8">
-            <label>专业：</label><span class="detail-text">信息自动化</span>
-          </div>
-          <div class="span8">
-            <label>班主任：</label><span class="detail-text">王五</span>
-          </div>
-        </div>
+		<p>项目英文名称：  Personal Asset Management System – PAMS </p>
+		<p>数据库名称：    Mysql 5.7</p>
+		<p>开发技术：		 J2EE、Spring MVC、Maven、Git</p>
       </div> 
-      <div class="detail-section"> 
-        <h3>受教育经历</h3>
-        <div class="row detail-row">
-          <div class="span24">
-            <div id="grid"></div>
-          </div>
-        </div>
-      </div>
+     
     </div>
   </div>
   <script type="text/javascript" src="<%=basePath%>static/view/assets/js/jquery-1.8.1.min.js"></script>
@@ -86,28 +39,6 @@
   <script type="text/javascript">
     BUI.use('common/page');
   </script>
-
-<script type="text/javascript">
-  BUI.use('bui/grid',function (Grid) {
-    var data = [{id:'1112',name:'李四',day:1349622209547,address:'上海市浦东新区杨高北路938号'},
-                {id:'1112',name:'李四',day:1349622209547,address:'上海市浦东新区杨高北路938号'},
-                {id:'1112',name:'李四',day:1349622209547,address:'上海市浦东新区杨高北路938号'},
-                {id:'1112',name:'李四',day:1349622209547,address:'上海市浦东新区杨高北路938号'}],
- 
-        grid = new Grid.SimpleGrid({
-          render : '#grid', //显示Grid到此处
-          width : 950,      //设置宽度
-          columns : [
-            {title:'学生编号',dataIndex:'id',width:80},
-            {title:'学生姓名',dataIndex:'name',width:100},
-            {title:'入学时间',dataIndex:'day',width:100,renderer:Grid.Format.dateRenderer},
-            {title:'学生家庭住址',dataIndex:'address',width:300}
-          ]
-        });
-      grid.render();
-      grid.showData(data);
-  });
-</script>
 
 <body>
 </html>  

@@ -7,6 +7,8 @@ import java.math.BigDecimal;
  * date: 2017-03-05
  */
 public class NullUtil {
+	
+	public static final String FormatStr = "--";
 
 	/**
 	 * 非null处理
@@ -42,6 +44,14 @@ public class NullUtil {
 	 */
 	public static String notNullProcess(String value) {
 		return (null == value) ? "" : value;
+	}
+	
+	public static String notEmtpyProcess(String value) {
+		return (null == value || "".equals(value)) ? FormatStr : value;
+	}
+	
+	public static String notEmtpyProcess(String value, String template) {
+		return (null == value || "".equals(value)) ? template : value;
 	}
 	
 	/**

@@ -1,7 +1,6 @@
 package com.nju.pams.web.controller.bar.asset;
 
 
-import java.math.BigDecimal;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
@@ -10,11 +9,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.nju.pams.biz.model.vo.ConsumptionOverallVO;
+import com.nju.pams.biz.model.vo.DepositOverallVO;
+import com.nju.pams.biz.model.vo.FixedAssetOverallVO;
+import com.nju.pams.biz.model.vo.LoanOverallVO;
+import com.nju.pams.biz.model.vo.RegularIncomeOverallVO;
 import com.nju.pams.biz.service.PamsAccountService;
+import com.nju.pams.biz.service.PamsDepositService;
 import com.nju.pams.biz.service.PamsFixedAssetService;
+import com.nju.pams.biz.service.PamsLoanService;
 import com.nju.pams.biz.service.PamsRegularIncomeService;
-import com.nju.pams.model.constant.PathConstant;
-import com.nju.pams.util.BigDecimalUtil;  
+import com.nju.pams.model.constant.PathConstant;  
   
 @Controller  
 @RequestMapping(PathConstant.WEB_AUTHC_ASSET_GENERAL_ASSET)
@@ -31,6 +37,12 @@ public class GeneralAssetController {
     @Autowired
     private PamsFixedAssetService pamsFixedAssetService;
     
+    @Autowired
+    private PamsDepositService pamsDepositService;
+    
+    @Autowired
+    private PamsLoanService pamsLoanService;
+    
     //返回添加消费账目页面
     @RequestMapping(value = "overall")
     public String getAssetOverallPage(HttpServletRequest request, Model model){
@@ -41,18 +53,23 @@ public class GeneralAssetController {
     		SecurityUtils.getSubject().logout();
    	        return "error/logout";
     	}
-    	//计算消费的总花销
-    	BigDecimal allConsumptionValue = BigDecimalUtil.generateFormatNumber(pamsAccountService.computeAllConsumptionValue(userId));
-    	//计算常规收入的总收入
-    	BigDecimal allRegularIncomeValue = BigDecimalUtil.generateFormatNumber(pamsRegularIncomeService.computeAllConsumptionValue(userId));
-    	//计算固定资产的总价值
-    	BigDecimal allFixedAssetValue = BigDecimalUtil.generateFormatNumber(pamsFixedAssetService.computeAllConsumptionValue(userId));
+    	//计算消费的概要
+    	ConsumptionOverallVO consumptionOverall = pamsAccountService.getConsumptionOverall(userId);
+    	//计算常规收入的概要
+    	RegularIncomeOverallVO regularIncomeOverall = pamsRegularIncomeService.getRegularIncomeOverallVO(userId);
+    	//计算固定资产的概要
+    	FixedAssetOverallVO fixedAssetOverall = pamsFixedAssetService.getFixedAssetOverall(userId);
+    	//计算存款的概要
+    	DepositOverallVO depositOverall = pamsDepositService.getDepositOverall(userId);
+    	//计算贷款的概要
+    	LoanOverallVO loanOverall = pamsLoanService.getLoanOverall(userId);
     	
-    	//TODO 计算其他的总价值或者总花销-------------------------------------------------
+    	model.addAttribute("consumptionOverall", consumptionOverall);
+    	model.addAttribute("regularIncomeOverall", regularIncomeOverall);
+    	model.addAttribute("fixedAssetOverall", fixedAssetOverall);
+    	model.addAttribute("depositOverall", depositOverall);
+    	model.addAttribute("loanOverall", loanOverall);
     	
-    	model.addAttribute("allConsumptionValue", allConsumptionValue);
-    	model.addAttribute("allRegularIncomeValue", allRegularIncomeValue);
-    	model.addAttribute("allFixedAssetValue", allFixedAssetValue);
         return "authc/asset-bar/assetOverall";
     }
     

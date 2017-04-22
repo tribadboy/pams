@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.nju.pams.biz.model.vo.LoanOverallVO;
 import com.nju.pams.biz.service.PamsLoanService;
 import com.nju.pams.mapper.dao.PamsLoanChangeDAO;
 import com.nju.pams.mapper.dao.PamsLoanRecordDAO;
@@ -128,7 +129,27 @@ public class PamsLoanServiceImpl implements PamsLoanService {
 	 */
 	@Override
 	public List<LoanRecord> getValidLoanRecordsByUserId(Integer userId) {
-		return pamsLoanRecordDAO.getValidLoanRecordsByUserId(userId);
+		List<LoanRecord> resultList = pamsLoanRecordDAO.getValidLoanRecordsByUserId(userId);
+		if(null == resultList) {
+			return new ArrayList<LoanRecord>();
+		} else {
+			return resultList;
+		}
+	}
+	
+	/**
+	 * 获取某个用户的所有无效的贷款
+	 * @param userId
+	 * @return
+	 */
+	@Override
+	public List<LoanRecord> getInvalidLoanRecordsByUserId(Integer userId) {
+		List<LoanRecord> resultList = pamsLoanRecordDAO.getInvalidLoanRecordsByUserId(userId);
+		if(null == resultList) {
+			return new ArrayList<LoanRecord>();
+		} else {
+			return resultList;
+		}
 	}
 
 	/**
@@ -136,7 +157,12 @@ public class PamsLoanServiceImpl implements PamsLoanService {
 	 */
 	@Override
 	public List<LoanRecord> getAllLoanRecordsByUserId(Integer userId) {
-		return pamsLoanRecordDAO.getAllLoanRecordsByUserId(userId);
+		List<LoanRecord> resultList = pamsLoanRecordDAO.getAllLoanRecordsByUserId(userId);
+		if(null == resultList) {
+			return new ArrayList<LoanRecord>();
+		} else {
+			return resultList;
+		}
 	}
 
 	/**
@@ -154,6 +180,63 @@ public class PamsLoanServiceImpl implements PamsLoanService {
 			}
 		}
 		return BigDecimalUtil.generateFormatNumber(result);	
+	}
+
+	@Override
+	public LoanOverallVO getLoanOverall(Integer userId) {
+		int countOfValidInflow = 0;								//进行中的贷入贷款
+		int countOfValidOutflow = 0;							//进行中的贷出贷款
+		int countOfInvalidInflow = 0;							//已结束的贷入贷款
+		int countOfInvalidOutflow = 0;							//已结束的贷出贷款
+		BigDecimal validValue = BigDecimal.ZERO;				//进行中的贷款差值
+		BigDecimal invalidValue = BigDecimal.ZERO;				//已结束的贷款差值
+		BigDecimal exceptValue = BigDecimal.ZERO;				//预期剩余的贷款差值
+		
+		//遍历所有贷款
+		List<LoanRecord> allList = pamsLoanRecordDAO.getAllLoanRecordsByUserId(userId);
+		if(CollectionUtils.isNotEmpty(allList)) {
+			for(LoanRecord record : allList) {
+				int direction = record.getDirection();
+				int status = record.getStatus();
+				//计算贷款的差值
+				BigDecimal value = BigDecimal.ZERO;
+				BigDecimal repay = BigDecimal.ZERO;
+				List<LoanChange> changeList = getLoanChangeListByLoanId(record.getLoanId());
+				if(CollectionUtils.isNotEmpty(changeList)) {
+					for(LoanChange change : changeList) {
+						if(change.getChangeTypeId() == LoanChange.ChangeType.Repay.getIndex()) {
+							value = value.subtract(change.getChangeAmount());
+							repay = repay.add(change.getChangeAmount());
+						} else if(change.getChangeTypeId() == LoanChange.ChangeType.MakeLoan.getIndex()) {
+							value = value.add(change.getChangeAmount());
+						}
+					}
+				}
+				if(direction == LoanRecord.Direction.Inflow.toIndex()) {
+					if(status == LoanRecord.Status.InValid.getIndex()) {
+						countOfInvalidInflow++;			
+						invalidValue = invalidValue.add(value);
+					} else if(status == LoanRecord.Status.Valid.getIndex()) {
+						countOfValidInflow++;
+						validValue = validValue.add(value);
+						exceptValue = exceptValue.add(repay).subtract(record.getExceptRepayAmount());
+					}
+				} else if(direction == LoanRecord.Direction.Outflow.toIndex()){
+					if(status == LoanRecord.Status.InValid.getIndex()) {
+						countOfInvalidOutflow++;
+						invalidValue = invalidValue.subtract(value);
+					} else if(status == LoanRecord.Status.InValid.getIndex()) {
+						countOfValidOutflow++;
+						validValue = validValue.subtract(value);
+						exceptValue = exceptValue.add(record.getExceptRepayAmount()).subtract(repay);
+					}
+				}
+			}
+		}
+		return new LoanOverallVO(countOfValidInflow, countOfValidOutflow, countOfInvalidInflow,
+				countOfInvalidOutflow, BigDecimalUtil.generateFormatNumber(validValue), 
+				BigDecimalUtil.generateFormatNumber(invalidValue), BigDecimalUtil.generateFormatNumber(exceptValue));
+		
 	}
 	
 	

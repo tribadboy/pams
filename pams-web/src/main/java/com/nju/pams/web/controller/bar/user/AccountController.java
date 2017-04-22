@@ -1,4 +1,4 @@
-package com.nju.pams.web.controller.bar.home;
+package com.nju.pams.web.controller.bar.user;
 
 
 import java.util.List;
@@ -26,10 +26,10 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;  
   
 @Controller  
-@RequestMapping(PathConstant.WEB_AUTHC_HOME_ACCOUNT)
-public class HomeAccountController {  
+@RequestMapping(PathConstant.WEB_AUTHC_USER_ACCOUNT)
+public class AccountController {  
 	
-    private static final Logger logger = Logger.getLogger(HomeAccountController.class);
+    private static final Logger logger = Logger.getLogger(AccountController.class);
     
     @Autowired
     PamsUserService pamsUserService;
@@ -60,7 +60,7 @@ public class HomeAccountController {
     	System.out.println(jsonResult.get("data"));
     	model.addAttribute("loginInfoList", jsonResult.get("data"));
     	
-        return "authc/home-bar/person-data";
+        return "authc/user-bar/person-data";
     }
     
     /**
@@ -104,6 +104,6 @@ public class HomeAccountController {
     	
     	PamsUser user = pamsUserService.getPamsUserByUsername(username);
     	model.addAttribute("user", user);
-        return "authc/home-bar/change-info";
+        return "authc/user-bar/change-info";
     }
 }  

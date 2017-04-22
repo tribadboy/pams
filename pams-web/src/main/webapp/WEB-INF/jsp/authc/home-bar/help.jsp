@@ -17,66 +17,53 @@
  <body>
       
   <div class="container">
+  	<div class="detail-page">
+  		<h2>咨询渠道</h2>
+  		<p>如您有任何的问题，可以咨询邮箱 *******@**.com</p>
+  	</div>
     <div class="detail-page">
-      <h2>学生信息</h2>
-      <div class="detail-section">  
-        <h3>基本信息</h3>
-        <div class="row detail-row">
-          <div class="span8">
-            <label>姓名：</label><span class="detail-text">张三</span>
+      <h2>反馈信息</h2>
+        <form id="J_Form" class="form-horizontal" method="post" action="#">
+         <div class="row">
+           <div class="control-group span8">
+            <label class="control-label">反馈信息题目：</label>
+            <div class="controls">
+              <input name="recordName" type="text" data-rules="{required:true,maxlength:10}" class="input-normal control-text">
+            </div>
           </div>
-          <div class="span8">
-            <label>编号：</label><span class="detail-text">1223</span>
-          </div>
-           <div class="span8">
-            <label>性别：</label><span class="detail-text">男</span>
-          </div>
-        </div>
-        <div class="row detail-row">
-          <div class="span8">
-            <label>班级：</label><span class="detail-text">一年级一班</span>
-          </div>
-          <div class="span8">
-            <label>年龄：</label><span class="detail-text">21</span>
-          </div>
-           <div class="span8">
-            <label>家庭住址：</label><span class="detail-text">速度发撒旦法师打法是否撒反对撒范德萨发撒旦法倒萨发生</span>
-          </div>
-        </div>
-      </div>
-      <div class="detail-section"> 
-        <h3>学校信息</h3>
-        <div class="row detail-row">
-          <div class="span8">
-            <label>入学时间：</label><span class="detail-text">2001-10-8</span>
-          </div>
-          <div class="span8">
-            <label>专业：</label><span class="detail-text">信息自动化</span>
-          </div>
-          <div class="span8">
-            <label>班主任：</label><span class="detail-text">王五</span>
-          </div>
-        </div>
-        <div class="row detail-row">
-          <div class="span8">
-            <label>入学时间：</label><span class="detail-text">2001-10-8</span>
-          </div>
-          <div class="span8">
-            <label>专业：</label><span class="detail-text">信息自动化</span>
-          </div>
-          <div class="span8">
-            <label>班主任：</label><span class="detail-text">王五</span>
-          </div>
-        </div>
-      </div> 
-      <div class="detail-section"> 
-        <h3>受教育经历</h3>
-        <div class="row detail-row">
-          <div class="span24">
-            <div id="grid"></div>
-          </div>
-        </div>
-      </div>
+         </div>
+         <div class="row">
+            <div class="control-group">
+              <label class="control-label">反馈原因：</label>
+              <div class="controls">
+                <label class="checkbox">
+                  <input type="checkbox" value="1">系统卡顿
+                </label>
+                <label class="checkbox">
+                  <input type="checkbox" value="2">功能太少
+                </label>
+                <label class="checkbox">
+                  <input type="checkbox" value="3">操作不佳
+                </label>
+                <label class="checkbox">
+                  <input type="checkbox" value="4">建议与意见
+                </label>
+              </div>
+            </div>
+ 		 </div>
+ 		 <div class="row">
+            <div class="control-group">
+              <label class="control-label">内容：</label>
+              <div class="controls control-row4">
+                <textarea class="input-large" data-rules="{required:true}"></textarea>
+              </div>
+            </div>
+         </div>
+            <hr>
+            <div class="form-actions span5 offset3">
+              <button id="btnSearch" type="submit" class="button button-primary">提交</button>
+            </div>
+        </form> 
     </div>
   </div>
   <script type="text/javascript" src="<%=basePath%>static/view/assets/js/jquery-1.8.1.min.js"></script>
@@ -86,26 +73,13 @@
   <script type="text/javascript">
     BUI.use('common/page');
   </script>
-
 <script type="text/javascript">
-  BUI.use('bui/grid',function (Grid) {
-    var data = [{id:'1112',name:'李四',day:1349622209547,address:'上海市浦东新区杨高北路938号'},
-                {id:'1112',name:'李四',day:1349622209547,address:'上海市浦东新区杨高北路938号'},
-                {id:'1112',name:'李四',day:1349622209547,address:'上海市浦东新区杨高北路938号'},
-                {id:'1112',name:'李四',day:1349622209547,address:'上海市浦东新区杨高北路938号'}],
- 
-        grid = new Grid.SimpleGrid({
-          render : '#grid', //显示Grid到此处
-          width : 950,      //设置宽度
-          columns : [
-            {title:'学生编号',dataIndex:'id',width:80},
-            {title:'学生姓名',dataIndex:'name',width:100},
-            {title:'入学时间',dataIndex:'day',width:100,renderer:Grid.Format.dateRenderer},
-            {title:'学生家庭住址',dataIndex:'address',width:300}
-          ]
-        });
-      grid.render();
-      grid.showData(data);
+  BUI.use('bui/form',function (Form) {
+    var form = new Form.HForm({
+      srcNode : '#J_Form'
+    });
+
+    form.render();
   });
 </script>
 

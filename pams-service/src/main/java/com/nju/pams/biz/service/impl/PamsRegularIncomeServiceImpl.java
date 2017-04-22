@@ -10,9 +10,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.nju.pams.biz.model.vo.RegularIncomeOverallVO;
 import com.nju.pams.biz.service.PamsRegularIncomeService;
 import com.nju.pams.mapper.dao.PamsRegularIncomeDAO;
 import com.nju.pams.model.asset.RegularIncome;
+import com.nju.pams.util.BigDecimalUtil;
+import com.nju.pams.util.EmptyUtil;
 
 @Service
 @Transactional(propagation=Propagation.REQUIRED)
@@ -71,7 +74,23 @@ public class PamsRegularIncomeServiceImpl implements PamsRegularIncomeService {
 				result = result.add(income.getRecordAmount());
 			}
 		}
-		return result;
+		return BigDecimalUtil.generateFormatNumber(result);
+	}
+
+	@Override
+	public RegularIncomeOverallVO getRegularIncomeOverallVO(Integer userId) {
+		BigDecimal result = BigDecimal.ZERO;
+		int count = 0;
+		List<RegularIncome> resultList = pamsRegularIncomeDAO.getRegularIncomeListByUserId(userId);
+		if(CollectionUtils.isNotEmpty(resultList)) {
+			for(RegularIncome income : resultList) {
+				result = result.add(income.getRecordAmount());
+			}
+			count = resultList.size();
+		}
+		String maxDate = EmptyUtil.notEmtpyProcess(pamsRegularIncomeDAO.getMaxDateByUserId(userId));
+		String minDate = EmptyUtil.notEmtpyProcess(pamsRegularIncomeDAO.getMinDateByUserId(userId));
+		return new RegularIncomeOverallVO(BigDecimalUtil.generateFormatNumber(result), count, minDate, maxDate);
 	}
 
 	

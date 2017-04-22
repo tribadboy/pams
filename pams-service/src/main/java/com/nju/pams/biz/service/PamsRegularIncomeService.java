@@ -3,6 +3,7 @@ package com.nju.pams.biz.service;
 import java.math.BigDecimal;
 import java.util.List;
 
+import com.nju.pams.biz.model.vo.RegularIncomeOverallVO;
 import com.nju.pams.model.asset.RegularIncome;
 
 public interface PamsRegularIncomeService {
@@ -19,4 +20,6 @@ public interface PamsRegularIncomeService {
 	void deleteRegularIncomeByIncomeId(Integer incomeId);
 	
 	BigDecimal computeAllConsumptionValue(Integer userId);
+	
+	RegularIncomeOverallVO getRegularIncomeOverallVO(Integer userId);
 }

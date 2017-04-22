@@ -3,6 +3,7 @@ package com.nju.pams.biz.service;
 import java.math.BigDecimal;
 import java.util.List;
 
+import com.nju.pams.biz.model.vo.FixedAssetOverallVO;
 import com.nju.pams.model.asset.FixedAsset;
 
 public interface PamsFixedAssetService {
@@ -19,4 +20,6 @@ public interface PamsFixedAssetService {
 	void deleteFixedAssetByAssetId(Integer assetId);
 	
 	BigDecimal computeAllConsumptionValue(Integer userId);
+	
+	FixedAssetOverallVO getFixedAssetOverall(Integer userId);
 }

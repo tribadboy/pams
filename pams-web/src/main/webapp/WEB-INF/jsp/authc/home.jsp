@@ -59,12 +59,6 @@
                 {id:'news',text:'最新资讯',href:'<%=path %>/web/authc/home/system/news'}
               ]
             },{
-              text:'账户',
-              items:[
-                {id:'person-data',text:'个人信息',href:'<%=path %>/web/authc/home/account/person-data'},
-                {id:'change-info',text:'修改信息',href:'<%=path %>/web/authc/home/account/change-info'}  
-              ]
-            },{
               text:'关于',
               items:[
                 {id:'introduce',text:'系统介绍',href:'<%=path %>/web/authc/home/about/introduce'},
@@ -123,24 +117,27 @@
           },{
             id:'finance-bar',
             menu:[{
-                text:'详情页面',
+                text:'详情页面1',
                 items:[
                   {id:'code',text:'详情页面代码',href:'<%=basePath%>static/view/detail/code.html'},
                   {id:'example',text:'详情页面示例',href:'<%=basePath%>static/view/detail/example.html'},
                   {id:'introduce',text:'详情页面简介',href:'<%=basePath%>static/view/detail/introduce.html'}
                 ]
-              }]
+              },{
+                  text:'详情页面2',
+                  items:[
+                    {id:'code',text:'详情页面代码',href:'<%=basePath%>static/view/detail/code.html'},
+                    {id:'example',text:'详情页面示例',href:'<%=basePath%>static/view/detail/example.html'},
+                    {id:'introduce',text:'详情页面简介',href:'<%=basePath%>static/view/detail/introduce.html'}
+                  ]
+             }]
           },{
             id : 'user-bar',
             menu : [{
-              text : '图表',
+              text : '个人账户',
               items:[
-                  {id:'code',text:'引入代码',href:'<%=basePath%>static/view/chart/code.html'},
-                  {id:'line',text:'折线图',href:'<%=basePath%>static/view/chart/line.html'},
-                  {id:'area',text:'区域图',href:'<%=basePath%>static/view/chart/area.html'},
-                  {id:'column',text:'柱状图',href:'<%=basePath%>static/view/chart/column.html'},
-                  {id:'pie',text:'饼图',href:'<%=basePath%>static/view/chart/pie.html'}, 
-                  {id:'radar',text:'雷达图',href:'<%=basePath%>static/view/chart/radar.html'}
+                  {id:'person-data',text:'个人信息',href:'<%=path %>/web/authc/user/account/person-data'},
+                  {id:'change-info',text:'修改信息',href:'<%=path %>/web/authc/user/account/change-info'}  
               ]
             }]
           }];

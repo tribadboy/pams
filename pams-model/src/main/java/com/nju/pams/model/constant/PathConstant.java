@@ -39,5 +39,11 @@ public final class PathConstant {
 	final public static String WEB_AUTHC_ASSET_REGULAR_INCOME = "/web/authc/asset/regularIncome/";
 	final public static String WEB_AUTHC_ASSET_DEPOSIT = "/web/authc/asset/deposit/";
 	final public static String WEB_AUTHC_ASSET_LOAN = "/web/authc/asset/loan/";
+	
+	//finance bar
+	
+	
+	//user bar
+	final public static String WEB_AUTHC_USER_ACCOUNT = "/web/authc/user/account/";
 
 }
