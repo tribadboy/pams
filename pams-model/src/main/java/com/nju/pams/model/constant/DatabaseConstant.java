@@ -46,4 +46,7 @@ public final class DatabaseConstant {
 	//用户登录信息相关表格
 	final public static String T_PAMS_LOGIN_INFO = DB_NAME + "." + "t_pams_login_info";
 	
+	//系统辅助功能相关的表格
+	final public static String T_PAMS_FEEDBACK = DB_NAME + "." + "t_pams_feedback";
+	
 }

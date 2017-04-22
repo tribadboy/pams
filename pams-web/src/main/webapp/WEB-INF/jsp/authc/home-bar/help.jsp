@@ -12,7 +12,11 @@
     <link href="<%=basePath%>static/view/assets/css/dpl-min.css" rel="stylesheet" type="text/css" />
     <link href="<%=basePath%>static/view/assets/css/bui-min.css" rel="stylesheet" type="text/css" />
     <link href="<%=basePath%>static/view/assets/css/page-min.css" rel="stylesheet" type="text/css" />
-   
+    <style type="text/css">
+    .redText {
+      color: red;
+    }
+   </style>
  </head>
  <body>
       
@@ -23,12 +27,12 @@
   	</div>
     <div class="detail-page">
       <h2>反馈信息</h2>
-        <form id="J_Form" class="form-horizontal" method="post" action="#">
+        <form id="J_Form" class="form-horizontal" action="<%=path %>/web/authc/home/about/addFeedback"  method="POST" >
          <div class="row">
            <div class="control-group span8">
             <label class="control-label">反馈信息题目：</label>
             <div class="controls">
-              <input name="recordName" type="text" data-rules="{required:true,maxlength:10}" class="input-normal control-text">
+              <input name="recordTitle" type="text" data-rules="{required:true,maxlength:10}" class="input-normal control-text">
             </div>
           </div>
          </div>
@@ -37,16 +41,16 @@
               <label class="control-label">反馈原因：</label>
               <div class="controls">
                 <label class="checkbox">
-                  <input type="checkbox" value="1">系统卡顿
+                  <input type="checkbox" name="feedType" value="1">系统卡顿
                 </label>
                 <label class="checkbox">
-                  <input type="checkbox" value="2">功能太少
+                  <input type="checkbox" name="feedType" value="2">功能太少
                 </label>
                 <label class="checkbox">
-                  <input type="checkbox" value="3">操作不佳
+                  <input type="checkbox" name="feedType" value="3">操作不佳
                 </label>
                 <label class="checkbox">
-                  <input type="checkbox" value="4">建议与意见
+                  <input type="checkbox" name="feedType" value="4">建议与意见
                 </label>
               </div>
             </div>
@@ -55,7 +59,7 @@
             <div class="control-group">
               <label class="control-label">内容：</label>
               <div class="controls control-row4">
-                <textarea class="input-large" data-rules="{required:true}"></textarea>
+                <textarea class="input-large" data-rules="{required:true,maxlength:100}" name="message"></textarea>
               </div>
             </div>
          </div>
@@ -63,6 +67,8 @@
             <div class="form-actions span5 offset3">
               <button id="btnSearch" type="submit" class="button button-primary">提交</button>
             </div>
+            <br>
+            <h1><span class="redText">${msg }</span></h1>
         </form> 
     </div>
   </div>

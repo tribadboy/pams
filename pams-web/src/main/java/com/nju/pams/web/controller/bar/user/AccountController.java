@@ -57,7 +57,7 @@ public class AccountController {
     	model.addAttribute("registerTime", pamsLoginInfoService.getPamsRegisterTimeByUserId(userId));
     	String jsonStr = getLoginInfo(userId);
     	JSONObject jsonResult = JSONObject.fromObject(jsonStr);
-    	System.out.println(jsonResult.get("data"));
+    	//System.out.println(jsonResult.get("data"));
     	model.addAttribute("loginInfoList", jsonResult.get("data"));
     	
         return "authc/user-bar/person-data";
