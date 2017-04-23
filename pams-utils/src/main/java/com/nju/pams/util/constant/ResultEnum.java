@@ -33,6 +33,11 @@ public enum ResultEnum {
     
     DeleteLoanChangeError(51, "还款记录中不能直接删除创建贷款的记录"),
     
+    //用户图片的相关错误
+    UploadPictureError(61, "上传图片失败"),
+    PictureNameTooLong(62, "用户图片名称过长"),
+    PictureTypeError(63, "请选择以png／jpg／jpeg结尾的图片"),
+    
     
     UnknownError(99, "未知错误");
 

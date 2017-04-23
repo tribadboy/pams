@@ -1,7 +1,6 @@
 package com.nju.pams.web.controller;
 
 import javax.servlet.http.HttpServletRequest;
-
 import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.nju.pams.biz.service.PamsLoginInfoService;
 import com.nju.pams.biz.service.PamsUserService;
 import com.nju.pams.model.PamsLoginInfo;
@@ -122,43 +120,4 @@ public class WebUserController {
         return "redirect:" + PathConstant.WEB_AUTHC + "home";
    	}
    	
-   	/**
-   	 * 修改个人信息
-   	 * @param model
-   	 * @param username
-   	 * @param password
-   	 * @param phone
-   	 * @param email
-   	 * @return
-   	 */
-   	@RequestMapping(value = "update", method = RequestMethod.POST)
-   	public String updateUserInfo(Model model,
-   			@RequestParam("username") final String username,
-   			@RequestParam("password") final String password,
-   			@RequestParam("phone") final String phone,
-   			@RequestParam("email") final String email
-   			) {
-   		logger.info("修改用户信息");
-   		String message;		//修改失败时，存储失败信息，返回给页面
-   		if(null == username || null == password || null == phone || null == email) {
-   			message = ResultEnum.NullParameter.getMsg();
-   			model.addAttribute("message", message);
-   	        logger.info("用户信息修改异常：" + message);
-   	        return "authc/home-bar/change-info";
-		} 
-   		PamsUser pamsUser = pamsUserService.getPamsUserByUsername(username);
-   		if(null == pamsUser) {
-   			message = ResultEnum.UsernameNotExist.getMsg();
-   			model.addAttribute("message", message);
-   	        logger.info("用户信息修改异常：" + message);
-   	        return "error/logout";
-   		}
-   		//更信息用户信息
-   		pamsUser.setPassword(password);
-   		pamsUser.setPhone(phone);
-   		pamsUser.setMail(email);
-   		pamsUserService.updatePamsUser(pamsUser);
-        model.addAttribute("message", "修改信息成功");
-        return "redirect:/web/authc/home/account/change-info";
-   	}
 }  

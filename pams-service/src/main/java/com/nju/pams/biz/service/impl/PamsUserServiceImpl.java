@@ -8,7 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.nju.pams.biz.service.PamsUserService;
 import com.nju.pams.mapper.dao.PamsUserDAO;
+import com.nju.pams.mapper.dao.PamsUserPhotoDAO;
 import com.nju.pams.model.PamsUser;
+import com.nju.pams.model.PamsUserPhoto;
 
 @Service
 @Transactional(propagation=Propagation.REQUIRED)
@@ -16,6 +18,9 @@ public class PamsUserServiceImpl implements PamsUserService {
 	
 	@Autowired
 	PamsUserDAO pamsUserDAO;
+	
+	@Autowired
+	PamsUserPhotoDAO pamsUserPhotoDAO;
 	
     private static final Logger logger = Logger.getLogger(PamsUserServiceImpl.class);
 
@@ -55,6 +60,21 @@ public class PamsUserServiceImpl implements PamsUserService {
 	@Override
 	public void deletePamsUserByUsername(String username) {
 		pamsUserDAO.deletePamsUserByUsername(username);
+	}
+
+	@Override
+	public PamsUserPhoto getPamsUserPhotoByUserId(Integer userId) {
+		return pamsUserPhotoDAO.getPamsUserPhotoByUserId(userId);
+	}
+
+	@Override
+	public void insertPamsUserPhoto(PamsUserPhoto pamsUserPhoto) {
+		pamsUserPhotoDAO.insertPamsUserPhoto(pamsUserPhoto);
+	}
+
+	@Override
+	public void updatePamsUserPhoto(PamsUserPhoto pamsUserPhoto) {
+		pamsUserPhotoDAO.updatePamsUserPhoto(pamsUserPhoto);
 	}
 
 }

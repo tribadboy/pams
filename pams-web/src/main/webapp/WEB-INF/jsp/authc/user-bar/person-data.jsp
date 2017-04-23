@@ -17,32 +17,33 @@
  <body>
       
   <div class="container">
+  <div class="detail-page">
+  <hr>
+  <h2>账户信息</h2>
+   <div class="detail-section" align="center">  
+   	<img src="<%=path %>/web/authc/user/account/getUserPhoto?photoName=${photoName}" 
+   		width="200px" height="200px" id="img-change">
+   </div>
+  </div>
     <div class="detail-page">
-      <h2>账户信息</h2>
+      
       <div class="detail-section">  
         <h3>基本信息</h3>
-        <div class="row detail-row">
-          <div class="span8">
+        <div class="row detail-row" align="center">
             <label>用户名：</label><span class="detail-text">${user.username }</span>
-          </div>
         </div>
-        <div class="row detail-row">
-          <div class="span8">
+        <div class="row detail-row" align="center">
             <label>手机：</label><span class="detail-text">${user.phone }</span>
-          </div>
         </div>
-        <div class="row detail-row">
-          <div class="span8">
+        <div class="row detail-row" align="center">
             <label>邮箱：</label><span class="detail-text">${user.mail }</span>
-          </div>
         </div>
       </div>
+      <hr>
       <div class="detail-section">
         <h3>系统使用信息</h3> 
-        <div class="row detail-row">
-          <div class="span8">
+        <div class="row detail-row" align="center">
             <label>注册时间：</label><span class="detail-text">${registerTime }</span>
-          </div>
         </div>
         <label>最近的登录：</label><br>
         <div class="row detail-row">

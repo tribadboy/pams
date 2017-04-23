@@ -53,7 +53,7 @@
             <label class="control-label"><span class="redText">*</span> 记录内容：</label>
             <div class="controls control-row4">
               <textarea name="message" class="input-large" data-tip="{text:'请填写固定资产的相关信息！'}" 
-              data-rules="{required:true}"></textarea>
+              data-rules="{required:true,maxlength:30}"></textarea>
             </div>
           </div>
         </div>
