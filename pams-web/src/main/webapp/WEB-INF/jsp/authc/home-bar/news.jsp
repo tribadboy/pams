@@ -7,7 +7,7 @@
 <!DOCTYPE HTML>
 <html>
  <head>
-  <title>最新咨询</title>
+  <title>最新资讯</title>
    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link href="<%=basePath%>static/view/assets/css/dpl-min.css" rel="stylesheet" type="text/css" />
     <link href="<%=basePath%>static/view/assets/css/bui-min.css" rel="stylesheet" type="text/css" />
@@ -17,68 +17,17 @@
  <body>
       
   <div class="container">
-    <div class="detail-page">
-      <h2>学生信息</h2>
-      <div class="detail-section">  
-        <h3>基本信息</h3>
-        <div class="row detail-row">
-          <div class="span8">
-            <label>姓名：</label><span class="detail-text">张三</span>
-          </div>
-          <div class="span8">
-            <label>编号：</label><span class="detail-text">1223</span>
-          </div>
-           <div class="span8">
-            <label>性别：</label><span class="detail-text">男</span>
-          </div>
-        </div>
-        <div class="row detail-row">
-          <div class="span8">
-            <label>班级：</label><span class="detail-text">一年级一班</span>
-          </div>
-          <div class="span8">
-            <label>年龄：</label><span class="detail-text">21</span>
-          </div>
-           <div class="span8">
-            <label>家庭住址：</label><span class="detail-text">速度发撒旦法师打法是否撒反对撒范德萨发撒旦法倒萨发生</span>
-          </div>
-        </div>
-      </div>
-      <div class="detail-section"> 
-        <h3>学校信息</h3>
-        <div class="row detail-row">
-          <div class="span8">
-            <label>入学时间：</label><span class="detail-text">2001-10-8</span>
-          </div>
-          <div class="span8">
-            <label>专业：</label><span class="detail-text">信息自动化</span>
-          </div>
-          <div class="span8">
-            <label>班主任：</label><span class="detail-text">王五</span>
-          </div>
-        </div>
-        <div class="row detail-row">
-          <div class="span8">
-            <label>入学时间：</label><span class="detail-text">2001-10-8</span>
-          </div>
-          <div class="span8">
-            <label>专业：</label><span class="detail-text">信息自动化</span>
-          </div>
-          <div class="span8">
-            <label>班主任：</label><span class="detail-text">王五</span>
-          </div>
-        </div>
-      </div> 
-      <div class="detail-section"> 
-        <h3>受教育经历</h3>
-        <div class="row detail-row">
-          <div class="span24">
-            <div id="grid"></div>
-          </div>
-        </div>
-      </div>
+    <div class="detail-page">   
+ 		<form id="searchForm" class="form-horizontal" tabindex="0" style="outline: none;">
+ 		<button type="submit" class="button button-primary" id="btnSearch" style="display:none;">刷新</button>
+ 		</form>
     </div>
-  </div>
+    <div class="detail-page">
+    	<div class="search-grid-container">
+      		<div id="grid">
+    		</div>
+  		</div>
+  	</div>
   <script type="text/javascript" src="<%=basePath%>static/view/assets/js/jquery-1.8.1.min.js"></script>
   <script type="text/javascript" src="<%=basePath%>static/view/assets/js/bui-min.js"></script>
 
@@ -86,28 +35,82 @@
   <script type="text/javascript">
     BUI.use('common/page');
   </script>
-
-<script type="text/javascript">
-  BUI.use('bui/grid',function (Grid) {
-    var data = [{id:'1112',name:'李四',day:1349622209547,address:'上海市浦东新区杨高北路938号'},
-                {id:'1112',name:'李四',day:1349622209547,address:'上海市浦东新区杨高北路938号'},
-                {id:'1112',name:'李四',day:1349622209547,address:'上海市浦东新区杨高北路938号'},
-                {id:'1112',name:'李四',day:1349622209547,address:'上海市浦东新区杨高北路938号'}],
+    <script type="text/javascript">
+    window.onload = function addOption(){
+		 //初始化后自动点击按钮
+		 document.getElementById("btnSearch").click();
+	}
+    BUI.use(['bui/form','bui/grid','bui/data'],function(Form,Grid,Data){
+    	//创建表单，表单中的日历，不需要单独初始化
+        var form = new Form.HForm({
+          srcNode : '#searchForm'
+        }).render();
+    	
+         var Grid = BUI.Grid,
+          Store = BUI.Data.Store,
+          columns = [
+            { title: '日期',width: 100,  sortable: false, dataIndex: 'recordDate'},
+            { title: '新闻标题', width: 100, sortable: false, dataIndex: 'title'},
+            { title: '详情', width: 180, sortable: false, dataIndex: '',renderer:function(value,obj){         
+              return '  <span class="grid-command btn-info">查看新闻内容</span>'
+              ;
+            }}
+          ];
+         
+       var store = new Store({
+           url : 'searchDepositRecordInfo',
+           autoLoad:false,
+            pageSize:6
+          }), 
+         
+          grid = new Grid.Grid({
+            render:'#grid',
+            loadMask: true,
+            forceFit:true,
+            columns : columns,
+            store: store,
+            //plugins : [Grid.Plugins.CheckSelection,Grid.Plugins.AutoFit], //勾选插件、自适应宽度插件
+            //plugins : [BUI.Grid.Plugins.CheckSelection], // 插件形式引入多选表格,
+            // 顶部工具栏
+            tbar:{
+                pagingBar:true
+            },
+            // 底部工具栏
+            bbar : {
+            }
+          });
  
-        grid = new Grid.SimpleGrid({
-          render : '#grid', //显示Grid到此处
-          width : 950,      //设置宽度
-          columns : [
-            {title:'学生编号',dataIndex:'id',width:80},
-            {title:'学生姓名',dataIndex:'name',width:100},
-            {title:'入学时间',dataIndex:'day',width:100,renderer:Grid.Format.dateRenderer},
-            {title:'学生家庭住址',dataIndex:'address',width:300}
-          ]
-        });
-      grid.render();
-      grid.showData(data);
-  });
-</script>
+        grid.render();
 
+        form.on('beforesubmit',function(ev) {
+          //序列化成对象
+          var obj = form.serializeToObject();
+          obj.start = 0; //返回第一页
+          store.load(obj);
+          return false;
+        }); 
+     
+        
+        //监听事件，删除一条记录
+        grid.on('cellclick',function(ev){
+          var sender = $(ev.domTarget); //点击的Dom
+          if(sender.hasClass('btn-info')) {
+        	  var record = ev.record;
+        	  var newsId = record.newsId;
+        	  if(top.topManager){
+        		  top.topManager.openPage({
+        		    id : 'newsTemplate',
+        		    reload : true,
+        		   // search : 'loanId='+record.loanId,
+        		    href : '<%=path%>/web/authc/home/system/newsTemplate?newsId='+newsId,
+        		 	title : '新闻详情'
+        		  });
+        		}
+          }
+        });
+      });
+
+    </script>
+   </div>
 <body>
 </html>  

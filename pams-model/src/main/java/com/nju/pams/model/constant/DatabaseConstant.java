@@ -49,5 +49,6 @@ public final class DatabaseConstant {
 	
 	//系统辅助功能相关的表格
 	final public static String T_PAMS_FEEDBACK = DB_NAME + "." + "t_pams_feedback";
+	final public static String T_PAMS_FINANCIAL_NEWS = DB_NAME + "." + "t_pams_financial_news";
 	
 }

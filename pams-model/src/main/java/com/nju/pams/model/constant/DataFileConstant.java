@@ -7,5 +7,6 @@ public final class DataFileConstant {
 	
 	//系统辅助功能相关的表格
 	final public static String USER_PHOTO = FILE_POSITION + "/user/photo";
+	final public static String NEWS_PICTURE = FILE_POSITION + "/system/news/photo";
 	
 }

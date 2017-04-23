@@ -255,19 +255,18 @@ public class AccountController {
     		HttpServletResponse response){  
         response.setContentType("application/octet-stream;charset=UTF-8");  
         try {  
-           FileInputStream in = new FileInputStream(DataFileConstant.USER_PHOTO + "/" + photoName);
-           byte[]data = new byte[in.available()];  
-           in.read(data);  
-           in.close();  
-             
-           //写图片  
+           FileInputStream inputStream = new FileInputStream(DataFileConstant.USER_PHOTO + "/" + photoName);
+           byte[]data = new byte[inputStream.available()];  
+           inputStream.read(data);           
+           inputStream.close(); 
+           
            OutputStream outputStream = new BufferedOutputStream(response.getOutputStream());  
            outputStream.write(data);  
            outputStream.flush();  
-           outputStream.close();  
+           outputStream.close(); 
        } catch (Exception e) {  
            e.printStackTrace();  
-       }           
+       }
     }  
    	
 }  
