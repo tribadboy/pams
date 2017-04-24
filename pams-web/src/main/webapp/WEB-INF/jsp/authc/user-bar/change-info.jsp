@@ -16,8 +16,16 @@
     .redText {
       color: red;
     }
-   </style>
+    h2 {
+    	color:black;
+    	font-size:20px;
+    }
+   	 label {
+    	color:gray;
+    	font-size:15px;
+    }
    
+   </style>
  </head>
  <body>
  	<div class="detail-page" align="center">

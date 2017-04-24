@@ -15,6 +15,19 @@
     <style type="text/css">
     .redText {
       color: red;
+    }	
+   	 h2 {
+    	color:black;
+    	font-size:20px;
+    }
+    p {
+      	margin:10px 0;
+    	padding:10px 0;
+    	//height:90px;
+    	line-height:30px;
+    	color:gray;
+    	font-size:16px;
+    	text-indent: 2em;
     }
    </style>
  </head>

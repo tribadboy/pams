@@ -22,7 +22,7 @@
  		<button type="submit" class="button button-primary" id="btnSearch" style="display:none;">刷新</button>
  		</form>
     </div>
-    <h1 align="center">最新财经资讯</h1>
+    <h1 align="center" style="color:gray;font-size:25px">最新财经资讯</h1>
     <div class="detail-page">
     	<div class="search-grid-container">
       		<div id="grid">

@@ -22,6 +22,7 @@ import com.nju.pams.biz.service.PamsNoticeAndInformService;
 import com.nju.pams.model.constant.DataFileConstant;
 import com.nju.pams.model.constant.PathConstant;
 import com.nju.pams.model.system.FinancialNews;
+import com.nju.pams.model.system.PamsInform;
 import com.nju.pams.model.system.PamsNotice;
 
 import net.sf.json.JSONArray;
@@ -70,6 +71,9 @@ public class HomeSystemController {
     	} else {
     		model.addAttribute("noticeMessage", notice.getMessage());
     	}
+    	List<PamsInform> validInformsForUser = pamsNoticeAndInformService.getAllValidInformForCertainUser(userId);
+    	model.addAttribute("informList", validInformsForUser);
+    	model.addAttribute("countOfInform", validInformsForUser.size());
     	
         return "authc/home-bar/notice";
     }

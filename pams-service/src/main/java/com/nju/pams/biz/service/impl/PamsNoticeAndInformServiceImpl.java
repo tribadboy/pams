@@ -3,13 +3,18 @@ package com.nju.pams.biz.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.nju.pams.biz.service.PamsNoticeAndInformService;
+import com.nju.pams.mapper.dao.PamsInformDAO;
+import com.nju.pams.mapper.dao.PamsInformUserRefDAO;
 import com.nju.pams.mapper.dao.PamsNoticeDAO;
+import com.nju.pams.model.system.InformUserRef;
+import com.nju.pams.model.system.PamsInform;
 import com.nju.pams.model.system.PamsNotice;
 
 @Service
@@ -18,6 +23,12 @@ public class PamsNoticeAndInformServiceImpl implements PamsNoticeAndInformServic
 	
 	@Autowired
 	PamsNoticeDAO pamsNoticeDAO;
+	
+	@Autowired
+	PamsInformDAO pamsInformDAO;
+	
+	@Autowired
+	PamsInformUserRefDAO pamsInformUserRefDAO;
 
 	/**
 	 * 根据noticeId获取公告 
@@ -70,6 +81,184 @@ public class PamsNoticeAndInformServiceImpl implements PamsNoticeAndInformServic
 	@Override
 	public void deletePamsNoticeByNoticeId(Integer noticeId) {
 		pamsNoticeDAO.deletePamsNoticeByNoticeId(noticeId);
+	}
+	
+	//-------------------------------------------------------------------------------------
+
+	/**
+	 * 设置某个通知为无效状态
+	 * @param informId
+	 */
+	@Override
+	public void setInformInvalid(Integer informId) {
+		PamsInform pamsInform = pamsInformDAO.getPamsInformByInformId(informId);
+		if(null != pamsInform) {
+			pamsInform.setStatus(PamsInform.Status.Invalid.toIntValue());
+			pamsInformDAO.setPamsInformStatus(pamsInform);
+		}
+	}
+	
+	/**
+	 * 设置某个通知为有效状态
+	 * @param informId
+	 */
+	@Override
+	public void setInformValid(Integer informId) {
+		PamsInform pamsInform = pamsInformDAO.getPamsInformByInformId(informId);
+		if(null != pamsInform) {
+			pamsInform.setStatus(PamsInform.Status.Valid.toIntValue());
+			pamsInformDAO.setPamsInformStatus(pamsInform);
+		}
+	}
+
+	/**
+	 * 设置某个通知为针对全体用户
+	 * @param informId
+	 */
+	@Override
+	public void setInformTypeAll(Integer informId) {
+		pamsInformUserRefDAO.deleteInformUserRefByInformId(informId);
+		PamsInform pamsInform = pamsInformDAO.getPamsInformByInformId(informId);
+		if(null != pamsInform) {
+			pamsInform.setInformTypeId(PamsInform.InformType.Total.toIntValue());
+			pamsInformDAO.setPamsInformType(pamsInform);
+		}
+	}
+
+	/**
+	 * 设置某个通知为针对特定用户
+	 * @param informId
+	 */
+	@Override
+	public void setInformTypeSpecial(Integer informId) {
+		PamsInform pamsInform = pamsInformDAO.getPamsInformByInformId(informId);
+		if(null != pamsInform) {
+			pamsInform.setInformTypeId(PamsInform.InformType.Special.toIntValue());
+			pamsInformDAO.setPamsInformType(pamsInform);
+		}
+	}
+
+	/**
+	 * 获取所有通知
+	 * @return
+	 */
+	@Override
+	public List<PamsInform> getAllPamsInforms() {
+		List<PamsInform> resultList = pamsInformDAO.getAllPamsInforms();
+		if(null == resultList) {
+			return new ArrayList<PamsInform>();
+		} else {
+			return resultList;
+		}
+	}
+
+	/**
+	 * 获取所有有效的通知
+	 * @return
+	 */
+	@Override
+	public List<PamsInform> getValidPamsInforms() {
+		List<PamsInform> resultList = pamsInformDAO.getValidPamsInforms();
+		if(null == resultList) {
+			return new ArrayList<PamsInform>();
+		} else {
+			return resultList;
+		}
+	}
+
+	/**
+	 * 获取所有有效的针对特定用户的通知
+	 * @return
+	 */
+	@Override
+	public List<PamsInform> getValidTypeSpecialPamsInforms() {
+		List<PamsInform> resultList = pamsInformDAO.getValidTypeSpecialPamsInforms();
+		if(null == resultList) {
+			return new ArrayList<PamsInform>();
+		} else {
+			return resultList;
+		}
+	}
+
+	/**
+	 * 获取所有有效的针对所有用户的通知
+	 * @return
+	 */
+	@Override
+	public List<PamsInform> getValidTypeTotalPamsInforms() {
+		List<PamsInform> resultList = pamsInformDAO.getValidTypeTotalPamsInforms();
+		if(null == resultList) {
+			return new ArrayList<PamsInform>();
+		} else {
+			return resultList;
+		}
+	}
+
+	/**
+	 * 插入某一条通知
+	 * @param pamsInform
+	 */
+	@Override
+	public void insertInform(PamsInform pamsInform) {
+		pamsInformDAO.insertPamsInform(pamsInform);
+	}
+
+	/**
+	 * 删除某一条通知
+	 * @param informId
+	 */
+	@Override
+	public void deletePamsInformByInformId(Integer informId) {
+		pamsInformDAO.deletePamsInformByInformId(informId);
+		pamsInformUserRefDAO.deleteInformUserRefByInformId(informId);
+	}
+
+	/**
+	 * 插入某一条通知针对用户的关联,已经存在则不再插入
+	 * @param informUserRef
+	 */
+	@Override
+	public void insertInformUserRef(InformUserRef informUserRef) {
+		int informId = informUserRef.getInformId();
+		int userId = informUserRef.getUserId();
+		PamsInform inform = pamsInformDAO.getPamsInformByInformId(informId);
+		if(null != inform && inform.getStatus() == PamsInform.Status.Valid.toIntValue() 
+				&& inform.getInformTypeId() == PamsInform.InformType.Special.toIntValue()) {
+			InformUserRef ref = pamsInformUserRefDAO.getInformUserRefByInformIdAndUserId(informId, userId);
+			if(null == ref) {
+				pamsInformUserRefDAO.insertInformUserRef(informUserRef);
+			}
+		}
+	}
+
+	/**
+	 * 删除某个通知与用户的关联
+	 * @param refId
+	 */
+	@Override
+	public void deleteInformUserRefByRefId(Integer refId) {
+		pamsInformUserRefDAO.deleteInformUserRefByRefId(refId);
+	}
+
+	/**
+	 * 获取对某个用户有效的所有通知
+	 * @param userId
+	 * @return
+	 */
+	@Override
+	public List<PamsInform> getAllValidInformForCertainUser(Integer userId) {
+		List<PamsInform> resultList = new ArrayList<PamsInform>();
+		resultList.addAll(getValidTypeTotalPamsInforms());
+		List<Integer> allSpecialInformIdForUser = pamsInformUserRefDAO.getAllSpecialInformIdByUserId(userId);
+		if(CollectionUtils.isNotEmpty(allSpecialInformIdForUser)) {
+			for(Integer informId : allSpecialInformIdForUser) {
+				PamsInform inform = pamsInformDAO.getPamsInformByInformId(informId);
+				if(null != inform && inform.getStatus() == PamsInform.Status.Valid.toIntValue()) {
+					resultList.add(inform);
+				}
+			}
+		}
+		return resultList;
 	}
 	
 }

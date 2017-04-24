@@ -12,14 +12,24 @@
     <link href="<%=basePath%>static/view/assets/css/dpl-min.css" rel="stylesheet" type="text/css" />
     <link href="<%=basePath%>static/view/assets/css/bui-min.css" rel="stylesheet" type="text/css" />
     <link href="<%=basePath%>static/view/assets/css/page-min.css" rel="stylesheet" type="text/css" />
+   	<style type="text/css">
+    h3 {
+    	color:black;
+    	font-size:20px;
+    }
+   	 label {
+    	color:gray;
+    	font-size:15px;
+    }
    
+   </style>
  </head>
  <body>
       
   <div class="container">
   <div class="detail-page">
   <hr>
-  <h2>账户信息</h2>
+  <h3>账户信息</h3>
    <div class="detail-section" align="center">  
    	<img src="<%=path %>/web/authc/user/account/getUserPhoto?photoName=${photoName}" 
    		width="200px" height="200px" id="img-change">
@@ -28,7 +38,6 @@
     <div class="detail-page">
       
       <div class="detail-section">  
-        <h3>基本信息</h3>
         <div class="row detail-row" align="center">
             <label>用户名：</label><span class="detail-text">${user.username }</span>
         </div>

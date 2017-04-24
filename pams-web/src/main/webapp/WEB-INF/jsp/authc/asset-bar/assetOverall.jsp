@@ -12,7 +12,25 @@
     <link href="<%=basePath%>static/view/assets/css/dpl-min.css" rel="stylesheet" type="text/css" />
     <link href="<%=basePath%>static/view/assets/css/bui-min.css" rel="stylesheet" type="text/css" />
     <link href="<%=basePath%>static/view/assets/css/page-min.css" rel="stylesheet" type="text/css" />
-   
+   	<style type="text/css">
+   	 h1 {
+    	color:gray;
+    	font-size:18px;
+    }
+     label {
+    	color:gray;
+    	font-size:15px;
+    }
+    p {
+      	margin:10px 0;
+    	padding:10px 0;
+    	//height:90px;
+    	line-height:30px;
+    	color:gray;
+    	font-size:16px;
+    	text-indent: 2em;
+    }
+   </style>
  </head>
  <body>
       

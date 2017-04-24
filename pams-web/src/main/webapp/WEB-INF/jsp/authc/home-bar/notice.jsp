@@ -3,7 +3,9 @@
     String path = request.getContextPath();
     String basePath = request.getScheme() + "://" + request.getServerName() + ":" 
     				+ request.getServerPort() + path + "/";
+    int countOfInform = (Integer)request.getAttribute("countOfInform");
 %> 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE HTML>
 <html>
  <head>
@@ -41,16 +43,12 @@
     	<h2 style="font-size:20px" align="left">通知:</h2>
     </div>
      <div class="span60 offset2">
-          <div class="tips-content">       
+          <div class="tips-content">  
+          <c:forEach var="item" items="${informList}">    
             <p class="auxiliary-text" align="left" style="font-size:15px">
-              xx月xx日系统将进行维护，对此将关闭客户功能，对此为用户造成不便，敬请谅解！
-            </p><br>
-             <p class="auxiliary-text" align="left" style="font-size:15px">
-              xx月xx日系统将进行维护，对此将关闭客户功能，对此为用户造成不便，敬请谅解！
-            </p><br>
-             <p class="auxiliary-text" align="left" style="font-size:15px">
-              xx月xx日系统将进行维护，对此将关闭客户功能，对此为用户造成不便，敬请谅解！
-            </p>
+              <label>${item.recordDate}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${item.message}</label>
+            </p><br><br>
+          </c:forEach>
           </div>
       </div>
     </div>

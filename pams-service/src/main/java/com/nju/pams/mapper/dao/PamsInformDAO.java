@@ -36,7 +36,7 @@ public interface PamsInformDAO {
     public PamsInform getPamsInformByInformId(@Param("informId") Integer informId);
     
     /**
-     * 获取最新的有效的公告
+     * 获取所有有效的通知
      * @return
      */
     @Select(""
@@ -48,12 +48,47 @@ public interface PamsInformDAO {
             + " status = 0 "
             + " ORDER BY "
             + " record_date DESC "
-            + " LIMIT 1 "
             + "")
-    public PamsNotice getNewestValidPamsNotice();
+    public List<PamsInform> getValidPamsInforms();
     
     /**
-     * 获取所有公告
+     * 获取所有有效的类型为全体的通知
+     * @return
+     */
+    @Select(""
+            + " SELECT "
+            + COL_ALL
+            + " FROM "
+            + TABLE
+            + " WHERE "
+            + " status = 0 "
+            + " AND "
+            + " inform_type_id = 0 "
+            + " ORDER BY "
+            + " record_date DESC "
+            + "")
+    public List<PamsInform> getValidTypeTotalPamsInforms();
+    
+    /**
+     * 获取所有有效的类型为特定的通知
+     * @return
+     */
+    @Select(""
+            + " SELECT "
+            + COL_ALL
+            + " FROM "
+            + TABLE
+            + " WHERE "
+            + " status = 0 "
+            + " AND "
+            + " inform_type_id = 1 "
+            + " ORDER BY "
+            + " record_date DESC "
+            + "")
+    public List<PamsInform> getValidTypeSpecialPamsInforms();
+    
+    /**
+     * 获取所有通知
      * @return
      */
     @Select(""
@@ -62,11 +97,11 @@ public interface PamsInformDAO {
             + " FROM "
             + TABLE
             + "")
-    public List<PamsNotice> getAllPamsNotice();
+    public List<PamsInform> getAllPamsInforms();
     
     /**
-     * 插入公告，notice_id create_time update_time由数据库操作
-     * @param pamsNotice
+     * 插入通知，inform_id create_time update_time由数据库操作
+     * @param pamsInform
      */
     @Insert(""
     		+ " INSERT "
@@ -75,43 +110,71 @@ public interface PamsInformDAO {
     		+ " ( " + COL_ALL + " ) "
     		+ " VALUES "
     		+ " ( " 
-    		+ " #{noticeId}, "
+    		+ " #{informId}, "
     		+ " #{status}, "
+    		+ " #{informTypeId}, "
     		+ " #{recordDate}, "
     		+ " #{message}, "
     		+ " NOW(), "
     		+ " NOW() "
     		+ " ) "
     		+ "")
-    @Options(useGeneratedKeys = true, keyColumn = "notice_id", keyProperty = "noticeId")
-    public void insertPamsNotice(PamsNotice pamsNotice);
+    @Options(useGeneratedKeys = true, keyColumn = "inform_id", keyProperty = "informId")
+    public void insertPamsInform(PamsInform pamsInform);
     
     /**
-     * 更新公告内容
-     * @param pamsNotice
+     * 更新通知日期和内容
+     * @param pamsInform
      */
     @Update(""
     		+ " UPDATE "
     		+ TABLE
     		+ " SET "
-    		+ " status = #{status}, "
     		+ " record_date = #{recordDate}, "
     		+ " message = #{message} "
     		+ " WHERE "
-    		+ " notice_id = #{noticeId} "
+    		+ " inform_id = #{informId} "
     		+ "")
-    public void updatePamsNotice(PamsNotice pamsNotice);
+    public void updatePamsInform(PamsInform pamsInform);
     
     /**
-     * 删除公告
-     * @param noticeId
+     * 更新通知状态
+     * @param pamsInform
+     */
+    @Update(""
+    		+ " UPDATE "
+    		+ TABLE
+    		+ " SET "
+    		+ " status = #{status} "
+    		+ " WHERE "
+    		+ " inform_id = #{informId} "
+    		+ "")
+    public void setPamsInformStatus(PamsInform pamsInform);
+    
+    /**
+     * 更新通知类型
+     * @param pamsInform
+     */
+    @Update(""
+    		+ " UPDATE "
+    		+ TABLE
+    		+ " SET "
+    		+ " inform_type_id = #{informTypeId} "
+    		+ " WHERE "
+    		+ " inform_id = #{informId} "
+    		+ "")
+    public void setPamsInformType(PamsInform pamsInform);
+    
+    /**
+     * 删除通知
+     * @param informId
      */
     @Delete(""
     		+ " DELETE "
     		+ " FROM "
     		+ TABLE
     		+ " WHERE "
-    		+ " notice_id = #{noticeId} "
+    		+ " inform_id = #{informId} "
     		+ "")
-    public void deletePamsNoticeByNoticeId(@Param("noticeId") Integer noticeId);
+    public void deletePamsInformByInformId(@Param("informId") Integer informId);
 }
