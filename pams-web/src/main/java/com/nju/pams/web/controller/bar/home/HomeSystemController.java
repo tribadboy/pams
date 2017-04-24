@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
-import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,14 +18,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.nju.pams.biz.service.PamsFinancialNewsService;
-import com.nju.pams.model.asset.DepositRecord;
-import com.nju.pams.model.asset.DepositTimeEnum;
-import com.nju.pams.model.asset.LoanRecord;
+import com.nju.pams.biz.service.PamsNoticeAndInformService;
 import com.nju.pams.model.constant.DataFileConstant;
 import com.nju.pams.model.constant.PathConstant;
 import com.nju.pams.model.system.FinancialNews;
-import com.nju.pams.util.BigDecimalUtil;
-import com.nju.pams.util.DateUtil;
+import com.nju.pams.model.system.PamsNotice;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;  
@@ -39,6 +35,9 @@ public class HomeSystemController {
     
     @Autowired
     PamsFinancialNewsService pamsFinancialNewsService;
+    
+    @Autowired
+    PamsNoticeAndInformService pamsNoticeAndInformService;
    
     //返回欢迎页面
     @RequestMapping(value = "welcome")
@@ -56,13 +55,20 @@ public class HomeSystemController {
     
     //返回通知与公告页面
     @RequestMapping(value = "notice")
-    public String getNoticePage(HttpServletRequest request){
+    public String getNoticePage(HttpServletRequest request, Model model){
     	String username = (String) request.getSession().getAttribute("username");
     	Integer userId = (Integer) request.getSession().getAttribute("userId");
     	if(null == username || null == userId) {
     		logger.info("session失效，需要用户重新登录");
     		SecurityUtils.getSubject().logout();
    	        return "error/logout";
+    	}
+    	
+    	PamsNotice notice = pamsNoticeAndInformService.getNewestValidPamsNotice();
+    	if(null == notice) {
+    		model.addAttribute("noticeMessage", PamsNotice.DefaultMessage);
+    	} else {
+    		model.addAttribute("noticeMessage", notice.getMessage());
     	}
     	
         return "authc/home-bar/notice";
@@ -98,9 +104,8 @@ public class HomeSystemController {
      * 
      */
 	@ResponseBody
-	@RequestMapping(value = "searchDepositRecordInfo")
-	public String searchDepositRecordInfo( HttpServletRequest request,
-   			@RequestParam("type") final Integer type,
+	@RequestMapping(value = "searchFinancialNewsInfo")
+	public String searchFinancialNewsInfo( HttpServletRequest request,
    			@RequestParam("start") final Integer start,
    			@RequestParam("limit") final Integer limit
 			) {
@@ -118,27 +123,16 @@ public class HomeSystemController {
    	        return result.toString();
     	}
     	
-    	List<DepositRecord> allList = null;
-    	if(type == 0) {
-    		allList = pamsDepositService.getAllDepositRecordsByUserId(userId);
-    	} else {
-    		allList = pamsDepositService.getValidDepositRecordsByUserId(userId);
-    	}
+    	List<FinancialNews> allList = pamsFinancialNewsService.getFinancialNewsList();
     	int total = allList.size();
     	int end = (start + limit > total) ? total : start + limit;
-    	List<DepositRecord> resultList = allList.subList(start, end);
+    	List<FinancialNews> resultList = allList.subList(start, end);
     	JSONArray array = new JSONArray();
-    	for(DepositRecord record : resultList) {
+    	for(FinancialNews news : resultList) {
     		JSONObject json = new JSONObject();
-    		json.put("depositId", record.getDepositId());
-    		json.put("depositName", record.getDepositName());
-    		json.put("depositTimeName", DepositTimeEnum.getTimeFromIndex(record.getDepositTimeId()).getMsg());
-    		json.put("currentProfitPercent", BigDecimalUtil.generateFormatNumber(record.getCurrentProfitPercent()));
-    		json.put("fixedProfitPercent", BigDecimalUtil.generateFormatNumber(record.getFixedProfitPercent()));
-    		json.put("currentAmount", pamsDepositService.computeDepositRecordValue(record.getDepositId(), 
-    				LocalDate.now().toString(DateUtil.FormatString)));
-    		json.put("statusName", DepositRecord.Status.getMsgFromInt(record.getStatus()));
-    		json.put("message", record.getMessage());
+    		json.put("newsId", news.getNewsId());
+    		json.put("recordDate", news.getRecordDate());
+    		json.put("title", news.getTitle());
     		array.add(json);
     	}
     	result.put("rows", array);
@@ -162,7 +156,11 @@ public class HomeSystemController {
     
     	FinancialNews news = pamsFinancialNewsService.getFinancialNewsByNewsId(newsId);
     	model.addAttribute("news", news);
-    	
+    	if(FinancialNews.NonePicture.equals(news.getPictureName())) {
+    		model.addAttribute("picFlag", false);
+    	} else {
+    		model.addAttribute("picFlag", true);
+    	}
         return "authc/home-bar/news-template";
     }
     
@@ -176,7 +174,7 @@ public class HomeSystemController {
     @RequestMapping("getNewsPhoto")  
     public void getNewsPhoto(@RequestParam("pictureName") String pictureName,HttpServletRequest request,
     		HttpServletResponse response){  
-    	if(pictureName == FinancialNews.NonePicture) {
+    	if(FinancialNews.NonePicture.equals(pictureName)) {
     		logger.info("所查看的新闻页面没有图片资源");
     		return;
     	}

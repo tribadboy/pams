@@ -22,6 +22,7 @@
  		<button type="submit" class="button button-primary" id="btnSearch" style="display:none;">刷新</button>
  		</form>
     </div>
+    <h1 align="center">最新财经资讯</h1>
     <div class="detail-page">
     	<div class="search-grid-container">
       		<div id="grid">
@@ -50,7 +51,7 @@
           Store = BUI.Data.Store,
           columns = [
             { title: '日期',width: 100,  sortable: false, dataIndex: 'recordDate'},
-            { title: '新闻标题', width: 100, sortable: false, dataIndex: 'title'},
+            { title: '新闻标题', width: 230, sortable: false, dataIndex: 'title'},
             { title: '详情', width: 180, sortable: false, dataIndex: '',renderer:function(value,obj){         
               return '  <span class="grid-command btn-info">查看新闻内容</span>'
               ;
@@ -58,7 +59,7 @@
           ];
          
        var store = new Store({
-           url : 'searchDepositRecordInfo',
+           url : 'searchFinancialNewsInfo',
            autoLoad:false,
             pageSize:6
           }), 
@@ -72,11 +73,11 @@
             //plugins : [Grid.Plugins.CheckSelection,Grid.Plugins.AutoFit], //勾选插件、自适应宽度插件
             //plugins : [BUI.Grid.Plugins.CheckSelection], // 插件形式引入多选表格,
             // 顶部工具栏
-            tbar:{
-                pagingBar:true
+            tbar:{           
             },
             // 底部工具栏
             bbar : {
+            	pagingBar:true
             }
           });
  
