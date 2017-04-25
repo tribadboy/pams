@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 
 public class DateUtil {
 	
@@ -15,6 +16,14 @@ public class DateUtil {
 	
 	public static String getCurrentTime(String formatStr) {
 		return DateTime.now().toString(formatStr);
+	}
+	
+	/**
+	 * 获取毫秒数
+	 * yyyy-MM-dd
+	 */
+	public static long getMillionSecondsFromDate(String formatStr) {
+		return LocalDate.parse(formatStr).toDate().getTime();
 	}
 
 	/**

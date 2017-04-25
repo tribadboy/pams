@@ -118,7 +118,6 @@ window.onload = function()
 		var oS=document.createElement('script');
 			
 		oS.type='text/javascript';
-		oS.src='http://sc.chinaz.com';
 			
 		document.body.appendChild(oS);
 	})();

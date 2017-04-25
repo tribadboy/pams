@@ -61,11 +61,68 @@ public interface PamsStockHistoryDAO {
             + " AND "
             + " symbol_date < #{endDate} "
             + " ORDER BY "
-            + " symbol_date "
+            + " symbol_date ASC "
             + "")
     public List<StockHistory> getPeriodStockHittoryByPK(@Param("symbolCode") String symbolCode, 
     		@Param("symbolType") Integer symbolType, @Param("startDate") String startDate,
     		@Param("endDate") String endDate);
+    
+    /**
+     * 获取某只股票的全部历史数据
+     * @param symbolCode
+     * @param symbolType
+     * @return
+     */
+    @Select(""
+            + " SELECT "
+            + COL_ALL
+            + " FROM "
+            + TABLE
+            + " WHERE "
+            + " symbol_code = #{symbolCode} "
+            + " AND "
+            + " symbol_type = #{symbolType} "
+            + " ORDER BY "
+            + " symbol_date ASC "
+            + "")
+    public List<StockHistory> getAllStockHittoryByPK(@Param("symbolCode") String symbolCode, 
+    		@Param("symbolType") Integer symbolType);
+    
+    /**
+     * 获取某只股票历史数据中的最大日期
+     * @param symbolCode
+     * @param symbolType
+     * @return
+     */
+    @Select(""
+            + " SELECT "
+            + " MAX(symbol_date) "
+            + " FROM "
+            + TABLE
+            + " WHERE "
+            + " symbol_code = #{symbolCode} "
+            + " AND "
+            + " symbol_type = #{symbolType} "
+            + "")
+    public String getMaxDateByPK(@Param("symbolCode") String symbolCode, @Param("symbolType") Integer symbolType);
+    
+    /**
+     * 获取某只股票历史数据中的最小日期
+     * @param symbolCode
+     * @param symbolType
+     * @return
+     */
+    @Select(""
+            + " SELECT "
+            + " MIN(symbol_date) "
+            + " FROM "
+            + TABLE
+            + " WHERE "
+            + " symbol_code = #{symbolCode} "
+            + " AND "
+            + " symbol_type = #{symbolType} "
+            + "")
+    public String getMinDateByPK(@Param("symbolCode") String symbolCode, @Param("symbolType") Integer symbolType);
     
     /**
      * 批量添加股票历史数据

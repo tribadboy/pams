@@ -19,28 +19,54 @@ public class PamsStock {
     }
     
     public enum SymbolType { 
-        SH(0),			//沪市	
-        SZ(1);			//深市
+        SH(0, "沪市"),			//沪市	
+        SZ(1, "深市");			//深市
 
         private final int index;
-        private SymbolType(int index) {
+        private final String msg;
+        private SymbolType(int index, String msg) {
             this.index = index;
+            this.msg = msg;
         }
         public int getIndex() {
             return index;
+        }
+        public String getMsg() {
+        	return msg;
+        }
+        public static String getMsgFromIndex(int index) {
+        	for(SymbolType type : SymbolType.values()) {
+        		if(index == type.getIndex()) {
+        			return type.getMsg();
+        		}
+        	}
+        	return "";
         }
     }
     
     public enum Status { 
-        Valid(0),			//有效	
-        Invalid(1);			//无效
+        Valid(0, "有效"),			//有效	
+        Invalid(1, "无效");			//无效
 
         private final int index;
-        private Status(int index) {
+        private final String msg;
+        private Status(int index, String msg) {
             this.index = index;
+            this.msg = msg;
         }
         public int getIndex() {
             return index;
+        }
+        public String getMsg() {
+        	return msg;
+        }
+        public static String getMsgFromIndex(int index) {
+        	for(Status status : Status.values()) {
+        		if(index == status.getIndex()) {
+        			return status.getMsg();
+        		}
+        	}
+        	return "";
         }
     }
     

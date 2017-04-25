@@ -15,7 +15,7 @@ public final class PathConstant {
 	final public static String WEB_AUTHC = "/web/authc/";
 	//web下生成验证码的接口
 	final public static String WEB_CODE = "/web/code/";
-	//web路径用户相关功能的接口
+	//web路径用户注册的接口
 	final public static String WEB_USER = "/web/user/";
 	//web路径下载接口
 	final public static String WEB_DOWNLOAD = "/web/download/";
@@ -41,7 +41,7 @@ public final class PathConstant {
 	final public static String WEB_AUTHC_ASSET_LOAN = "/web/authc/asset/loan/";
 	
 	//finance bar
-	
+	final public static String WEB_AUTHC_FINANCE_STOCK_DATA = "/web/authc/finance/stockData/";
 	
 	//user bar
 	final public static String WEB_AUTHC_USER_ACCOUNT = "/web/authc/user/account/";

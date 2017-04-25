@@ -18,4 +18,10 @@ public interface PamsStockService {
 	//设置某个股票市场的所有股票为无效状态
 	void setStocksInvalidBySymbolType(Integer symbolType);
 	
+	//模糊查询
+	List<PamsStock> getPamsStocksByKey(String key);
+	
+	//获取所有股票
+	List<PamsStock> getAllPamsStocks();
+	
 }

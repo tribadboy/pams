@@ -46,6 +46,7 @@
     <div class="search-grid-container">
       <div id="grid">
     </div>
+    <hr><hr>
   <script type="text/javascript" src="<%=basePath%>static/view/assets/js/jquery-1.8.1.min.js"></script>
   <script type="text/javascript" src="<%=basePath%>static/view/assets/js/bui-min.js"></script>
   <script type="text/javascript" src="<%=basePath%>static/view/assets/js/config-min.js"></script>

@@ -52,9 +52,33 @@ public interface PamsStockDAO {
             + " AND "
             + " symbol_type = #{symbolType} "
             + " ORDER BY "
-            + " symbol_code "
+            + " symbol_code ASC "
             + "")
     public List<PamsStock> getValidPamsStocksBySymbolType(@Param("symbolType") Integer symbolType);
+    
+    @Select(""
+            + " SELECT "
+            + COL_ALL
+            + " FROM "
+            + TABLE
+            + " ORDER BY "
+            + " symbol_code ASC "
+            + "")
+    public List<PamsStock> getAllPamsStocks();
+    
+    @Select(""
+            + " SELECT "
+            + COL_ALL
+            + " FROM "
+            + TABLE
+            + " WHERE "
+            + " symbol_code LIKE #{key} "
+            + " OR "
+            + " symbol_name LIKE #{key} "
+            + " ORDER BY "
+            + " symbol_code ASC "
+            + "")
+    public List<PamsStock> getPamsStocksByKey(@Param("key") String key);
     
     
     /**

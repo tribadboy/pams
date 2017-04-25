@@ -1,5 +1,6 @@
 package com.nju.pams.util.test;
 
+import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -27,5 +28,13 @@ public class DateUtilTest {
 	public void testGetCurrentTime() {
 		System.out.println(DateUtil.getCurrentTime(DateUtil.FormatString));
 		System.out.println(DateUtil.getCurrentTime(DateUtil.FormatString2));
+	}
+	
+	@Test
+	public void testGetMillionSecondsFromDate() {
+		System.out.println(DateUtil.getMillionSecondsFromDate("2011-04-14"));
+		System.out.println(LocalDate.parse("2016-01-05").getYear());
+		System.out.println(LocalDate.parse("2016-01-05").getMonthOfYear());
+		System.out.println(LocalDate.parse("2016-01-05").getDayOfMonth());
 	}
 }

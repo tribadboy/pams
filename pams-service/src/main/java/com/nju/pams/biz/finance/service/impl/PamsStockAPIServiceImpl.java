@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.nju.pams.biz.finance.service.PamsStockAPIService;
 import com.nju.pams.finance.PamsStock;
 import com.nju.pams.finance.StockHistory;
-
+import com.nju.pams.util.BigDecimalUtil;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -153,11 +153,12 @@ public class PamsStockAPIServiceImpl implements PamsStockAPIService {
         		if(stockInfo.containsKey("symbol") && stockInfo.containsKey("name") && stockInfo.containsKey("status")
         				&& stockInfo.containsKey("time") && stockInfo.containsKey("volume") && stockInfo.containsKey("open")
         				&& stockInfo.containsKey("price") && stockInfo.containsKey("high") && stockInfo.containsKey("low")
-        				&& stockInfo.containsKey("percent")) {
+        				&& stockInfo.containsKey("percent") && stockInfo.containsKey("arrow") && stockInfo.containsKey("updown")) {
         			HashMap<String, Object> map = new HashMap<String, Object>();
         			map.put("symbolCode", stockInfo.getString("symbol"));
         			map.put("symbolType", PamsStock.SymbolType.SH.getIndex());
         			map.put("symbolName", stockInfo.getString("name"));		
+        			map.put("arrow", stockInfo.getString("arrow"));
         			if(stockInfo.getInt("status") == 0) {
         				map.put("status", PamsStock.Status.Valid.getIndex());
         			} else {
@@ -165,12 +166,14 @@ public class PamsStockAPIServiceImpl implements PamsStockAPIService {
         			}
         			String time = stockInfo.getString("time").substring(0, 10).replace("/", "-");
         			map.put("time", time);
-        			map.put("open", BigDecimal.valueOf(stockInfo.getDouble("open")));
-        			map.put("price", BigDecimal.valueOf(stockInfo.getDouble("price")));
-        			map.put("high", BigDecimal.valueOf(stockInfo.getDouble("high")));
-        			map.put("low", BigDecimal.valueOf(stockInfo.getDouble("low")));
+        			map.put("originTime", stockInfo.getString("time"));
+        			map.put("open", BigDecimalUtil.generateFormatNumber(stockInfo.getDouble("open")));
+        			map.put("price", BigDecimalUtil.generateFormatNumber(stockInfo.getDouble("price")));
+        			map.put("high", BigDecimalUtil.generateFormatNumber(stockInfo.getDouble("high")));
+        			map.put("low", BigDecimalUtil.generateFormatNumber(stockInfo.getDouble("low")));
+        			map.put("updown", BigDecimalUtil.generateFormatNumber(stockInfo.getDouble("updown")));
         			map.put("volume", stockInfo.getInt("volume"));
-        			map.put("percent", BigDecimal.valueOf(stockInfo.getDouble("percent") * 100));
+        			map.put("percent", BigDecimalUtil.generateFormatNumber(stockInfo.getDouble("percent") * 100));
         			stockList.add(map);
         		}
         	}

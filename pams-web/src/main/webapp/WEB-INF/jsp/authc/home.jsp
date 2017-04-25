@@ -117,11 +117,10 @@
           },{
             id:'finance-bar',
             menu:[{
-                text:'详情页面1',
+                text:'股市资讯',
                 items:[
-                  {id:'code',text:'详情页面代码',href:'<%=basePath%>static/view/detail/code.html'},
-                  {id:'example',text:'详情页面示例',href:'<%=basePath%>static/view/detail/example.html'},
-                  {id:'introduce',text:'详情页面简介',href:'<%=basePath%>static/view/detail/introduce.html'}
+                  {id:'realTimeData',text:'实时数据',href:'<%=path %>/web/authc/finance/stockData/getRealTimeData'},
+                  {id:'searchStock',text:'股票详情',href:'<%=path %>/web/authc/finance/stockData/searchStock'}
                 ]
               },{
                   text:'详情页面2',

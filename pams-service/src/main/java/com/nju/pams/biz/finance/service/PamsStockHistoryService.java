@@ -7,11 +7,20 @@ import com.nju.pams.finance.StockHistory;
 public interface PamsStockHistoryService {
 	
 	//根据复合主键查询某一支股票的某天的历史数据
-	StockHistory getStockHittoryByPK(String symbolDate, String symbolCode, Integer symbolType);	
+	StockHistory getStockHistoryByPK(String symbolDate, String symbolCode, Integer symbolType);	
 	
 	//查询某一支股票的某个阶段的历史数据
-	List<StockHistory> getPeriodStockHittoryByPK(String symbolCode, Integer symbolType, String startDate,
+	List<StockHistory> getPeriodStockHistoryByPK(String symbolCode, Integer symbolType, String startDate,
 	    		String endDate);
+	
+	//查询某一支股票的某个阶段的历史数据
+	List<StockHistory> getAllStockHistoryByPK(String symbolCode, Integer symbolType);
+	
+	//查询某一支股票的有数据的最大日期
+	String getMaxDateByPK(String symbolCode, Integer symbolType);
+	
+	//查询某一支股票的有数据的最小日期
+	String getMinDateByPK(String symbolCode, Integer symbolType);
 	 
 	//批量添加或替换股票的历史数据
 	int insertIgnoreStockHistoryList(List<StockHistory> stockHistoryList);

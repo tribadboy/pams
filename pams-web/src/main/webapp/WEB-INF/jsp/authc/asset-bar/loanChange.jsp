@@ -44,7 +44,7 @@
     <hr>
     <form id="J_Form" class="form-horizontal" action="<%=path %>/web/authc/asset/loan/addLoanChange"  method="POST">
     <div class="row">      
-    	  <input type=text style="display:none" name="loanId2" id="loanId2" value="${loanId }">
+    	  <input type="text" style="display:none" name="loanId2" id="loanId2" value="${loanId }">
           <div class="control-group span">
             <label class="control-label"><span class="redText">*</span> 记录日期：</label>
             <div id="single_range" class="controls bui-form-group"  data-rules="{dateRange:true}">
