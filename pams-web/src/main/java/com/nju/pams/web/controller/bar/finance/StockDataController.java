@@ -1,8 +1,5 @@
 package com.nju.pams.web.controller.bar.finance;
 
-import java.io.BufferedOutputStream;
-import java.io.FileInputStream;
-import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLDecoder;
@@ -11,8 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
@@ -28,15 +23,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.nju.pams.biz.finance.service.PamsStockAPIService;
 import com.nju.pams.biz.finance.service.PamsStockHistoryService;
 import com.nju.pams.biz.finance.service.PamsStockService;
-import com.nju.pams.biz.service.PamsFinancialNewsService;
-import com.nju.pams.biz.service.PamsNoticeAndInformService;
 import com.nju.pams.finance.PamsStock;
 import com.nju.pams.finance.StockHistory;
-import com.nju.pams.model.constant.DataFileConstant;
 import com.nju.pams.model.constant.PathConstant;
-import com.nju.pams.model.system.FinancialNews;
-import com.nju.pams.model.system.PamsInform;
-import com.nju.pams.model.system.PamsNotice;
 import com.nju.pams.util.BigDecimalUtil;
 import com.nju.pams.util.DateUtil;
 
@@ -358,55 +347,4 @@ public class StockDataController {
     	return result.toString();
 	}	
 	
-//	//返回新闻内容详情页
-//    @RequestMapping(value = "newsTemplate")
-//    public String getNewsTemplatePage(HttpServletRequest request, Model model,
-//    		@RequestParam(value = "newsId") final Integer newsId){
-//    	String username = (String) request.getSession().getAttribute("username");
-//    	Integer userId = (Integer) request.getSession().getAttribute("userId");
-//    	if(null == username || null == userId) {
-//    		logger.info("session失效，需要用户重新登录");
-//    		SecurityUtils.getSubject().logout();
-//   	        return "error/logout";
-//    	}
-//    
-//    	FinancialNews news = pamsFinancialNewsService.getFinancialNewsByNewsId(newsId);
-//    	model.addAttribute("news", news);
-//    	if(FinancialNews.NonePicture.equals(news.getPictureName())) {
-//    		model.addAttribute("picFlag", false);
-//    	} else {
-//    		model.addAttribute("picFlag", true);
-//    	}
-//        return "authc/home-bar/news-template";
-//    }
-//    
-//    /**
-//     * 获取用户头像的请求
-//     * 由于无法直接访问本地资源，需要通过web请求转换
-//     * @param photoName
-//     * @param request
-//     * @param response
-//     */
-//    @RequestMapping("getNewsPhoto")  
-//    public void getNewsPhoto(@RequestParam("pictureName") String pictureName,HttpServletRequest request,
-//    		HttpServletResponse response){  
-//    	if(FinancialNews.NonePicture.equals(pictureName)) {
-//    		logger.info("所查看的新闻页面没有图片资源");
-//    		return;
-//    	}
-//        response.setContentType("application/octet-stream;charset=UTF-8");  
-//        try {  
-//           FileInputStream inputStream = new FileInputStream(DataFileConstant.NEWS_PICTURE + "/" + pictureName);
-//           byte[]data = new byte[inputStream.available()];  
-//           inputStream.read(data);           
-//           inputStream.close(); 
-//           
-//           OutputStream outputStream = new BufferedOutputStream(response.getOutputStream());  
-//           outputStream.write(data);  
-//           outputStream.flush();  
-//           outputStream.close(); 
-//       } catch (Exception e) {  
-//           e.printStackTrace();  
-//       }
-//    }  
 }  

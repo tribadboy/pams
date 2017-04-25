@@ -1,6 +1,7 @@
 package com.nju.pams.biz.finance.service.impl;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -46,7 +47,12 @@ public class PamsStockChangeServiceImpl implements PamsStockChangeService {
 	 */
 	@Override
 	public List<StockChange> getStockChangeListByUserId(Integer userId) {
-		return pamsStockChangeDAO.getStockChangeListByUserId(userId);
+		List<StockChange> resultList = pamsStockChangeDAO.getStockChangeListByUserId(userId);
+		if(null == resultList) {
+			return new ArrayList<StockChange>();
+		} else {
+			return resultList;
+		}
 	}
 
 	/**

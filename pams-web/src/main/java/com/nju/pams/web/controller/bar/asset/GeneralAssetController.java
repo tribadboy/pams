@@ -20,7 +20,8 @@ import com.nju.pams.biz.service.PamsDepositService;
 import com.nju.pams.biz.service.PamsFixedAssetService;
 import com.nju.pams.biz.service.PamsLoanService;
 import com.nju.pams.biz.service.PamsRegularIncomeService;
-import com.nju.pams.model.constant.PathConstant;  
+import com.nju.pams.model.constant.PathConstant;
+import com.nju.pams.util.DateUtil;  
   
 @Controller  
 @RequestMapping(PathConstant.WEB_AUTHC_ASSET_GENERAL_ASSET)
@@ -48,6 +49,7 @@ public class GeneralAssetController {
     public String getAssetOverallPage(HttpServletRequest request, Model model){
     	String username = (String) request.getSession().getAttribute("username");
     	Integer userId = (Integer) request.getSession().getAttribute("userId");
+    	model.addAttribute("currentDate", DateUtil.getCurrentTime(DateUtil.FormatString));
     	if(null == username || null == userId) {
     		logger.info("session失效，需要用户重新登录");
     		SecurityUtils.getSubject().logout();

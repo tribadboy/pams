@@ -123,11 +123,11 @@
                   {id:'searchStock',text:'股票详情',href:'<%=path %>/web/authc/finance/stockData/searchStock'}
                 ]
               },{
-                  text:'详情页面2',
+                  text:'我的持仓',
                   items:[
-                    {id:'code',text:'详情页面代码',href:'<%=basePath%>static/view/detail/code.html'},
-                    {id:'example',text:'详情页面示例',href:'<%=basePath%>static/view/detail/example.html'},
-                    {id:'introduce',text:'详情页面简介',href:'<%=basePath%>static/view/detail/introduce.html'}
+                    {id:'positionOverall',text:'持仓概览',href:'<%=path %>/web/authc/finance/position/getPositionOverall'},
+                    {id:'transactionRecord',text:'交易记录',href:'<%=path %>/web/authc/finance/position/getTransactionRecord'},
+                    {id:'makeTransaction',text:'创建交易',href:'<%=path %>/web/authc/finance/position/makeTransaction'}
                   ]
              }]
           },{

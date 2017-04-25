@@ -21,6 +21,7 @@ import com.nju.pams.model.asset.RegularIncome;
 import com.nju.pams.model.constant.PathConstant;
 
 import com.nju.pams.util.BigDecimalUtil;
+import com.nju.pams.util.DateUtil;
 import com.nju.pams.util.ResultUtil;
 import com.nju.pams.util.constant.ResultEnum;
 
@@ -38,7 +39,7 @@ public class RegularIncomeController {
     
     //返回添加常规收入页面
     @RequestMapping(value = "addRegularIncome")
-    public String getAddRegularIncomePage(HttpServletRequest request){
+    public String getAddRegularIncomePage(HttpServletRequest request, Model model){
     	String username = (String) request.getSession().getAttribute("username");
     	Integer userId = (Integer) request.getSession().getAttribute("userId");
     	if(null == username || null == userId) {
@@ -46,7 +47,7 @@ public class RegularIncomeController {
     		SecurityUtils.getSubject().logout();
    	        return "error/logout";
     	}
-
+    	model.addAttribute("currentDate", DateUtil.getCurrentTime(DateUtil.FormatString));
         return "authc/asset-bar/addRegularIncome";
     }
     
@@ -71,7 +72,7 @@ public class RegularIncomeController {
    			@RequestParam("recordAmount") final Double recordAmount,
    			@RequestParam("message") final String message
    			) {
-
+		model.addAttribute("currentDate", DateUtil.getCurrentTime(DateUtil.FormatString));
 		String username = (String) request.getSession().getAttribute("username");
     	Integer userId = (Integer) request.getSession().getAttribute("userId");
     	if(null == username || null == userId) {

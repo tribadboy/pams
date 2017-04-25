@@ -47,7 +47,7 @@
   </script>
     <script type="text/javascript">
     
-     var data = [
+   /*   var data = [
                 120.71,
                 null,
                 155.59,
@@ -59,7 +59,7 @@
                 118.34,
                 174.12,
                 159.27
-            ];   
+            ];   */ 
     var data = ${data};
     var year = ${year};			//2006
     var month = ${month};		//0

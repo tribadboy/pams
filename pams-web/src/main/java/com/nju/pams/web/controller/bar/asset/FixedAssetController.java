@@ -21,6 +21,7 @@ import com.nju.pams.model.asset.FixedAsset;
 import com.nju.pams.model.constant.PathConstant;
 
 import com.nju.pams.util.BigDecimalUtil;
+import com.nju.pams.util.DateUtil;
 import com.nju.pams.util.ResultUtil;
 import com.nju.pams.util.constant.ResultEnum;
 
@@ -38,7 +39,7 @@ public class FixedAssetController {
     
     //返回添加固定资产页面
     @RequestMapping(value = "addFixedAsset")
-    public String getAddFixedAssetPage(HttpServletRequest request){
+    public String getAddFixedAssetPage(HttpServletRequest request, Model model){
     	String username = (String) request.getSession().getAttribute("username");
     	Integer userId = (Integer) request.getSession().getAttribute("userId");
     	if(null == username || null == userId) {
@@ -46,7 +47,7 @@ public class FixedAssetController {
     		SecurityUtils.getSubject().logout();
    	        return "error/logout";
     	}
-
+    	model.addAttribute("currentDate", DateUtil.getCurrentTime(DateUtil.FormatString));
         return "authc/asset-bar/addFixedAsset";
     }
     
@@ -72,7 +73,7 @@ public class FixedAssetController {
    			@RequestParam("recordValue") final Double recordValue,
    			@RequestParam("message") final String message
    			) {
-
+		model.addAttribute("currentDate", DateUtil.getCurrentTime(DateUtil.FormatString));
 		String username = (String) request.getSession().getAttribute("username");
     	Integer userId = (Integer) request.getSession().getAttribute("userId");
     	if(null == username || null == userId) {

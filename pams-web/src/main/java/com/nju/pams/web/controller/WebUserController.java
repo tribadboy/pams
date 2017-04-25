@@ -87,6 +87,7 @@ public class WebUserController {
    			@RequestParam("email") final String email
    			) {
    		logger.info("注册用户");
+   		model.addAttribute("currentDate", DateUtil.getCurrentTime(DateUtil.FormatString));
    		String message;		//注册失败时，存储失败信息，返回给页面
    		if(null == username || null == password || null == phone || null == email) {
    			message = ResultEnum.NullParameter.getMsg();

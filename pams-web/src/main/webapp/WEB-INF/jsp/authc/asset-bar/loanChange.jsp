@@ -48,7 +48,7 @@
           <div class="control-group span">
             <label class="control-label"><span class="redText">*</span> 记录日期：</label>
             <div id="single_range" class="controls bui-form-group"  data-rules="{dateRange:true}">
-              <input name="changeTime" class="calendar"   data-rules="{required:true}"  type="text">
+              <input name="changeTime" class="calendar" data-cfg="{datePicker :{maxDate : '${currentDate }'}}"   data-rules="{required:true}"  type="text">
             </div>
           </div>
           <div class="control-group span">

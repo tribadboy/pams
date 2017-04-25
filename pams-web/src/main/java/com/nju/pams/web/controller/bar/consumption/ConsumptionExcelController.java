@@ -70,7 +70,7 @@ public class ConsumptionExcelController {
     		SecurityUtils.getSubject().logout();
    	        return "error/logout";
     	}
-    	
+    	model.addAttribute("currentDate", DateUtil.getCurrentTime(DateUtil.FormatString));
     	if(null == spendMonth) {
     		//点击月份报表访问，没有spendMonth，默认取上个月,否则取表单中提交的月份作为默认值
     		spendMonth = LocalDate.now().minusMonths(1).toString(DateUtil.FormatString).substring(0, 7); 		
@@ -123,7 +123,7 @@ public class ConsumptionExcelController {
     		SecurityUtils.getSubject().logout();
    	        return "error/logout";
     	}
-    	
+    	model.addAttribute("currentDate", DateUtil.getCurrentTime(DateUtil.FormatString));
     	if(null == spendYear) {
     		//点击年度报表访问，没有spendYear，默认取去年,否则取表单中提交的年份作为默认值
     		spendYear = LocalDate.now().minusYears(1).toString(DateUtil.FormatString).substring(0, 4); 		

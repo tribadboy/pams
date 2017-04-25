@@ -45,7 +45,7 @@ public class DepositController {
     
     //返回创建存款页面
     @RequestMapping(value = "addDepositRecordPage")
-    public String getAddDepositRecordPage(HttpServletRequest request){
+    public String getAddDepositRecordPage(HttpServletRequest request, Model model){
     	String username = (String) request.getSession().getAttribute("username");
     	Integer userId = (Integer) request.getSession().getAttribute("userId");
     	if(null == username || null == userId) {
@@ -53,7 +53,7 @@ public class DepositController {
     		SecurityUtils.getSubject().logout();
    	        return "error/logout";
     	}
-
+    	model.addAttribute("currentDate", DateUtil.getCurrentTime(DateUtil.FormatString));
         return "authc/asset-bar/addDepositRecord";
     }
     
@@ -68,7 +68,7 @@ public class DepositController {
     		SecurityUtils.getSubject().logout();
    	        return "error/logout";
     	}
-    	
+    	model.addAttribute("currentDate", DateUtil.getCurrentTime(DateUtil.FormatString));
     	List<DepositRecord> allList = pamsDepositService.getAllDepositRecordsByUserId(userId);
     	List<String> idList = new ArrayList<String>();
     	List<String> nameList = new ArrayList<String>();
@@ -102,6 +102,7 @@ public class DepositController {
    	        return "error/logout";
     	}
     	model.addAttribute("todayStr", LocalDate.now().toString(DateUtil.FormatString));
+    	model.addAttribute("currentDate", DateUtil.getCurrentTime(DateUtil.FormatString));
         return "authc/asset-bar/editDepositRecord";
     }
     
@@ -116,7 +117,7 @@ public class DepositController {
    			@RequestParam("changeAmount") final Double changeAmount,
    			@RequestParam("message") final String message
    			) {
-
+		model.addAttribute("currentDate", DateUtil.getCurrentTime(DateUtil.FormatString));
 		String username = (String) request.getSession().getAttribute("username");
     	Integer userId = (Integer) request.getSession().getAttribute("userId");
     	if(null == username || null == userId) {
@@ -316,7 +317,7 @@ public class DepositController {
    			@RequestParam("changeTime") final String changeTime,
    			@RequestParam("changeAmount") final Double changeAmount
    			) {
-
+		model.addAttribute("currentDate", DateUtil.getCurrentTime(DateUtil.FormatString));
 		String username = (String) request.getSession().getAttribute("username");
     	Integer userId = (Integer) request.getSession().getAttribute("userId");
     	if(null == username || null == userId) {

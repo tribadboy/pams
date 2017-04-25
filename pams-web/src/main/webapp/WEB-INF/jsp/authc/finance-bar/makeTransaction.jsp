@@ -3,11 +3,12 @@
     String path = request.getContextPath();
     String basePath = request.getScheme() + "://" + request.getServerName() + ":" 
     				+ request.getServerPort() + path + "/";
+    
 %> 
 <!DOCTYPE HTML>
 <html>
  <head>
-  <title>创建固定资产</title>
+  <title>添加消费账目</title>
    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link href="<%=basePath%>static/view/assets/css/dpl-min.css" rel="stylesheet" type="text/css" />
     <link href="<%=basePath%>static/view/assets/css/bui-min.css" rel="stylesheet" type="text/css" />
@@ -19,41 +20,43 @@
    </style>
  </head>
  <body>
-      
+  <div class="doc-content">
+    <ul class="nav-tabs">
+      <li class="active"><a href="#" style="font-size:15px">创建买入与卖出记录</a></li>
+      <li><a href="<%=path%>/web/authc/finance/position/makeTransaction2" style="font-size:15px">创建转入与转出记录</a></li>
+    </ul>
+  </div>  
   <div class="container">
-    <div class="row">
       <form id="J_Form" class="form-horizontal span24" 
-      		action="<%=path %>/web/authc/asset/fixedAsset/add"  method="POST" >
-      	<div class="row">
-           <div class="control-group span8">
-            <label class="control-label"><span class="redText">*</span> 固定资产名称：</label>
+      		action="<%=path %>/web/authc/finance/position/addInflowAndOutflow"  method="POST" >
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label"><span class="redText">*</span> 交易类型：</label>
             <div class="controls">
-              <input name="recordName" type="text" data-rules="{required:true,maxlength:10}" class="input-normal control-text">
+              <select  data-rules="{required:true}"  name="changeTypeId" class="input-normal"> 
+                <option value="2">转入</option>
+                <option value="3">转出</option>
+              </select>
             </div>
           </div>
         </div>
         <div class="row">
           <div class="control-group span15 ">
-            <label class="control-label"><span class="redText">*</span> 记录日期：</label>
-            <div id="single_range" class="controls bui-form-group"  data-rules="{dateRange:true}">
-              <input name="recordTime" class="calendar"  data-cfg="{datePicker :{maxDate : '${currentDate }'}}"  data-rules="{required:true}"  type="text">
+            <label class="control-label"><span class="redText">*</span> 交易日期：</label>
+             <div id="single_range" class="controls bui-form-group"  data-rules="{dateRange:true}">
+              <input name="spendTime" class="calendar calendar-time"  
+              data-cfg="{datePicker :{maxDate : '${currentDate }',lockTime : {second : 0 }}}"  type="text">
             </div>
+           
           </div>
+          
         </div>
+        
         <div class="row">
            <div class="control-group span8">
-            <label class="control-label"><span class="redText">*</span> 记录价值：</label>
+            <label class="control-label"><span class="redText">*</span> 金额：</label>
             <div class="controls">
-              <input name="recordValue" type="text" data-rules="{number:true,required:true,min:0}" class="input-normal control-text">
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="control-group span15">
-            <label class="control-label"><span class="redText">*</span> 记录内容：</label>
-            <div class="controls control-row4">
-              <textarea name="message" class="input-large" data-tip="{text:'请填写固定资产的相关信息！'}" 
-              data-rules="{required:true,maxlength:30}"></textarea>
+              <input name="cost" type="text" data-rules="{number:true,required:true,min:0}" class="input-normal control-text">
             </div>
           </div>
         </div>
@@ -64,26 +67,32 @@
             </div>
             <h1><span class="redText">${msg }</span></h1>
         </div>
+       
       </form>
-    </div>
-    
+  
 
-  </div>
+
+
   <script type="text/javascript" src="<%=basePath%>static/view/assets/js/jquery-1.8.1.min.js"></script>
   <script type="text/javascript" src="<%=basePath%>static/view/assets/js/bui-min.js"></script>
   <script type="text/javascript" src="<%=basePath%>static/view/assets/js/config-min.js"></script>
-  <script type="text/javascript">
+  <script type="text/javascript" src="<%=basePath%>static/view/assets/js/sea.js"></script>
+  <script src="http://g.alicdn.com/bui/seajs/2.3.0/sea.js"></script>
+  <script src="http://g.alicdn.com/bui/bui/1.1.21/config.js"></script>
+    <script type="text/javascript">
     BUI.use('common/page');
   </script>
-<script type="text/javascript">
+  <script type="text/javascript">
   BUI.use('bui/form',function (Form) {
+  
     var form = new Form.HForm({
       srcNode : '#J_Form'
     });
-
+ 
     form.render();
   });
 </script>
- 
+
+   </div>
 <body>
 </html>  

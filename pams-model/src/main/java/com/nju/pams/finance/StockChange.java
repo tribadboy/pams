@@ -12,7 +12,7 @@ public class StockChange {
 	private int quantity;
 	private BigDecimal fee;
 	private BigDecimal total;
-	private String tradeTime;							//yyyy-mm-dd hh:mm
+	private String tradeTime;							//yyyy-MM-dd hh:mm:ss
     private String  createTime;
     private String  updateTime;
    

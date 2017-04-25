@@ -58,7 +58,7 @@ public class WebLoginController {
     //用户在login.jsp填写信息后登录，处理登录的业务逻辑
     @RequestMapping(value = "/doLogin",method = RequestMethod.POST)
     public String doLogin(PamsUser user, HttpServletRequest request, Model model) {
-    	
+    	model.addAttribute("currentDate", DateUtil.getCurrentTime(DateUtil.FormatString));
         String message;		//message记录登录的错误信息，同步返回给用户，显示到login.jsp上
         UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), user.getPassword());
         token.setRememberMe(true);

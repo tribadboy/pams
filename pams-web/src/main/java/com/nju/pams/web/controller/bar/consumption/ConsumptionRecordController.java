@@ -23,6 +23,7 @@ import com.nju.pams.model.consumption.ConsumptionAccount;
 import com.nju.pams.model.consumption.ConsumptionCondition;
 import com.nju.pams.model.consumption.ConsumptionEnum;
 import com.nju.pams.util.BigDecimalUtil;
+import com.nju.pams.util.DateUtil;
 import com.nju.pams.util.ResultUtil;
 import com.nju.pams.util.constant.ResultEnum;
 
@@ -40,7 +41,7 @@ public class ConsumptionRecordController {
     
     //返回添加消费账目页面
     @RequestMapping(value = "addConsumption")
-    public String getAddConsumptionPage(HttpServletRequest request){
+    public String getAddConsumptionPage(HttpServletRequest request, Model model){
     	String username = (String) request.getSession().getAttribute("username");
     	Integer userId = (Integer) request.getSession().getAttribute("userId");
     	if(null == username || null == userId) {
@@ -48,7 +49,7 @@ public class ConsumptionRecordController {
     		SecurityUtils.getSubject().logout();
    	        return "error/logout";
     	}
-
+    	model.addAttribute("currentDate", DateUtil.getCurrentTime(DateUtil.FormatString));
         return "authc/consumption-bar/addConsumption";
     }
     
@@ -74,7 +75,7 @@ public class ConsumptionRecordController {
    			@RequestParam("cost") final Double cost,
    			@RequestParam("message") final String message
    			) {
-
+		model.addAttribute("currentDate", DateUtil.getCurrentTime(DateUtil.FormatString));
 		String username = (String) request.getSession().getAttribute("username");
     	Integer userId = (Integer) request.getSession().getAttribute("userId");
     	if(null == username || null == userId) {

@@ -42,7 +42,7 @@ public class LoanController {
     
     //返回创建贷款页面
     @RequestMapping(value = "addLoanRecordPage")
-    public String getAddLoanRecordPage(HttpServletRequest request){
+    public String getAddLoanRecordPage(HttpServletRequest request, Model model){
     	String username = (String) request.getSession().getAttribute("username");
     	Integer userId = (Integer) request.getSession().getAttribute("userId");
     	if(null == username || null == userId) {
@@ -50,7 +50,7 @@ public class LoanController {
     		SecurityUtils.getSubject().logout();
    	        return "error/logout";
     	}
-
+    	model.addAttribute("currentDate", DateUtil.getCurrentTime(DateUtil.FormatString));
         return "authc/asset-bar/addLoanRecord";
     }
     
@@ -59,6 +59,7 @@ public class LoanController {
     public String getEditLoanRecordPage(HttpServletRequest request, Model model){
     	String username = (String) request.getSession().getAttribute("username");
     	Integer userId = (Integer) request.getSession().getAttribute("userId");
+    	model.addAttribute("currentDate", DateUtil.getCurrentTime(DateUtil.FormatString));
     	if(null == username || null == userId) {
     		logger.info("session失效，需要用户重新登录");
     		SecurityUtils.getSubject().logout();
@@ -74,6 +75,7 @@ public class LoanController {
     		@RequestParam(value = "loanId", required = false) final Integer loanId){
     	String username = (String) request.getSession().getAttribute("username");
     	Integer userId = (Integer) request.getSession().getAttribute("userId");
+    	model.addAttribute("currentDate", DateUtil.getCurrentTime(DateUtil.FormatString));
     	if(null == username || null == userId) {
     		logger.info("session失效，需要用户重新登录");
     		SecurityUtils.getSubject().logout();
@@ -98,7 +100,7 @@ public class LoanController {
    			@RequestParam("exceptRepayAmount") final Double exceptRepayAmount,
    			@RequestParam("message") final String message
    			) {
-
+		model.addAttribute("currentDate", DateUtil.getCurrentTime(DateUtil.FormatString));
 		String username = (String) request.getSession().getAttribute("username");
     	Integer userId = (Integer) request.getSession().getAttribute("userId");
     	if(null == username || null == userId) {
@@ -300,7 +302,7 @@ public class LoanController {
    			@RequestParam("changeTime") final String changeTime,
    			@RequestParam("changeAmount") final Double changeAmount
    			) {
-
+		model.addAttribute("currentDate", DateUtil.getCurrentTime(DateUtil.FormatString));
 		String username = (String) request.getSession().getAttribute("username");
     	Integer userId = (Integer) request.getSession().getAttribute("userId");
     	if(null == username || null == userId) {

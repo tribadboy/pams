@@ -42,6 +42,7 @@ public final class PathConstant {
 	
 	//finance bar
 	final public static String WEB_AUTHC_FINANCE_STOCK_DATA = "/web/authc/finance/stockData/";
+	final public static String WEB_AUTHC_FINANCE_POSITION = "/web/authc/finance/position";
 	
 	//user bar
 	final public static String WEB_AUTHC_USER_ACCOUNT = "/web/authc/user/account/";

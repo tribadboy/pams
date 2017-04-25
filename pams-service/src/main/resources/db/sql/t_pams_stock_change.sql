@@ -9,7 +9,7 @@ CREATE TABLE `t_pams_stock_change` (
 `quantity` int(12) unsigned NOT NULL COMMENT '买入或卖出股票数量',
 `fee` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '手续费',
 `total` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '总价',
-`trade_time` varchar(16) DEFAULT NULL COMMENT '交易或转入转出时间',
+`trade_time` varchar(20) DEFAULT NULL COMMENT '交易或转入转出时间',
 `create_time` datetime NOT NULL COMMENT '创建时间',
 `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '上次修改时间',
 PRIMARY KEY (`change_id`)

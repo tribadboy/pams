@@ -32,7 +32,7 @@
           			<label>&nbsp;&nbsp;&nbsp;&nbsp;</label>
             		<label> 注：当需要点击“结束”按钮时，请先确定全部结束日期：</label>
             		<div id="single_range" class="controls bui-form-group"  data-rules="{dateRange:true}">
-              			<input name="closeTime" id="closeTime" class="calendar"   
+              			<input name="closeTime" id="closeTime" class="calendar"   data-cfg="{datePicker :{maxDate : '${currentDate }'}}" 
               				value="${todayStr }" data-rules="{}"  type="text">
             		</div> 		
           		</div>

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.nju.pams.biz.service.PamsUserService;
 import com.nju.pams.model.PamsUser;
 import com.nju.pams.model.constant.PathConstant;
+import com.nju.pams.util.DateUtil;
 
 @Controller
 @RequestMapping(value = PathConstant.WEB_AUTHC)
@@ -38,6 +39,7 @@ public class WebAuthcController {
     		logger.info("注册异常：" + "没有找到username或者对应的user");
    	        return "anon/login";
     	}
+    	model.addAttribute("currentDate", DateUtil.getCurrentTime(DateUtil.FormatString));
     	model.addAttribute("pamsUser", pamsUser);
         return "authc/userInfo";
     }
