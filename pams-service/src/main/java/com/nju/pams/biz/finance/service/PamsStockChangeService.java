@@ -12,6 +12,9 @@ public interface PamsStockChangeService {
 	//获取某个用户的所有股票变更记录，并按照时间排序
 	List<StockChange> getStockChangeListByUserId(Integer userId);
 	
+	//获取某个用户的累计投入，累计转入减去累计转出
+	BigDecimal getTotalInvestmentByUserId(Integer userId);
+	
 	//计算股票买卖时的税费
 	BigDecimal getFeeForStock(int changeTypeId, BigDecimal price, int quantity);
 	
@@ -32,5 +35,5 @@ public interface PamsStockChangeService {
 	boolean insertStockChange(StockChange stockChange);
 	
 	//删除最新的股票变更记录，会连带影响股票资金表和用户持股表
-	void cancelStockChange(int changeId);
+	boolean cancelStockChange(int changeId);
 }

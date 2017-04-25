@@ -21,38 +21,59 @@
  <body>
   <div class="doc-content">
     <ul class="nav-tabs">
-      <li><a href="<%=path%>/web/authc/finance/position/makeTransaction" style="font-size:15px">创建买入与卖出记录</a></li>
-      <li class="active"><a href="#" style="font-size:15px">创建转入与转出记录</a></li>
+      <li><a href="<%=path%>/web/authc/finance/position/makeTransaction" style="font-size:15px">创建转入与转出记录</a></li>
+      <li class="active"><a href="#" style="font-size:15px">创建买入与卖出记录</a></li>
     </ul>
   </div>  
   <div class="container">
     <div class="row">
+    <h2 align="left" style="font-size:18px;color:gray">买入/卖出股票</h2><br>
       <form id="J_Form" class="form-horizontal span24" 
-      		action="<%=path %>/web/authc/finance/position/addInflowAndOutflow"  method="POST" >
-        <div class="row">
-          <div class="control-group span8">
-            <label class="control-label"><span class="redText">*</span> 交易类型：</label>
+      		action="<%=path %>/web/authc/finance/position/addBuyAndSell"  method="POST" >
+      	<div class="row">
+           <div class="control-group span8">
+            <label class="control-label"><span class="redText">*</span> 股票代码：</label>
             <div class="controls">
-              <select  data-rules="{required:true}"  name="changeTypeId" class="input-normal"> 
-                <option value="2">转入</option>
-                <option value="3">转出</option>
-              </select>
+              <input name="symbolCode" type="text" data-rules="{required:true,maxlength:10}" class="input-normal control-text">
             </div>
           </div>
         </div>
+        <div class="control-group span8">
+            <label class="control-label"><span class="redText">*</span> 股票类型：</label>
+            <div class="controls">
+              <select  data-rules="{required:true}"  name="symbolType" class="input-normal"> 
+                <option value="0">沪市</option>
+              </select>
+            </div>
+          </div>
         <div class="row">
+        	<div class="control-group span8">
+            <label class="control-label"><span class="redText">*</span> 交易类型：</label>
+            <div class="controls">
+              <select  data-rules="{required:true}"  name="changeTypeId" class="input-normal"> 
+                <option value="0">买入</option>
+                <option value="1">卖出</option>
+              </select>
+            </div>
+          </div>
           <div class="control-group span15 ">
             <label class="control-label"><span class="redText">*</span> 交易日期：</label>
             <div id="single_range" class="controls bui-form-group"  data-rules="{dateRange:true}">
-              <input name="spendTime" class="calendar calendar-time" data-cfg="{datePicker :{maxDate : '${currentDate }'}}"   data-rules="{required:true}"  type="text">
+              <input name="tradeTime" class="calendar calendar-time" data-cfg="{datePicker :{maxDate : '${currentDate }'}}"   data-rules="{required:true}"  type="text">
             </div>
           </div>
         </div>
         <div class="row">
            <div class="control-group span8">
-            <label class="control-label"><span class="redText">*</span> 金额：</label>
+            <label class="control-label"><span class="redText">*</span> 每股单价：</label>
             <div class="controls">
-              <input name="cost" type="text" data-rules="{number:true,required:true,min:0}" class="input-normal control-text">
+              <input name="price" type="text" data-rules="{number:true,required:true,min:1}" class="input-normal control-text">
+            </div>
+            </div>
+            <div class="control-group span8">
+            <label class="control-label"><span class="redText">*</span> 交易股数：</label>
+            <div class="controls">
+              <input name="quantity" type="number" data-rules="{number:true,required:true,min:1,regexp:[/^\d+$/,'这里不是有效的整数']}" class="input-normal control-text">
             </div>
           </div>
         </div>
@@ -61,10 +82,10 @@
               <button type="submit" class="button button-primary">保存</button>
               <button type="reset" class="button">重置</button>
             </div>
-            <h1><span class="redText">${msg }</span></h1>
+            <h2><span class="redText">${msg }</span></h2>
         </div>
       </form>
-    </div>
+    </div><hr>
     
 
   </div>

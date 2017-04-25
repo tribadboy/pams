@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,6 +54,27 @@ public class PamsStockChangeServiceImpl implements PamsStockChangeService {
 		} else {
 			return resultList;
 		}
+	}
+	
+	/**
+	 * 获取用户的累计投入，累计转入减去累计转出
+	 * @param userId
+	 * @return
+	 */
+	@Override
+	public BigDecimal getTotalInvestmentByUserId(Integer userId) {
+		BigDecimal result = BigDecimal.ZERO;
+		List<StockChange> resultList = pamsStockChangeDAO.getStockChangeListByUserId(userId);
+		if(CollectionUtils.isNotEmpty(resultList)) {
+			for(StockChange change : resultList) {
+				if(change.getChangeTypeId() == StockChange.ChangeType.Inflow.toIntValue()) {
+					result = result.add(change.getTotal());
+				} else if(change.getChangeTypeId() == StockChange.ChangeType.Outflow.toIntValue()){
+					result = result.subtract(change.getTotal());
+				}
+			}
+		}
+		return BigDecimalUtil.generateFormatNumber(result);
 	}
 
 	/**
@@ -237,10 +259,10 @@ public class PamsStockChangeServiceImpl implements PamsStockChangeService {
 	 * @param changeId
 	 */
 	@Override
-	public void cancelStockChange(int changeId) {
+	public boolean cancelStockChange(int changeId) {
 		StockChange change = pamsStockChangeDAO.getStockChangeByChangeId(changeId);
 		if(null == change) {
-			return;
+			return false;
 		}
 		String maxTime = getMaxTradeTimeByUserId(change.getUserId());
 		if(maxTime.equals(change.getTradeTime())) {
@@ -250,12 +272,12 @@ public class PamsStockChangeServiceImpl implements PamsStockChangeService {
 			if(changeTypeId == StockChange.ChangeType.Inflow.toIntValue()) {
 				pamsStockCapitalService.decreaseStockCaptialAmount(userId, total);
 				pamsStockChangeDAO.deleteStockChangeByChangeId(changeId);
-				return;
+				return true;
 				
 			} else if(changeTypeId == StockChange.ChangeType.Outflow.toIntValue()) {
 				pamsStockCapitalService.increaseStockCapitalAmount(userId, total);
 				pamsStockChangeDAO.deleteStockChangeByChangeId(changeId);
-				return;
+				return true;
 				
 			} else if(changeTypeId == StockChange.ChangeType.Purchase.toIntValue()) {
 				int quantity = change.getQuantity();
@@ -264,7 +286,7 @@ public class PamsStockChangeServiceImpl implements PamsStockChangeService {
 				pamsStockCapitalService.increaseStockCapitalAmount(userId, total);
 				pamsStockHoldService.decreaseStockHoldQuantity(userId, symbolCode, symbolType, quantity);
 				pamsStockChangeDAO.deleteStockChangeByChangeId(changeId);
-				return;
+				return true;
 				
 			} else if(changeTypeId == StockChange.ChangeType.Sell.toIntValue()) {
 				int quantity = change.getQuantity();
@@ -273,15 +295,15 @@ public class PamsStockChangeServiceImpl implements PamsStockChangeService {
 				pamsStockCapitalService.decreaseStockCaptialAmount(userId, total);
 				pamsStockHoldService.increaseStockHoldQuantity(userId, symbolCode, symbolType, quantity);
 				pamsStockChangeDAO.deleteStockChangeByChangeId(changeId);
-				return;
+				return true;
 				
 			} else {
 				logger.info("撤销时发现股票变更类型错误，无法撤销");
-				return;
+				return false;
 			}
 		} else {
 			logger.info("要撤销的股票变更记录不是最新的，不执行撤销");
-			return;
+			return false;
 		}	
 	}
 	

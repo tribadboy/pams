@@ -60,7 +60,7 @@ public interface PamsStockChangeDAO {
             + " FROM "
             + TABLE
             + " WHERE "
-            + " user_id = #{uesrId} "
+            + " user_id = #{userId} "
             + " ORDER BY "
             + " trade_time ASC "
             + "")

@@ -22,11 +22,12 @@
  <body>
   <div class="doc-content">
     <ul class="nav-tabs">
-      <li class="active"><a href="#" style="font-size:15px">创建买入与卖出记录</a></li>
-      <li><a href="<%=path%>/web/authc/finance/position/makeTransaction2" style="font-size:15px">创建转入与转出记录</a></li>
+      <li class="active"><a href="#" style="font-size:15px">创建转入与转出记录</a></li>
+      <li><a href="<%=path%>/web/authc/finance/position/makeTransaction2" style="font-size:15px">创建买入与卖出记录</a></li>
     </ul>
   </div>  
   <div class="container">
+  <h2 align="left" style="font-size:18px;color:gray">转入/转出资金</h2><br>
       <form id="J_Form" class="form-horizontal span24" 
       		action="<%=path %>/web/authc/finance/position/addInflowAndOutflow"  method="POST" >
         <div class="row">
@@ -44,7 +45,7 @@
           <div class="control-group span15 ">
             <label class="control-label"><span class="redText">*</span> 交易日期：</label>
              <div id="single_range" class="controls bui-form-group"  data-rules="{dateRange:true}">
-              <input name="spendTime" class="calendar calendar-time"  
+              <input name="tradeTime" class="calendar calendar-time"  data-rules="{required:true}"
               data-cfg="{datePicker :{maxDate : '${currentDate }',lockTime : {second : 0 }}}"  type="text">
             </div>
            
@@ -56,7 +57,7 @@
            <div class="control-group span8">
             <label class="control-label"><span class="redText">*</span> 金额：</label>
             <div class="controls">
-              <input name="cost" type="text" data-rules="{number:true,required:true,min:0}" class="input-normal control-text">
+              <input name="total" type="text" data-rules="{number:true,required:true,min:1}" class="input-normal control-text">
             </div>
           </div>
         </div>
@@ -65,7 +66,7 @@
               <button type="submit" class="button button-primary">保存</button>
               <button type="reset" class="button">重置</button>
             </div>
-            <h1><span class="redText">${msg }</span></h1>
+            <h2><span class="redText">${msg }</span></h2>
         </div>
        
       </form>

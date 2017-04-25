@@ -46,18 +46,31 @@ public class StockChange {
     }
     
     public enum ChangeType { 
-		 Purchase(0),
-		 Sell(1),
-	     Inflow(2),
-	     Outflow(3);
+		 Purchase(0, "买入股票"),
+		 Sell(1, "卖出股票"),
+	     Inflow(2, "转入资金"),
+	     Outflow(3, "转出资金");
 
 	     private final int index;
-	     private ChangeType(int index) {
+	     private final String msg;
+	     private ChangeType(int index, String msg) {
 	    	 this.index = index;
+	    	 this.msg = msg;
 	     }
 	     public int toIntValue() {
 	    	 return index;
 	     }
+	     public String getMsg() {
+	    	 return msg;
+	     }
+	     public static String getMsgFromIndex(int index) {
+	    	 for(ChangeType type : ChangeType.values()) {
+	    		 if(index == type.toIntValue()) {
+	    			 return type.getMsg();
+	    		 }
+	    	 }
+	    	 return "";
+	     }    
 	 }
     
 	public int getChangeId() {

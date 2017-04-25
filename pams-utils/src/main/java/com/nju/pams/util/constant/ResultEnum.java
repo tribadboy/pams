@@ -38,6 +38,9 @@ public enum ResultEnum {
     PictureNameTooLong(62, "用户图片名称过长"),
     PictureTypeError(63, "请选择以png／jpg／jpeg结尾的图片"),
     
+    //用户持仓相关的错误
+    DeleteStockChangeError(71, "删除交易记录失败，请检查交易记录的时间以及相关信息"),
+    
     
     UnknownError(99, "未知错误");
 

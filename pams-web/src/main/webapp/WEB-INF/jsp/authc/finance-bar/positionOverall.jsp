@@ -3,62 +3,45 @@
     String path = request.getContextPath();
     String basePath = request.getScheme() + "://" + request.getServerName() + ":" 
     				+ request.getServerPort() + path + "/";
+    int countOfInform = (Integer)request.getAttribute("countOfInform");
 %> 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE HTML>
 <html>
  <head>
-  <title>个人信息</title>
+  <title>用户持仓概要</title>
    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link href="<%=basePath%>static/view/assets/css/dpl-min.css" rel="stylesheet" type="text/css" />
     <link href="<%=basePath%>static/view/assets/css/bui-min.css" rel="stylesheet" type="text/css" />
     <link href="<%=basePath%>static/view/assets/css/page-min.css" rel="stylesheet" type="text/css" />
-   	<style type="text/css">
-    h3 {
-    	color:black;
-    	font-size:20px;
-    }
-   	 label {
-    	color:gray;
-    	font-size:15px;
-    }
    
-   </style>
  </head>
  <body>
-      
-  <div class="container">
-  <div class="detail-page">
-  <hr>
-  <h3>账户信息</h3>
-  </div>
-    <div class="detail-page">
-      
-      <div class="detail-section">  
-        <div class="row detail-row" align="center">
-            <label>用户名：</label><span class="detail-text">${user.username }</span>
-        </div>
-        <div class="row detail-row" align="center">
-            <label>手机：</label><span class="detail-text">${user.phone }</span>
-        </div>
-        <div class="row detail-row" align="center">
-            <label>邮箱：</label><span class="detail-text">${user.mail }</span>
-        </div>
-      </div>
-      <hr>
-      <div class="detail-section">
-        <h3>系统使用信息</h3> 
-        <div class="row detail-row" align="center">
-            <label>注册时间：</label><span class="detail-text">${registerTime }</span>
-        </div>
-        <label>最近的登录：</label><br>
-        <div class="row detail-row">
-          <div class="span24">
-            <div id="grid"></div>
-          </div>
-        </div>
-      </div>
+ 	<br><br>
+      <h1 align="center" style="font-size:30px;color:silvery">用户持仓概要</h1>
+     <hr>
+    <div class="container">
+	<h2 align="left" style="font-size:20px;color:gray">
+		<label>用户累计投入：  ${investment }</label>
+		<label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+		<label>&lt;===&gt;</label>
+		<label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+		<label>当前仓位剩余金额：  ${remain }</label>
+		<label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+		<label>预期股票价值：  ${stockValue }</label>
+	</h2>
+    <br><hr>
+    <h2 align="left" style="font-size:20px;color:gray">用户持有的股票:</h2>
+    <br>
+     <div class="detail-page">
+    	<div class="search-grid-container">
+      		<div id="grid">
+    		</div>
+  		</div>
+  	</div>
     </div>
-  </div>
+    <br>
+    <br>
   <script type="text/javascript" src="<%=basePath%>static/view/assets/js/jquery-1.8.1.min.js"></script>
   <script type="text/javascript" src="<%=basePath%>static/view/assets/js/bui-min.js"></script>
 
@@ -66,25 +49,35 @@
   <script type="text/javascript">
     BUI.use('common/page');
   </script>
-
-<script type="text/javascript">
-  BUI.use('bui/grid',function (Grid) {
-	  
-       var data = ${loginInfoList} ;
+	<script type="text/javascript">
+          BUI.use(['bui/grid','bui/data'],function(Grid,Data){
+            var Grid = Grid,
+          Store = Data.Store,
+          columns = [
+            {title : '股票代码',dataIndex :'symbolCode', elCls : 'center', sortable: false, width:100},
+            {title : '股票名称',dataIndex :'symbolName', elCls : 'center', sortable: false,width:100},
+            {title : '股票类型',dataIndex :'symbolTypeName', elCls : 'center', sortable: false,width:100},
+            {title : '持有股数',dataIndex :'quantity', elCls : 'center', sortable: false,width:100},
+            {title : '最新历史时间节点',dataIndex :'time', elCls : 'center', sortable: false,width:200},
+            {title : '每股价值',dataIndex :'price', elCls : 'center', sortable: true,width:100},
+            {title : '预期价值',dataIndex :'value', elCls : 'center', sortable: true,width:100},
+          ],
+          data = ${dataList};
  
-        grid = new Grid.SimpleGrid({
-          render : '#grid', //显示Grid到此处
-          width : 950,      //设置宽度
-          columns : [
-            {title:'用户名',dataIndex:'username',width:80},
-            {title:'ip地址',dataIndex:'ip',width:100},
-            {title:'登录时间',dataIndex:'loginTime',width:100,renderer:Grid.Format.dateRenderer}
-          ]
-        });
-      grid.render();
-      grid.showData(data);
-  });
-</script>
-
+        var store = new Store({
+            data : data,
+            autoLoad:true
+          }),
+          grid = new Grid.Grid({
+            render:'#grid',
+            columns : columns,
+            forceFit : true,
+            store: store,
+            plugins : [Grid.Plugins.RowNumber,Grid.Plugins.AutoFit]  // 插件形式引入自适应宽度
+          });
+ 
+        grid.render();
+      });
+    </script>
 <body>
 </html>  
