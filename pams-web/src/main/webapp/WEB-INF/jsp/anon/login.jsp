@@ -3,6 +3,8 @@
     String path = request.getContextPath();
     String basePath = request.getScheme() + "://" + request.getServerName() + ":" 
     				+ request.getServerPort() + path + "/";
+    String backgroundPath = request.getScheme() + "://" + request.getServerName() + ":" 
+			+ request.getServerPort() + "pams-background/";
 %> 
 <!DOCTYPE html>
 <html lang="zh-cn">
@@ -35,11 +37,13 @@
         <input type="submit" value="login" class="submitBtn"/><br>
         <a href="<%=path %>/web/user/registerPage"><label style="font-size:15px;color:#ccccee">用户注册</label></a>
         <a href="<%=path %>/static/view/index.html"><label style="font-size:15px;color:#ccccee">返回主页</label></a>
-
+		<br>
+		<a href="<%=backgroundPath %>background/anon/login.html"><label style="font-size:15px;color:#cccccc">后台地址</label></a>
         <h5>${message}</h5>
     </form>  
            
 </div>
+
 	<!-- js文件依次放在下面 -->
 	<script> 
    		var path = "<%=path%>"; 

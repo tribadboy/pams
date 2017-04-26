@@ -39,6 +39,6 @@
   	<module>pams-model</module>
   	<module>pams-web</module>
   	<module>pams-utils</module>
-  	<module>pams-backend</module>
+  	<module>pams-background</module>
   </modules>
 </project>

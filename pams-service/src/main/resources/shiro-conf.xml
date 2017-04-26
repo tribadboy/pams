@@ -13,9 +13,9 @@
         <property name="unauthorizedUrl" value="/error/unauthorized"/>
         <property name="filterChainDefinitions">
             <value>
+            	/static/view/index.html=anon
                 /web/authc/**=authc
-                /static/view/index.html=anon
-                /static/view/home.html=authc
+                
             </value>
         </property>
     </bean>

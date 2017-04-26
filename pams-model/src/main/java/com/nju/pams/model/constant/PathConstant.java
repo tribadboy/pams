@@ -6,19 +6,30 @@ package com.nju.pams.model.constant;
  */
 public final class PathConstant {
 	
-	//web路径
-	final public static String WEB = "/web/";
+	//background 后台相关的页面 ---------------------------------------------------------------------------
+	
+	final public static String BACKGROUND_ANON = "/background/anon/";
+	final public static String BACKGROUND_AUTHC = "/background/authc/";
+	final public static String BACKGROUND_CODE = "/background/code/";
+	
+	
+	//web 前台的相关页面 ----------------------------------------------------------------------------------
 	
 	//web下不需登录可访问的接口
 	final public static String WEB_ANON = "/web/anon/";
+	
 	//web下需要登录和对应权限才能访问的接口
 	final public static String WEB_AUTHC = "/web/authc/";
+	
 	//web下生成验证码的接口
 	final public static String WEB_CODE = "/web/code/";
+	
 	//web路径用户注册的接口
 	final public static String WEB_USER = "/web/user/";
+	
 	//web路径下载接口
 	final public static String WEB_DOWNLOAD = "/web/download/";
+	
 	//金融数据更新接口
 	final public static String WEB_FINANCE = "/web/finance/";
 	

@@ -7,8 +7,10 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.nju.pams.biz.service.PamsUserService;
+import com.nju.pams.mapper.dao.PamsAdminUserDAO;
 import com.nju.pams.mapper.dao.PamsUserDAO;
 import com.nju.pams.mapper.dao.PamsUserPhotoDAO;
+import com.nju.pams.model.PamsAdminUser;
 import com.nju.pams.model.PamsUser;
 import com.nju.pams.model.PamsUserPhoto;
 
@@ -21,6 +23,9 @@ public class PamsUserServiceImpl implements PamsUserService {
 	
 	@Autowired
 	PamsUserPhotoDAO pamsUserPhotoDAO;
+	
+	@Autowired
+	PamsAdminUserDAO pamsAdminUserDAO;
 	
     private static final Logger logger = Logger.getLogger(PamsUserServiceImpl.class);
 
@@ -75,6 +80,11 @@ public class PamsUserServiceImpl implements PamsUserService {
 	@Override
 	public void updatePamsUserPhoto(PamsUserPhoto pamsUserPhoto) {
 		pamsUserPhotoDAO.updatePamsUserPhoto(pamsUserPhoto);
+	}
+
+	@Override
+	public PamsAdminUser getPamsAdminUserByUsername(String username) {
+		return pamsAdminUserDAO.getPamsAdminUserByUsername(username);
 	}
 
 }

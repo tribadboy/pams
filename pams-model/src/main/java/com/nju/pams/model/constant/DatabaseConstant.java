@@ -54,4 +54,8 @@ public final class DatabaseConstant {
 	final public static String T_PAMS_INFORM = DB_NAME + "." + "t_pams_inform";
 	final public static String T_PAMS_INFORM_USER_REF = DB_NAME + "." + "t_pams_inform_user_ref";
 	
+	
+	//仅用于后台的数据库表格
+	final public static String T_PAMS_ADMIN_USER = DB_NAME + "." + "t_pams_admin_user";
+	
 }
