@@ -32,6 +32,7 @@ public final class PathConstant {
 	//consumption bar
 	final public static String WEB_AUTHC_CONSUMPTION_RECORD = "/web/authc/consumption/record/";
 	final public static String WEB_AUTHC_CONSUMPTION_EXCEL = "/web/authc/consumption/excel/";
+	final public static String WEB_AUTHC_CONSUMPTION_DATA = "/web/authc/consumption/data/";
 	
 	//asset bar
 	final public static String WEB_AUTHC_ASSET_GENERAL_ASSET = "/web/authc/asset/generalAsset/";

@@ -85,6 +85,7 @@ BUI.use('bui/chart',function (Chart) {
         min : 0
       },  
       tooltip : {
+    	valueSuffix : '元',
         shared : true
       },
       seriesOptions : {
@@ -117,7 +118,7 @@ BUI.use('bui/chart',function (Chart) {
           }
         },  
         tooltip : {
-          valueSuffix : '¥',
+          valueSuffix : '元',
           shared : true, //是否多个数据序列共同显示信息
           crosshairs : true //是否出现基准线
         },

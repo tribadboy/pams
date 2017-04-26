@@ -16,21 +16,25 @@
     .redText {
       color: red;
     }
+    label {
+    	color : gray;
+    	font-size : 15px;
+    }
    </style>
  </head>
  <body>
   <div class="container">  
   	<div class="row">
-  		<div class="control-group span3">
+  		<div class="control-group span4">
             <label class="control-label">贷款类型：${direction }</label>
          </div>
-         <div class="control-group span4">
-            <label class="control-label">预期还款数额：${exceptRepayAmount }</label>
+         <div class="control-group span5">
+            <label class="control-label">预期还款数额：${exceptRepayAmount } 元</label>
          </div>
-         <div class="control-group span4">
-            <label class="control-label">累计还款数额：${realRepayAmount }</label>
+         <div class="control-group span5">
+            <label class="control-label">累计还款数额：${realRepayAmount } 元</label>
          </div>
-         <div class="control-group span3">
+         <div class="control-group span5">
             <label class="control-label">状态：${statusName }</label>
          </div>
         <form id="searchForm" class="form-horizontal" tabindex="0" style="outline: none;">
@@ -68,7 +72,9 @@
     </form> 
     <br>
     <h1><label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><span class="redText">${msg }</span></h1>
+    <hr>
     <div class="search-grid-container">
+    <label>还款记录列表：</label>
       <div id="grid">
     </div>
 
@@ -101,8 +107,10 @@
 			{ title: '类别',width: 100,  sortable: false, dataIndex: 'changeTypeName'},
             { title: '数额', width: 100, sortable: false, dataIndex: 'changeAmount'},
             { title: '时间',width: 100, sortable: false,  dataIndex: 'changeTime'},
-            { title: '操作', width: 100, sortable: false, dataIndex: '',renderer:function(value,obj){         
-                return '<span class="grid-command btn-del">删除</span>';
+            { title: '操作', width: 100, sortable: false, dataIndex: '',renderer:function(value,obj){  
+            	if(obj.changeTypeName != "创建贷款") {
+                	return '<span class="grid-command btn-del">删除</span>';
+            	}
             }}
           ];
          
@@ -121,11 +129,11 @@
             forceFit:true,
             columns : columns,
             store: store,
-            tbar:{
-                pagingBar:true
+            tbar:{               
             },
             // 底部工具栏
             bbar : {
+            	pagingBar:true
             }
           });
  
@@ -165,7 +173,7 @@
                   	  BUI.Message.Alert('删除成功！'); 
                   	  top.topManager.reloadPage();
                     }else{ 
-                      BUI.Message.Alert('删除失败！本页面只能删除还款记录');
+                      BUI.Message.Alert('删除失败！请检查操作');
                     }
                   }
               });

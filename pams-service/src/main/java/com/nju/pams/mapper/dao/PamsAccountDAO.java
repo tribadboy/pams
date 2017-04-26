@@ -1,7 +1,7 @@
 package com.nju.pams.mapper.dao;
 
+import java.math.BigDecimal;
 import java.util.List;
-
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Options;
@@ -12,6 +12,7 @@ import org.apache.ibatis.annotations.Update;
 
 import com.nju.pams.mapper.dao.sqlProvider.PamsAccountProvider;
 import com.nju.pams.model.constant.DatabaseConstant;
+import com.nju.pams.model.consumption.AccountOfDay;
 import com.nju.pams.model.consumption.ConsumptionAccount;
 import com.nju.pams.model.consumption.ConsumptionCondition;
 import com.nju.pams.util.annotation.DAOMapper;
@@ -38,6 +39,67 @@ public interface PamsAccountDAO {
             + "")
     public ConsumptionAccount getConsumptionAccountByAccountId(
     		@Param("accountId") Integer accountId);
+    
+    /**
+     * 获取某个用户在某个消费类别下的总开销
+     * @param consumptionId
+     * @param userId
+     * @return
+     */
+    @Select(""
+            + " SELECT "
+            + " SUM(cost) "
+            + " FROM "
+            + TABLE
+            + " WHERE "
+            + " consumption_id = #{consumptionId} "
+            + " AND "
+            + " user_id = #{userId} "
+            + "")
+    public BigDecimal getSumCostByConsumptionIdAndUserId(
+    		@Param("consumptionId") Integer consumptionId, @Param("userId") Integer userId);
+    
+    /**
+     * 获取所用用户在某个消费类别下的总开销
+     * @param consumptionId
+     * @return
+     */
+    @Select(""
+            + " SELECT "
+            + " SUM(cost) "
+            + " FROM "
+            + TABLE
+            + " WHERE "
+            + " consumption_id = #{consumptionId} "
+            + "")
+    public BigDecimal getSumCostByConsumptionId(@Param("consumptionId") Integer consumptionId);
+    
+    /**
+     * 获取某个用户的总开销
+     * @param userId
+     * @return
+     */
+    @Select(""
+            + " SELECT "
+            + " SUM(cost) "
+            + " FROM "
+            + TABLE
+            + " WHERE "
+            + " user_id = #{userId} "
+            + "")
+    public BigDecimal getSumCostByUserId(@Param("userId") Integer userId);
+    
+    /**
+     * 获取所有用户的总开销
+     * @return
+     */
+    @Select(""
+            + " SELECT "
+            + " SUM(cost) "
+            + " FROM "
+            + TABLE
+            + "")
+    public BigDecimal getSumCost();
     
     /**
      * 根据userId获取最大消费日期
@@ -86,6 +148,46 @@ public interface PamsAccountDAO {
             + "")
     public List<ConsumptionAccount> getConsumptionAccountListByUserId(
     		@Param("userId") Integer userId);
+    
+    /**
+     * 获取某个用户在每一天的消费总和
+     * @param userId
+     * @return
+     */
+    @Select(""
+            + " SELECT "
+            + " spend_time as spend_time, SUM(cost) as cost, COUNT(DISTINCT user_id) as count_of_user "
+            + " FROM "
+            + TABLE
+            + " WHERE "
+            + " user_id = #{userId} "
+            + " GROUP BY "
+            + " spend_time "
+            + " ORDER BY "
+            + " spend_time "
+            + "")
+    public List<AccountOfDay> getDaySpendByUserId(@Param("userId") Integer userId);
+    
+    /**
+     * 获取所有用户在每一天的消费总和
+     * @return
+     */
+    @Select(""
+            + " SELECT "
+            + " spend_time as spend_time, SUM(cost) as cost, COUNT(DISTINCT user_id) as count_of_user "
+            + " FROM "
+            + TABLE
+            + " WHERE "
+            + " spend_time >= #{minDate} "
+            + " AND "
+            + " spend_time <= #{maxDate} "
+            + " GROUP BY "
+            + " spend_time "
+            + " ORDER BY "
+            + " spend_time "
+            + "")
+    public List<AccountOfDay> getDaySpendInPeriod(@Param("minDate") String minDate, @Param("maxDate") String maxDate);
+    
     
     /**
      * 多条件查询消费

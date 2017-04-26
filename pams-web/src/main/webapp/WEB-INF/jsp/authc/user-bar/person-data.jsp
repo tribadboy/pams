@@ -15,11 +15,11 @@
    	<style type="text/css">
     h3 {
     	color:black;
-    	font-size:20px;
+    	font-size:25px;
     }
    	 label {
     	color:gray;
-    	font-size:15px;
+    	font-size:20px;
     }
    
    </style>
@@ -36,23 +36,23 @@
    </div>
   </div>
     <div class="detail-page">
-      
+      <br>
       <div class="detail-section">  
         <div class="row detail-row" align="center">
-            <label>用户名：</label><span class="detail-text">${user.username }</span>
+            <label>用户名：<span class="detail-text">${user.username }</span></label>
         </div>
         <div class="row detail-row" align="center">
-            <label>手机：</label><span class="detail-text">${user.phone }</span>
+            <label>手机：<span class="detail-text">${user.phone }</span></label>
         </div>
         <div class="row detail-row" align="center">
-            <label>邮箱：</label><span class="detail-text">${user.mail }</span>
+            <label>邮箱：<span class="detail-text">${user.mail }</span></label>
         </div>
       </div>
       <hr>
       <div class="detail-section">
         <h3>系统使用信息</h3> 
         <div class="row detail-row" align="center">
-            <label>注册时间：</label><span class="detail-text">${registerTime }</span>
+            <label>注册时间：<span class="detail-text">${registerTime }</span></label>
         </div>
         <label>最近的登录：</label><br>
         <div class="row detail-row">
@@ -63,6 +63,7 @@
       </div>
     </div>
   </div>
+  <hr><hr><br><br>
   <script type="text/javascript" src="<%=basePath%>static/view/assets/js/jquery-1.8.1.min.js"></script>
   <script type="text/javascript" src="<%=basePath%>static/view/assets/js/bui-min.js"></script>
 
@@ -76,14 +77,16 @@
 	  
        var data = ${loginInfoList} ;
  
-        grid = new Grid.SimpleGrid({
+        grid = new Grid.Grid({
           render : '#grid', //显示Grid到此处
           width : 950,      //设置宽度
+          forceFit : true,         
           columns : [
-            {title:'用户名',dataIndex:'username',width:80},
-            {title:'ip地址',dataIndex:'ip',width:100},
-            {title:'登录时间',dataIndex:'loginTime',width:100,renderer:Grid.Format.dateRenderer}
-          ]
+            {title:'用户名', elCls : 'center', dataIndex:'username',width:80},
+            {title:'ip地址', elCls : 'center', dataIndex:'ip',width:100},
+            {title:'登录时间', elCls : 'center', dataIndex:'loginTime',width:100,renderer:Grid.Format.dateRenderer}
+          ],
+          plugins : [Grid.Plugins.RowNumber,Grid.Plugins.AutoFit]  // 插件形式引入自适应宽度
         });
       grid.render();
       grid.showData(data);

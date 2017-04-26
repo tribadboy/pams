@@ -73,14 +73,45 @@ public class PamsAccountServiceImplTest {
 	 }
 	 
 	//@Ignore
+	/**
+	 * 
+	 */
 	@Test
 	public void makeDataForAccountsTest() {
 		for(ConsumptionEnum e : ConsumptionEnum.values()) {
 			System.out.println(e);
-			for(int i = 1; i <= 200; i++) {
-				String randomDateStr = DateUtil.getRandomDateString("2016-01-01", "2016-12-31");
-				ConsumptionAccount c = new ConsumptionAccount(10, e.getCode(),
-						BigDecimal.valueOf(Math.random() * 100), 
+			int count = 0;
+			int amount = 0;
+			
+			switch(e) {
+			case BookCost:		count = 30; amount = 50;
+				break;
+			case ChotheCost:	count = 100; amount = 100;
+				break;
+			case Commodity:		count = 200; amount = 10;
+				break;
+			case HouseCost:		count = 10; amount = 2000;
+				break;
+			case LivingCost:	count = 300; amount = 10;
+				break;
+			case MealCost:		count = 500; amount = 12;
+				break;
+			case OtherCost:		count = 20;	amount = 80;
+				break;
+			case PhoneCost:		count = 20;	amount = 50;
+				break;
+			case TrafficCost:	count = 200; amount = 5;
+				break;
+			case TravelCost:	count = 3;	amount = 1000;
+				break;
+			default:			count = 50; amount = 50;
+				break;
+			}
+			
+			for(int i = 1; i <= count; i++) {
+				String randomDateStr = DateUtil.getRandomDateString("2016-01-01", "2017-04-20");
+				ConsumptionAccount c = new ConsumptionAccount(6, e.getCode(),
+						BigDecimal.valueOf(Math.random() * amount * 2), 
 						randomDateStr, "msg_" + e.getCode() + "_" + i);
 				pamsAccountService.insertConsumptionAccount(c);
 			}

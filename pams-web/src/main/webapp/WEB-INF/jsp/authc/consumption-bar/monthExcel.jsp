@@ -83,7 +83,8 @@ BUI.use('bui/chart',function (Chart) {
         min : 0
       },  
       tooltip : {
-        shared : true
+        shared : true,
+        valueSuffix : '元'
       },
       seriesOptions : {
           columnCfg : {

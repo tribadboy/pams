@@ -59,15 +59,15 @@
                 <option value="2">转出</option>
               </select>
             </div>
+            <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
           </div>
           <div class="control-group span10 ">
             <label class="control-label"><span class="redText">*</span> 记录日期：</label>
             <div id="single_range" class="controls bui-form-group"  data-rules="{dateRange:true}">
               <input name="changeTime" class="calendar" data-cfg="{datePicker :{maxDate : '${currentDate }'}}"   data-rules="{required:true}"  type="text">
             </div>
-            <label>（注：交易日期必须为所有已存在的交易日期中最新的）</label>
           </div>
-          <div class="control-group span15">
+          <div class="control-group span20">
             <label class="control-label"><span class="redText">*</span> 交易金额：</label>
             <div class="controls">
               <input name="changeAmount" type="text" data-rules="{number:true,required:true,min:0}" class="input-normal control-text">
@@ -80,12 +80,13 @@
           </div>      
       </div>   
     </form> 
-    <br>
     <h1><label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><span class="redText">${msg }</span></h1>
+    <hr>
     <div class="search-grid-container">
+      <label style="font-size:15px;color:gray">存款变更记录：</label>
       <div id="grid">
     </div>
-
+    <hr><br><br>
   <script type="text/javascript" src="<%=basePath%>static/view/assets/js/jquery-1.8.1.min.js"></script>
   <script type="text/javascript" src="<%=basePath%>static/view/assets/js/bui-min.js"></script>
   <script type="text/javascript" src="<%=basePath%>static/view/assets/js/config-min.js"></script>
@@ -150,10 +151,11 @@
             columns : columns,
             store: store,
             tbar:{
-                pagingBar:true
+                
             },
             // 底部工具栏
             bbar : {
+            	pagingBar:true
             }
           });
  

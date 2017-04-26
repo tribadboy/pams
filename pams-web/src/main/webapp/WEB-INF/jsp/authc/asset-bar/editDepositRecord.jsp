@@ -23,7 +23,7 @@
             		<input type="radio" value="0" name="type" checked> <label>所有存款</label>
             		<input type="radio" value="1" name="type"> <label>尚未完全结转的存款</label>
             	</div>
-               <div class="control-group span">
+               <div class="control-group span6">
                <label>&nbsp;&nbsp;&nbsp;&nbsp;</label>
               	<button id="btnSearch" type="submit" class="button button-primary">搜索</button>
                </div>     
@@ -49,7 +49,10 @@
     BUI.use('common/page');
   </script>
     <script type="text/javascript">
-    
+    window.onload = function addOption(){
+		 //初始化后自动点击按钮
+		 document.getElementById("btnSearch").click();
+	}
     BUI.use(['bui/form','bui/grid','bui/data'],function(Form,Grid,Data){
     	//创建表单，表单中的日历，不需要单独初始化
         var form = new Form.HForm({
@@ -59,11 +62,11 @@
          var Grid = BUI.Grid,
           Store = BUI.Data.Store,
           columns = [
-            { title: '存款名称',width: 100,  sortable: false, dataIndex: 'depositName'},
-            { title: '存款类型', width: 100, sortable: false, dataIndex: 'depositTimeName'},
-            { title: '活期利率(%)', width: 80,sortable: false,  dataIndex: 'currentProfitPercent'},
-            { title: '定期利率(%)', width: 80,sortable: false,  dataIndex: 'fixedProfitPercent'},
-            { title: '今日数额(含利息)',width: 100, sortable: false,  dataIndex: 'currentAmount'},
+            { title: '存款名称',width: 100,  elCls : 'center', sortable: false, dataIndex: 'depositName'},
+            { title: '存款类型', width: 100, elCls : 'center', sortable: false, dataIndex: 'depositTimeName'},
+            { title: '活期利率(%)', width: 80, elCls : 'center', sortable: false,  dataIndex: 'currentProfitPercent'},
+            { title: '定期利率(%)', width: 80, elCls : 'center', sortable: false,  dataIndex: 'fixedProfitPercent'},
+            { title: '今日数额(含利息)',width: 100,  elCls : 'center', sortable: false,  dataIndex: 'currentAmount'},
             { title: '状态',width: 60, sortable: false,  dataIndex: 'statusName'},
             { title: '备注信息',width: 200, sortable: false,  dataIndex: 'message'},
             { title: '操作', width: 180, sortable: false, dataIndex: '',renderer:function(value,obj){         
@@ -98,10 +101,11 @@
                     text:'删除',
                     handler : delFunction
                 }], */
-                pagingBar:true
+                
             },
             // 底部工具栏
             bbar : {
+            	pagingBar:true
             }
           });
  

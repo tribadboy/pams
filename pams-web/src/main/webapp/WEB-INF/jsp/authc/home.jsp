@@ -80,7 +80,13 @@
                    {id:'consumptionMonthExcel',text:'月份报表',href:'<%=path %>/web/authc/consumption/excel/monthExcel'}, 
                    {id:'consumptionYearExcel',text:'年度报表',href:'<%=path %>/web/authc/consumption/excel/yearExcel'}              
                 ]
-              }]
+              },{
+                  text:'平台数据分析',
+                  items:[
+                     {id:'allDataOfType',text:'分类占比',href:'<%=path %>/web/authc/consumption/data/getAllDataOfType'},
+                     {id:'allDataOfTime',text:'时间分布',href:'<%=path %>/web/authc/consumption/data/getAllDataOfTime'}              
+                  ]
+                }]
           },{
             id:'asset-bar',
             menu:[{

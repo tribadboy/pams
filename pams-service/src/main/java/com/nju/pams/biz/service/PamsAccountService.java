@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import com.nju.pams.biz.model.vo.ConsumptionOverallVO;
+import com.nju.pams.model.consumption.AccountOfDay;
 import com.nju.pams.model.consumption.ConsumptionAccount;
 import com.nju.pams.model.consumption.ConsumptionCondition;
 
@@ -23,4 +24,20 @@ public interface PamsAccountService {
 	BigDecimal computeAllConsumptionValue(Integer userId);
 	
 	ConsumptionOverallVO getConsumptionOverall(Integer userId);
+	
+	BigDecimal getSumCostByConsumptionIdAndUserId(Integer consumptionId, Integer userId);
+	
+	BigDecimal getSumCostByConsumptionId(Integer consumptionId);
+	
+	BigDecimal getSumCostByUserId(Integer userId);
+	
+	BigDecimal getSumCost();
+	
+	List<AccountOfDay> getDaySpendByUserId(Integer userId);
+	
+	List<AccountOfDay> getDaySpendInPeriod(String minDate, String maxDate);
+	
+	String getMaxDateByUserId(Integer userId);
+	
+	String getMinDateByUserId(Integer userId);
 }

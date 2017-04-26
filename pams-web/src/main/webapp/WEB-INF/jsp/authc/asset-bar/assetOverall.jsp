@@ -14,7 +14,7 @@
     <link href="<%=basePath%>static/view/assets/css/page-min.css" rel="stylesheet" type="text/css" />
    	<style type="text/css">
    	 h1 {
-    	color:gray;
+    	color:black;
     	font-size:18px;
     }
      label {
@@ -39,17 +39,17 @@
       <h1 align="center">消费概要</h1><br>
       <div class="detail-section">  
         <div class="row detail-row">
-          <div class="span8">
+          <div class="span4">
             <label>记录笔数：</label><span class="detail-text">${consumptionOverall.count }</span>
           </div>
-          <div class="span8">
+          <div class="span5">
             <label>最小日期：</label><span class="detail-text">${consumptionOverall.minDate }</span>
           </div>
-           <div class="span8">
+           <div class="span5">
             <label>最大日期：</label><span class="detail-text">${consumptionOverall.maxDate }</span>
           </div>
-          <div class="span8">
-            <label>总开销：</label><span class="detail-text">${consumptionOverall.sum }</span>
+          <div class="span5">
+            <label>总开销：</label><span class="detail-text">${consumptionOverall.sum } 元</span>
           </div>
         </div>
       </div>     
@@ -59,17 +59,17 @@
       <h1 align="center">固定资产概要</h1><br>
       <div class="detail-section">  
         <div class="row detail-row">
-          <div class="span8">
+          <div class="span4">
             <label>记录笔数：</label><span class="detail-text">${fixedAssetOverall.count }</span>
           </div>
-          <div class="span8">
+          <div class="span5">
             <label>最小日期：</label><span class="detail-text">${fixedAssetOverall.minDate }</span>
           </div>
-           <div class="span8">
+           <div class="span5">
             <label>最大日期：</label><span class="detail-text">${fixedAssetOverall.maxDate }</span>
           </div>
-          <div class="span8">
-            <label>总价值：</label><span class="detail-text">${fixedAssetOverall.sum }</span>
+          <div class="span5">
+            <label>总价值：</label><span class="detail-text">${fixedAssetOverall.sum } 元</span>
           </div>
         </div>
       </div>     
@@ -79,17 +79,17 @@
       <h1 align="center">常规收入概要</h1><br>
       <div class="detail-section">  
         <div class="row detail-row">
-          <div class="span8">
+          <div class="span4">
             <label>记录笔数：</label><span class="detail-text">${regularIncomeOverall.count }</span>
           </div>
-          <div class="span8">
+          <div class="span5">
             <label>最小日期：</label><span class="detail-text">${regularIncomeOverall.minDate }</span>
           </div>
-           <div class="span8">
+           <div class="span5">
             <label>最大日期：</label><span class="detail-text">${regularIncomeOverall.maxDate }</span>
           </div>
-          <div class="span8">
-            <label>总收入：</label><span class="detail-text">${regularIncomeOverall.sum }</span>
+          <div class="span5">
+            <label>总收入：</label><span class="detail-text">${regularIncomeOverall.sum } 元</span>
           </div>
         </div>
       </div>     
@@ -99,22 +99,22 @@
       <h1 align="center">存款概要</h1><br>
       <div class="detail-section">  
         <div class="row detail-row">
-          <div class="span8">
+          <div class="span6">
             <label>进行中的存款笔数：</label><span class="detail-text">${depositOverall.countOfValid }</span>
           </div>
           <div class="span8">
-            <label>进行中存款的累积投入：</label><span class="detail-text">${depositOverall.payValue }</span>
+            <label>进行中存款的累积投入：</label><span class="detail-text">${depositOverall.payValue } 元</span>
           </div>
            <div class="span8">
-            <label>截止今日预期的总收益：</label><span class="detail-text">${depositOverall.exceptValue }</span>
+            <label>截止今日预期的总价值：</label><span class="detail-text">${depositOverall.exceptValue } 元</span>
           </div>
         </div>
         <div class="row detail-row">
-          <div class="span8">
+          <div class="span6">
             <label>已结束的存款笔数：</label><span class="detail-text">${depositOverall.countOfInvalid }</span>
           </div>
-          <div class="span8">
-            <label>已结束的存款总收益：</label><span class="detail-text">${depositOverall.invalidValue }</span>
+          <div class="span6">
+            <label>已结束的存款总利润：</label><span class="detail-text">${depositOverall.invalidValue } 元</span>
           </div>
         </div>
       </div>     
@@ -150,7 +150,7 @@
         </div>
       </div>     
     </div>
-    <hr>
+    <hr><hr><br><br>
   </div>
   <script type="text/javascript" src="<%=basePath%>static/view/assets/js/jquery-1.8.1.min.js"></script>
   <script type="text/javascript" src="<%=basePath%>static/view/assets/js/bui-min.js"></script>

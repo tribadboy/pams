@@ -23,8 +23,8 @@
             		<input type="radio" value="0" name="type" checked> <label>所有贷款</label>
             		<input type="radio" value="1" name="type"> <label>尚未结束的存款</label>
             	</div>
-               <div class="control-group span">
-               <label>&nbsp;&nbsp;&nbsp;&nbsp;</label>
+               <div class="control-group span6">
+               <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
               	<button id="btnSearch" type="submit" class="button button-primary">搜索</button>
                </div>     
                
@@ -49,7 +49,10 @@
     BUI.use('common/page');
   </script>
     <script type="text/javascript">
-    
+    window.onload = function addOption(){
+		 //初始化后自动点击按钮
+		 document.getElementById("btnSearch").click();
+	}
     BUI.use(['bui/form','bui/grid','bui/data'],function(Form,Grid,Data){
     	//创建表单，表单中的日历，不需要单独初始化
         var form = new Form.HForm({
@@ -91,11 +94,11 @@
             //plugins : [Grid.Plugins.CheckSelection,Grid.Plugins.AutoFit], //勾选插件、自适应宽度插件
             //plugins : [BUI.Grid.Plugins.CheckSelection], // 插件形式引入多选表格,
             // 顶部工具栏
-            tbar:{
-                pagingBar:true
+            tbar:{               
             },
             // 底部工具栏
             bbar : {
+            	pagingBar:true
             }
           });
  

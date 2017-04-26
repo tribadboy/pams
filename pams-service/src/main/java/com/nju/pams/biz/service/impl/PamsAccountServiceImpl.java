@@ -15,6 +15,7 @@ import com.nju.pams.biz.model.vo.ConsumptionOverallVO;
 import com.nju.pams.biz.service.PamsAccountService;
 import com.nju.pams.mapper.dao.PamsAccountDAO;
 import com.nju.pams.mapper.dao.PamsAccountMonthDAO;
+import com.nju.pams.model.consumption.AccountOfDay;
 import com.nju.pams.model.consumption.AccountOfMonth;
 import com.nju.pams.model.consumption.ConsumptionAccount;
 import com.nju.pams.model.consumption.ConsumptionCondition;
@@ -172,6 +173,80 @@ public class PamsAccountServiceImpl implements PamsAccountService {
 		String maxDate = EmptyUtil.notEmtpyProcess(pamsAccountDAO.getMaxDateByUserId(userId));
 		String minDate = EmptyUtil.notEmtpyProcess(pamsAccountDAO.getMinDateByUserId(userId));
 		return new ConsumptionOverallVO(BigDecimalUtil.generateFormatNumber(result), count, minDate, maxDate);
+	}
+
+	/**
+	 * 获取某个用户在某个消费类别下的所有开销
+	 */
+	@Override
+	public BigDecimal getSumCostByConsumptionIdAndUserId(Integer consumptionId, Integer userId) {
+		return pamsAccountDAO.getSumCostByConsumptionIdAndUserId(consumptionId, userId);
+	}
+
+	/**
+	 * 获取所有用户在某个消费类别下的所有开销
+	 */
+	@Override
+	public BigDecimal getSumCostByConsumptionId(Integer consumptionId) {
+		return pamsAccountDAO.getSumCostByConsumptionId(consumptionId);
+	}
+
+	/**
+	 * 获取某个用户的总开销
+	 */
+	@Override
+	public BigDecimal getSumCostByUserId(Integer userId) {
+		return pamsAccountDAO.getSumCostByUserId(userId);
+	}
+
+	/**
+	 * 获取所用用户的总开销
+	 */
+	@Override
+	public BigDecimal getSumCost() {
+		return pamsAccountDAO.getSumCost();
+	}
+
+	/**
+	 * 获取某个用户的每一天的消费总额
+	 */
+	@Override
+	public List<AccountOfDay> getDaySpendByUserId(Integer userId) {
+		List<AccountOfDay> resultList = pamsAccountDAO.getDaySpendByUserId(userId);
+		if(null == resultList) {
+			return new ArrayList<AccountOfDay>();
+		} else {
+			return resultList;
+		}
+	}
+
+	/**
+	 * 获取所用用户的在某个阶段下的每一天的消费总额
+	 */
+	@Override
+	public List<AccountOfDay> getDaySpendInPeriod(String minDate, String maxDate) {
+		List<AccountOfDay> resultList = pamsAccountDAO.getDaySpendInPeriod(minDate, maxDate);
+		if(null == resultList) {
+			return new ArrayList<AccountOfDay>();
+		} else {
+			return resultList;
+		}
+	}
+
+	/**
+	 * 获取某个用户记录的最大日期
+	 */
+	@Override
+	public String getMaxDateByUserId(Integer userId) {
+		return pamsAccountDAO.getMaxDateByUserId(userId);
+	}
+
+	/**
+	 * 获取某个用户记录的最小日期
+	 */
+	@Override
+	public String getMinDateByUserId(Integer userId) {
+		return pamsAccountDAO.getMinDateByUserId(userId);
 	}
 	
 }

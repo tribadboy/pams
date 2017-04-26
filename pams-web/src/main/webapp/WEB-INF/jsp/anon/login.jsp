@@ -33,8 +33,8 @@
              placeholder="请输入验证码"/>   
         <div class="tips" style="color:red"></div>  
         <input type="submit" value="login" class="submitBtn"/><br>
-        <a href="<%=path %>/web/user/registerPage">用户注册</a>
-        <a href="<%=path %>/static/view/index.html">返回主页</a>
+        <a href="<%=path %>/web/user/registerPage"><label style="font-size:15px;color:#ccccee">用户注册</label></a>
+        <a href="<%=path %>/static/view/index.html"><label style="font-size:15px;color:#ccccee">返回主页</label></a>
 
         <h5>${message}</h5>
     </form>  

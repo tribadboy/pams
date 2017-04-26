@@ -18,11 +18,11 @@
     }
     h2 {
     	color:black;
-    	font-size:20px;
+    	font-size:25px;
     }
    	 label {
     	color:gray;
-    	font-size:15px;
+    	font-size:20px;
     }
    
    </style>
@@ -35,14 +35,14 @@
 				<img src="<%=path %>/web/authc/user/account/getUserPhoto?photoName=${photoName}" width="200px" height="200px" id="img-change">
  		</div>
  		<div class="row">
- 			<label>点击图片进行更换</label>
+ 			<label style="font-size:15px">点击图片进行更换</label>
  		</div>
  		<br>
  		<div class="row">
  				<button id="btn">保存图片</button>
  		</div>
  	</div>
-  
+  	<hr>
    
  	<div class="detail-page" align="center">
       <h2>修改用户信息</h2>
@@ -95,6 +95,7 @@
          <h1><span class="redText">${message}</span></h1>
       </form> 
     </div>
+    <br><hr><hr><br><br>
       
  
     <script type="text/javascript" src="<%=basePath%>static/view/assets/js/jquery-1.8.1.min.js"></script>    

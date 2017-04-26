@@ -52,8 +52,8 @@
              placeholder="输入验证码" autocomplete="off"/>                
         </div>  
         <button id="submit" type="submit" class="submitBtn">注 册</button><br>&nbsp;&nbsp;&nbsp;&nbsp;
-        <a href="<%=path %>/web/anon/login.html">用户登录</a> &nbsp;&nbsp;&nbsp;&nbsp;
-        <a href="<%=path %>/static/view/index.html">返回主页</a>
+        <a href="<%=path %>/web/anon/login.html"><label style="font-size:15px;color:#ccccee">用户登录</label></a> &nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="<%=path %>/static/view/index.html"><label style="font-size:15px;color:#ccccee">返回主页</label></a>
 
         <h5>${message}</h5>
     </form>  
