@@ -75,12 +75,24 @@ public class Feedback {
             return msg;
         }
         public static String getMsgFromInt(int value) {
-        	for(Status s : Status.values()) {
+        	for(FeedType s : FeedType.values()) {
         		if(s.toIntValue() == value) {
         			return s.toMsgValue();
         		}
         	}
         	return "";
+        }
+        public static String getMsgFromTypeStr(String typeStr) {
+        	if(Feedback.NoTypeStr.equals(typeStr)) {
+        		return typeStr;
+        	} else {
+        		String[] nums = typeStr.split(",");
+        		StringBuffer result = new StringBuffer();
+        		for(String num : nums) {
+        			result.append(FeedType.getMsgFromInt(Integer.valueOf(num))+ " ");
+        		}
+        		return result.toString();
+        	}
         }
     }
     	

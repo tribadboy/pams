@@ -125,6 +125,18 @@ public interface PamsStockHistoryDAO {
     public String getMinDateByPK(@Param("symbolCode") String symbolCode, @Param("symbolType") Integer symbolType);
     
     /**
+     * 获取历史数据的最大时间
+     * @return
+     */
+    @Select(""
+            + " SELECT "
+            + " MAX(symbol_date) "
+            + " FROM "
+            + TABLE
+            + "")
+    public String getMaxDate();
+    
+    /**
      * 批量添加股票历史数据
      * @param stockHistoryList
      * @return

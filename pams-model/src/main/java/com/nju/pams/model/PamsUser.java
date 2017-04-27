@@ -24,15 +24,28 @@ public class PamsUser {
     }
     
     public enum Status { 
-        Valid(0),
-        InValid(1);
+        Valid(0, "有效"),
+        InValid(1, "无效");
 
         private final int value;
-        private Status(int value) {
+        private final String msg;
+        private Status(int value, String msg) {
             this.value = value;
+            this.msg = msg;
         }
         public int toIntValue() {
             return value;
+        }
+        public String getMsg() {
+        	return msg;
+        }
+        public static String getMsgFromIndex(int value) {
+        	for(Status s : Status.values()) {
+        		if(value == s.toIntValue()) {
+        			return s.getMsg();
+        		}
+        	}
+        	return "";
         }
     }
 

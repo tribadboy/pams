@@ -1,5 +1,7 @@
 package com.nju.pams.mapper.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Options;
@@ -47,6 +49,37 @@ public interface PamsUserDAO {
             + " username = #{username} "
             + "")
     public PamsUser getPamsUserByUsername(@Param("username") String username);
+    
+    /**
+     * 获取所有用户
+     * @return
+     */
+    @Select(""
+            + " SELECT "
+            + COL_ALL
+            + " FROM "
+            + TABLE
+            + " ORDER BY "
+            + " username ASC "
+            + "")
+    public List<PamsUser> getPamsUserList();
+    
+    /**
+     * 模糊查询用户
+     * @param key
+     * @return
+     */
+    @Select(""
+            + " SELECT "
+            + COL_ALL
+            + " FROM "
+            + TABLE
+            + " WHERE "
+            + " username LIKE #{key} "
+            + " ORDER BY "
+            + " username ASC "
+            + "")
+    public List<PamsUser> getPamsUsersByKey(@Param("key") String key);
     
     /**
      * 插入用户，user_id create_time update_time由数据库操作

@@ -255,12 +255,12 @@ public class StockDataController {
 				stockKey = URLDecoder.decode(stockKey, "UTF-8");
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
-				logger.info("session失效，需要用户重新登录");
+				logger.info("模糊查询的关键词解码异常");
 	    		SecurityUtils.getSubject().logout();
 	   	        result.put("rows", "[]");
 	   	        result.put("results", 0);
 	   	        result.put("hasError", true);
-	   	        result.put("error", "会话已断开，请重新登录");
+	   	        result.put("error", "模糊查询的关键词解码异常");
 	   	        return result.toString();
 			}
     		allList = pamsStockService.getPamsStocksByKey(stockKey);

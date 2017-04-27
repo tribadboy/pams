@@ -66,20 +66,24 @@
                 {id:'introduce',text:'系统介绍',href:'<%=path %>/web/authc/home/about/introduce'},
                 {id:'help',text:'帮助与反馈',href:'<%=path %>/web/authc/home/about/help'}  
                 ]
+              },{
+              text:'资讯管理',
+              items:[
+                {id:'introduce',text:'系统介绍',href:'<%=path %>/web/authc/home/about/introduce'},
+                {id:'help',text:'帮助与反馈',href:'<%=path %>/web/authc/home/about/help'}  
+                ]
               }]
           },{
             id:'user-bar',
             menu:[{
                 text:'用户管理',
                 items:[
-                   {id:'addConsumption',text:'用户信息',href:'<%=path %>/web/authc/consumption/record/addConsumption'}
+                   {id:'searchUser',text:'用户信息',href:'<%=path %>/web/authc/user/data/searchUser'}
                 ]
               },{
                 text:'反馈处理',
                 items:[
-                   {id:'consumptionDateExcel',text:'日期报表',href:'<%=path %>/web/authc/consumption/excel/dateExcel'},
-                   {id:'consumptionMonthExcel',text:'月份报表',href:'<%=path %>/web/authc/consumption/excel/monthExcel'}, 
-                   {id:'consumptionYearExcel',text:'年度报表',href:'<%=path %>/web/authc/consumption/excel/yearExcel'}              
+                   {id:'checkFeedback',text:'查看反馈',href:'<%=path %>/web/authc/user/feedback/checkFeedback'}           
                 ]
               },{
                   text:'权限管理',

@@ -25,4 +25,7 @@ public interface PamsStockHistoryService {
 	//批量添加或替换股票的历史数据
 	int insertIgnoreStockHistoryList(List<StockHistory> stockHistoryList);
 	
+	//获取历史数据的最大时间
+	String getMaxDate();
+	
 }

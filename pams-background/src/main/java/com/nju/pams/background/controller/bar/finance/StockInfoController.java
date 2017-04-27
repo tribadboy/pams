@@ -1,31 +1,32 @@
 package com.nju.pams.background.controller.bar.finance;
 
-import java.io.BufferedOutputStream;
-import java.io.FileInputStream;
-import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.nju.pams.biz.service.PamsFinancialNewsService;
-import com.nju.pams.biz.service.PamsNoticeAndInformService;
-import com.nju.pams.model.constant.DataFileConstant;
+import com.nju.pams.biz.finance.service.PamsStockAPIService;
+import com.nju.pams.biz.finance.service.PamsStockHistoryService;
+import com.nju.pams.biz.finance.service.PamsStockService;
+import com.nju.pams.finance.PamsStock;
+import com.nju.pams.finance.StockHistory;
 import com.nju.pams.model.constant.PathConstant;
-import com.nju.pams.model.system.FinancialNews;
-import com.nju.pams.model.system.PamsInform;
-import com.nju.pams.model.system.PamsNotice;
+import com.nju.pams.util.DateUtil;
+import com.nju.pams.util.NullUtil;
+import com.nju.pams.util.ResultUtil;
 
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;  
   
 @Controller  
@@ -35,121 +36,85 @@ public class StockInfoController {
     private static final Logger logger = Logger.getLogger(StockInfoController.class);
     
     @Autowired
-    PamsFinancialNewsService pamsFinancialNewsService;
-    
-    @Autowired
-    PamsNoticeAndInformService pamsNoticeAndInformService;
-   
-    //返回欢迎页面
-    @RequestMapping(value = "welcome")
-    public String getWelcomePage(HttpServletRequest request){
-    	String username = (String) request.getSession().getAttribute("username");
-    	Integer userId = (Integer) request.getSession().getAttribute("userId");
-    	if(null == username || null == userId) {
-    		logger.info("session失效，需要用户重新登录");
-    		SecurityUtils.getSubject().logout();
-   	        return "error/logout";
-    	}
-    	
-        return "authc/home-bar/welcome";
-    }
-    
-    //返回通知与公告页面
-    @RequestMapping(value = "notice")
-    public String getNoticePage(HttpServletRequest request, Model model){
-    	String username = (String) request.getSession().getAttribute("username");
-    	Integer userId = (Integer) request.getSession().getAttribute("userId");
-    	if(null == username || null == userId) {
-    		logger.info("session失效，需要用户重新登录");
-    		SecurityUtils.getSubject().logout();
-   	        return "error/logout";
-    	}
-    	
-    	PamsNotice notice = pamsNoticeAndInformService.getNewestValidPamsNotice();
-    	if(null == notice) {
-    		model.addAttribute("noticeMessage", PamsNotice.DefaultMessage);
-    	} else {
-    		model.addAttribute("noticeMessage", notice.getMessage());
-    	}
-    	List<PamsInform> validInformsForUser = pamsNoticeAndInformService.getAllValidInformForCertainUser(userId);
-    	model.addAttribute("informList", validInformsForUser);
-    	model.addAttribute("countOfInform", validInformsForUser.size());
-    	
-        return "authc/home-bar/notice";
-    }
-    
-    //返回最新咨询页面
-    @RequestMapping(value = "news")
-    public String getNewsPage(HttpServletRequest request){
-    	String username = (String) request.getSession().getAttribute("username");
-    	Integer userId = (Integer) request.getSession().getAttribute("userId");
-    	if(null == username || null == userId) {
-    		logger.info("session失效，需要用户重新登录");
-    		SecurityUtils.getSubject().logout();
-   	        return "error/logout";
-    	}
-    	
-        return "authc/home-bar/news";
-    }
-    
-    /**
-     * 自动发送的数据格式：
-     *  1. start: 开始记录的起始数，如第 20 条,从0开始
-     *  2. limit : 单页多少条记录
-     *  3. pageIndex : 第几页，同start参数重复，可以选择其中一个使用
-     *
-     * 返回的数据格式：
-     *  {
-     *     "rows" : [{},{}], //数据集合
-     *     "results" : 100, //记录总数
-     *     "hasError" : false, //是否存在错误
-     *     "error" : "" // 仅在 hasError : true 时使用
-     *   }
-     * 
-     */
-	@ResponseBody
-	@RequestMapping(value = "searchFinancialNewsInfo")
-	public String searchFinancialNewsInfo( HttpServletRequest request,
-   			@RequestParam("start") final Integer start,
-   			@RequestParam("limit") final Integer limit
-			) {
-
-		final JSONObject result = new JSONObject();
-		String username = (String) request.getSession().getAttribute("username");
-    	Integer userId = (Integer) request.getSession().getAttribute("userId");
-    	if(null == username || null == userId) {
-    		logger.info("session失效，需要用户重新登录");
-    		SecurityUtils.getSubject().logout();
-   	        result.put("rows", "[]");
-   	        result.put("results", 0);
-   	        result.put("hasError", true);
-   	        result.put("error", "会话已断开，请重新登录");
-   	        return result.toString();
-    	}
-    	
-    	List<FinancialNews> allList = pamsFinancialNewsService.getFinancialNewsList();
-    	int total = allList.size();
-    	int end = (start + limit > total) ? total : start + limit;
-    	List<FinancialNews> resultList = allList.subList(start, end);
-    	JSONArray array = new JSONArray();
-    	for(FinancialNews news : resultList) {
-    		JSONObject json = new JSONObject();
-    		json.put("newsId", news.getNewsId());
-    		json.put("recordDate", news.getRecordDate());
-    		json.put("title", news.getTitle());
-    		array.add(json);
-    	}
-    	result.put("rows", array);
-	    result.put("results", total);
-	    result.put("hasError", false);
-    	
-    	return result.toString();
-	}	
+	PamsStockService pamsStockService;
 	
-	//返回新闻内容详情页
-    @RequestMapping(value = "newsTemplate")
-    public String getNewsTemplatePage(HttpServletRequest request, Model model,
-    		@RequestParam(value = "newsId") final Integer newsId){
+	@Autowired
+	PamsStockHistoryService pamsStockHistoryService;
+	
+	@Autowired
+	PamsStockAPIService pamsStockAPIService;
+ 
+    /**
+     * 重置所有股票的最新数据和其历史数据
+     * 需保证联网
+     * 暂时仅考虑 沪市A股 600 601 603 开头的股票  
+     * 时间为2013年至今
+     * 当天数据只有在17点之后才会更新
+     * @return
+     */
+    @ResponseBody
+	@RequestMapping(value = "updateStockData", method = RequestMethod.POST)
+	public String updateStockData() {
+		final JSONObject result = new JSONObject();	
+		
+    	logger.info("股票最新信息与历史信息重置工作开始-----------------------------------------------");
+		List<Map<String, Object>> mapsList = new LinkedList<Map<String, Object>>();
+		//通过网易api获取股票信息
+		for(int i = 600000; i < 604000; i += 1000) {
+			String stockData = pamsStockAPIService.searchStockInfoBetweenStartCodeAndEndCodeUsingAPI(i, i+1000);
+			if(null != stockData) {
+				mapsList.addAll(pamsStockAPIService.getStocksFromStockInfo(stockData));
+			}
+		}
+		
+		if(CollectionUtils.isNotEmpty(mapsList)) {
+			logger.info("从网易财经获取的最新股票数据成功，共获得股票数量：" + mapsList.size());
+			List<PamsStock> stocksList = new ArrayList<PamsStock>(mapsList.size());
+			for(Map<String, Object> map : mapsList) {
+				stocksList.add(new PamsStock((String)map.get("symbolCode"), (int)map.get("symbolType"),
+						(String)map.get("symbolName"), (int)map.get("status")));
+			}
+			
+			//解析数据有效，将数据库中原本的所有股票信息设置为无效 
+			pamsStockService.setStocksInvalidBySymbolType(PamsStock.SymbolType.SH.getIndex());
+			//更新数据库中的所有的股票信息
+			pamsStockService.replaceStocksList(stocksList);		
+
+			//遍历所有有效的股票，将其历史信息更新
+			int index = 0;
+			for(PamsStock stock : stocksList) {
+				//若该股票当前状态有效，从网易财经api获取其历史信息，并补充到数据库
+				if(stock.getStatus() == PamsStock.Status.Valid.getIndex()) {
+					int todayYear = Calendar.getInstance().get(Calendar.YEAR);
+					for(int year = todayYear; year <= todayYear; year++) {
+						String historyData = pamsStockAPIService.searchStockHistoryInCertainYearUsingAPI(stock.getSymbolCode(), year);
+						if(null == historyData) {
+							//该股票在这一年没有数据，跳过
+							continue;
+						}
+						List<StockHistory> stockHistoryList = pamsStockAPIService.getStockHistorysFromStockHistoryInfo(historyData);
+						if(CollectionUtils.isNotEmpty(stockHistoryList)) {
+							//若最新数据为当天数据，仅当时间超过17点后才加入当天数据，否则忽略
+							String endDate = stockHistoryList.get(stockHistoryList.size() - 1).getSymbolDate();
+							if(endDate.equals(DateUtil.getCurrentTime(DateUtil.FormatString)) 
+									&& Calendar.getInstance().get(Calendar.HOUR_OF_DAY) < 17) {
+								stockHistoryList.remove(stockHistoryList.size() - 1);
+							}
+							pamsStockHistoryService.insertIgnoreStockHistoryList(stockHistoryList);
+						}
+					}
+				}
+				logger.info("股票的历史数据补充已经完成：" + ++index);
+			}
+		}
+		logger.info("股票最新数据与历史数据重置工作已完成------------------------------");
+		ResultUtil.addSuccess(result);
+		return result.toString();
+	}
+   
+    //返回更新股票数据页面
+    @RequestMapping(value = "updataHistoryData")
+    public String getUpdataHistoryDataPage(HttpServletRequest request, Model model){
     	String username = (String) request.getSession().getAttribute("username");
     	Integer userId = (Integer) request.getSession().getAttribute("userId");
     	if(null == username || null == userId) {
@@ -157,44 +122,12 @@ public class StockInfoController {
     		SecurityUtils.getSubject().logout();
    	        return "error/logout";
     	}
-    
-    	FinancialNews news = pamsFinancialNewsService.getFinancialNewsByNewsId(newsId);
-    	model.addAttribute("news", news);
-    	if(FinancialNews.NonePicture.equals(news.getPictureName())) {
-    		model.addAttribute("picFlag", false);
-    	} else {
-    		model.addAttribute("picFlag", true);
-    	}
-        return "authc/home-bar/news-template";
+    	
+    	String maxDate = pamsStockHistoryService.getMaxDate();
+    	
+    	model.addAttribute("date", NullUtil.notNullProcess(maxDate));
+        return "authc/finance-bar/updataHistoryData";
     }
     
-    /**
-     * 获取用户头像的请求
-     * 由于无法直接访问本地资源，需要通过web请求转换
-     * @param photoName
-     * @param request
-     * @param response
-     */
-    @RequestMapping("getNewsPhoto")  
-    public void getNewsPhoto(@RequestParam("pictureName") String pictureName,HttpServletRequest request,
-    		HttpServletResponse response){  
-    	if(FinancialNews.NonePicture.equals(pictureName)) {
-    		logger.info("所查看的新闻页面没有图片资源");
-    		return;
-    	}
-        response.setContentType("application/octet-stream;charset=UTF-8");  
-        try {  
-           FileInputStream inputStream = new FileInputStream(DataFileConstant.NEWS_PICTURE + "/" + pictureName);
-           byte[]data = new byte[inputStream.available()];  
-           inputStream.read(data);           
-           inputStream.close(); 
-           
-           OutputStream outputStream = new BufferedOutputStream(response.getOutputStream());  
-           outputStream.write(data);  
-           outputStream.flush();  
-           outputStream.close(); 
-       } catch (Exception e) {  
-           e.printStackTrace();  
-       }
-    }  
+   
 }  

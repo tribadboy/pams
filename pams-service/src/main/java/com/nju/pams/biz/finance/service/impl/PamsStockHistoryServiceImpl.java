@@ -3,6 +3,7 @@ package com.nju.pams.biz.finance.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -57,10 +58,15 @@ public class PamsStockHistoryServiceImpl implements PamsStockHistoryService {
 
 	/**
 	 * 插入股票历史数据，当主键已存在时忽略
+	 * 不能插入空值
 	 */
 	@Override
 	public int insertIgnoreStockHistoryList(List<StockHistory> stockHistoryList) {
-		return pamsStockHistoryDAO.insertIgnoreStockHistoryList(stockHistoryList);
+		if(CollectionUtils.isNotEmpty(stockHistoryList)) {
+			return pamsStockHistoryDAO.insertIgnoreStockHistoryList(stockHistoryList);
+		} else {
+			return 0;
+		}	
 	}
 
 	/**
@@ -77,6 +83,14 @@ public class PamsStockHistoryServiceImpl implements PamsStockHistoryService {
 	@Override
 	public String getMinDateByPK(String symbolCode, Integer symbolType) {
 		return pamsStockHistoryDAO.getMinDateByPK(symbolCode, symbolType);
+	}
+
+	/**
+	 * 获取历史数据的最大时间
+	 */
+	@Override
+	public String getMaxDate() {
+		return pamsStockHistoryDAO.getMaxDate();
 	}
 	
 }

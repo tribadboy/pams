@@ -41,6 +41,9 @@ public enum ResultEnum {
     //用户持仓相关的错误
     DeleteStockChangeError(71, "删除交易记录失败，请检查交易记录的时间以及相关信息"),
     
+    //用户反馈相关的错误
+    FeedbackError(81, "用户反馈处理错误"),
+    
     
     UnknownError(99, "未知错误");
 

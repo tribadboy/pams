@@ -20,9 +20,12 @@ public final class PathConstant {
 	
 	//background 后台相关的页面 ---------------------------------------------------------------------------
 	
+	//system-bar
+	final public static String WEB_AUTHC_SYSTEM_HOME = "/web/authc/system/home/";
 	
-	
-	
+	//user-bar
+	final public static String WEB_AUTHC_USER_DATA = "/web/authc/user/data/";
+	final public static String WEB_AUTHC_USER_FEEDBACK = "/web/authc/user/feedback/";
 	
 	//finance-bar
 	final public static String WEB_AUTHC_FINANCE_STOCK_INFO = "/web/authc/finance/stockInfo/";

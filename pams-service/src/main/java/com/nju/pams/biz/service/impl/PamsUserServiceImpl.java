@@ -1,5 +1,8 @@
 package com.nju.pams.biz.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -85,6 +88,26 @@ public class PamsUserServiceImpl implements PamsUserService {
 	@Override
 	public PamsAdminUser getPamsAdminUserByUsername(String username) {
 		return pamsAdminUserDAO.getPamsAdminUserByUsername(username);
+	}
+
+	@Override
+	public List<PamsUser> getPamsUserList() {
+		List<PamsUser> resultList = pamsUserDAO.getPamsUserList();
+		if(null == resultList) {
+			return new ArrayList<PamsUser>();
+		} else {
+			return resultList;
+		}
+	}
+
+	@Override
+	public List<PamsUser> getPamsUsersByKey(String key) {
+		List<PamsUser> resultList = pamsUserDAO.getPamsUsersByKey("%" + key + "%");
+		if(null == resultList) {
+			return new ArrayList<PamsUser>();
+		} else {
+			return resultList;
+		}
 	}
 
 }
