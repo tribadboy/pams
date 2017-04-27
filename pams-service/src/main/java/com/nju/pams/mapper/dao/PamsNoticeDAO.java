@@ -60,8 +60,26 @@ public interface PamsNoticeDAO {
             + COL_ALL
             + " FROM "
             + TABLE
+            + " ORDER BY "
+            + " record_date DESC "
             + "")
     public List<PamsNotice> getAllPamsNotice();
+    
+    /**
+     * 获取所有未结束的公告
+     * @return
+     */
+    @Select(""
+            + " SELECT "
+            + COL_ALL
+            + " FROM "
+            + TABLE
+            + " WHERE "
+            + " status = 0 "
+            + " ORDER BY "
+            + " record_date DESC "
+            + "")
+    public List<PamsNotice> getAllValidPamsNotice();
     
     /**
      * 插入公告，notice_id create_time update_time由数据库操作

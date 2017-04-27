@@ -7,6 +7,8 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
+
 import com.nju.pams.model.constant.DatabaseConstant;
 import com.nju.pams.model.system.FinancialNews;
 import com.nju.pams.util.annotation.DAOMapper;
@@ -47,6 +49,21 @@ public interface PamsFinancialNewsDAO {
             + " record_date DESC "
             + "")
     public List<FinancialNews> getFinancialNewsList();
+    
+    @Select(""
+            + " SELECT "
+            + COL_ALL
+            + " FROM "
+            + TABLE
+            + " WHERE "
+            + " record_date >= #{startDate} "
+            + " AND "
+            + " record_date < #{endDate} "
+            + " ORDER BY "
+            + " record_date ASC "
+            + "")
+    public List<FinancialNews> getFinancialNewsListInPeriod(@Param("startDate") String startDate,
+    		@Param("endDate") String endDate);
   
     /**
      * 插入新闻，news_id create_time update_time由数据库操作
@@ -84,4 +101,20 @@ public interface PamsFinancialNewsDAO {
     		+ " news_id = #{newsId} "
     		+ "")
     public void deleteFinancialNewsByNewsId(@Param("newsId") Integer newsId);
+    
+    /**
+     * 更新某条新闻的图片
+     * @param pictureName
+     * @param newsId
+     */
+    @Update(""
+    		+ " UPDATE "
+    		+ TABLE
+    		+ " SET "
+    		+ " picture_name = #{pictureName} "
+    		+ " WHERE "
+    		+ " news_id = #{newsId} "
+    		+ "")
+    public void setPictureNameByNewsId(@Param("pictureName") String pictureName,
+    		@Param("newsId") Integer newsId);
 }

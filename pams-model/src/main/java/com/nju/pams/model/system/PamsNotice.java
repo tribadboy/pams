@@ -6,7 +6,7 @@ package com.nju.pams.model.system;
  */
 public class PamsNotice {
 	
-	public static final String DefaultMessage = "这位管理员很懒，没有写任何公告信息";
+	public static final String DefaultMessage = "当前没有任何公告信息";
 	
 	private int noticeId;						
 	private int status;
@@ -26,8 +26,8 @@ public class PamsNotice {
     }
        
     public enum Status { 
-        Valid(0, "有效"),
-        Invalid(1, "无效");
+        Valid(0, "进行中"),
+        Invalid(1, "已结束");
 
         private final int value;
         private final String msg;

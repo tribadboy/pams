@@ -13,4 +13,8 @@ public interface PamsFinancialNewsService {
 	void insertFinancialNews(FinancialNews financialNews);
 	
 	void deleteFinancialNewsByNewsId(Integer newsId);
+	
+	List<FinancialNews> getFinancialNewsListInPeriod(String startDate, String endDate);
+	
+	void setPictureNameByNewsId(String pictureName, Integer newsId);
 }

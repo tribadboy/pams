@@ -21,6 +21,8 @@ public interface PamsNoticeAndInformService {
 	
 	void deletePamsNoticeByNoticeId(Integer noticeId);
 	
+	List<PamsNotice> getAllValidPamsNotice();
+	
 	//通知的相关业务逻辑---------------------------------------
 	
 	//将某个通知设置为无效状态
@@ -42,6 +44,10 @@ public interface PamsNoticeAndInformService {
 	List<PamsInform> getValidTypeSpecialPamsInforms();
 	
 	List<PamsInform> getValidTypeTotalPamsInforms();
+	
+	List<PamsInform> getAllTypeTotalPamsInforms();
+	
+	List<PamsInform> getAllTypeSpecialPamsInforms();
 	
 	void insertInform(PamsInform pamsInform);
 	

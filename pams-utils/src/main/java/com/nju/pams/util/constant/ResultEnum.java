@@ -44,6 +44,9 @@ public enum ResultEnum {
     //用户反馈相关的错误
     FeedbackError(81, "用户反馈处理错误"),
     
+    //公告错误
+    NoticeError(91, "公告处理错误"),
+    
     
     UnknownError(99, "未知错误");
 

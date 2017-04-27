@@ -83,6 +83,21 @@ public class PamsNoticeAndInformServiceImpl implements PamsNoticeAndInformServic
 		pamsNoticeDAO.deletePamsNoticeByNoticeId(noticeId);
 	}
 	
+	/**
+	 * 获取当前正在进行中的公告
+	 */
+	@Override
+	public List<PamsNotice> getAllValidPamsNotice() {
+		List<PamsNotice> resultList = pamsNoticeDAO.getAllValidPamsNotice();
+		if(null == resultList) {
+			return new ArrayList<PamsNotice>();
+		} else {
+			return resultList;
+		}
+		
+	}
+	
+	
 	//-------------------------------------------------------------------------------------
 
 	/**
@@ -192,7 +207,34 @@ public class PamsNoticeAndInformServiceImpl implements PamsNoticeAndInformServic
 		} else {
 			return resultList;
 		}
+	}	
+
+	/**
+	 * 获取所有针对全体用户的通知
+	 */
+	@Override
+	public List<PamsInform> getAllTypeTotalPamsInforms() {
+		List<PamsInform> resultList = pamsInformDAO.getAllTypeTotalPamsInforms();
+		if(null == resultList) {
+			return new ArrayList<PamsInform>();
+		} else {
+			return resultList;
+		}
 	}
+
+	/**
+	 * 获取所有针对特定用户的通知
+	 */
+	@Override
+	public List<PamsInform> getAllTypeSpecialPamsInforms() {
+		List<PamsInform> resultList = pamsInformDAO.getAllTypeSpecialPamsInforms();
+		if(null == resultList) {
+			return new ArrayList<PamsInform>();
+		} else {
+			return resultList;
+		}
+	}
+
 
 	/**
 	 * 插入某一条通知
@@ -260,5 +302,6 @@ public class PamsNoticeAndInformServiceImpl implements PamsNoticeAndInformServic
 		}
 		return resultList;
 	}
-	
+
+
 }

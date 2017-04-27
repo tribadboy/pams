@@ -14,7 +14,7 @@ import com.nju.pams.model.system.FinancialNews;
 
 @Service
 @Transactional(propagation=Propagation.REQUIRED)
-public class PamsFinancialServiceImpl implements PamsFinancialNewsService {
+public class PamsFinancialNewsServiceImpl implements PamsFinancialNewsService {
 	
 	@Autowired
 	PamsFinancialNewsDAO pamsFinancialNewsDAO;
@@ -55,6 +55,27 @@ public class PamsFinancialServiceImpl implements PamsFinancialNewsService {
 	@Override
 	public void deleteFinancialNewsByNewsId(Integer newsId) {
 		pamsFinancialNewsDAO.deleteFinancialNewsByNewsId(newsId);
+	}
+
+	/**
+	 * 获取某个时间段内的所有新闻
+	 */
+	@Override
+	public List<FinancialNews> getFinancialNewsListInPeriod(String startDate, String endDate) {
+		List<FinancialNews> resultList = pamsFinancialNewsDAO.getFinancialNewsListInPeriod(startDate, endDate);
+		if(null == resultList) {
+			return new ArrayList<FinancialNews>();
+		} else {
+			return resultList;
+		}
+	}
+
+	/**
+	 * 设置某条新闻的图片
+	 */
+	@Override
+	public void setPictureNameByNewsId(String pictureName, Integer newsId) {
+		pamsFinancialNewsDAO.setPictureNameByNewsId(pictureName, newsId);	
 	}
 
 

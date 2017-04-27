@@ -100,6 +100,38 @@ public interface PamsInformDAO {
     public List<PamsInform> getAllPamsInforms();
     
     /**
+     * 获取所有针对全体用户的通知
+     * @return
+     */
+    @Select(""
+            + " SELECT "
+            + COL_ALL
+            + " FROM "
+            + TABLE
+            + " WHERE "
+            + " inform_type_id = 0 "
+            + " ORDER BY "
+            + " record_date DESC "
+            + "")
+    public List<PamsInform> getAllTypeTotalPamsInforms();
+    
+    /**
+     * 获取所有针对特定用户的通知
+     * @return
+     */
+    @Select(""
+            + " SELECT "
+            + COL_ALL
+            + " FROM "
+            + TABLE
+            + " WHERE "
+            + " inform_type_id = 1 "
+            + " ORDER BY "
+            + " record_date DESC "
+            + "")
+    public List<PamsInform> getAllTypeSpecialPamsInforms();
+    
+    /**
      * 插入通知，inform_id create_time update_time由数据库操作
      * @param pamsInform
      */

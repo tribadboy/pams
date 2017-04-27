@@ -25,8 +25,8 @@ public class PamsInform {
     } 
        
     public enum Status { 
-        Valid(0, "有效"),
-        Invalid(1, "无效");
+        Valid(0, "进行中"),
+        Invalid(1, "已结束");
 
         private final int value;
         private final String msg;
@@ -51,8 +51,8 @@ public class PamsInform {
     }
     
     public enum InformType { 
-        Total(0, "有效"),
-        Special(1, "无效");
+        Total(0, "全体用户"),
+        Special(1, "特定用户");
 
         private final int value;
         private final String msg;
@@ -67,9 +67,9 @@ public class PamsInform {
             return msg;
         }
         public static String getMsgFromInt(int value) {
-        	for(Status s : Status.values()) {
-        		if(s.toIntValue() == value) {
-        			return s.toMsgValue();
+        	for(InformType type : InformType.values()) {
+        		if(type.toIntValue() == value) {
+        			return type.toMsgValue();
         		}
         	}
         	return "";

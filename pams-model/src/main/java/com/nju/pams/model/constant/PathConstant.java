@@ -8,20 +8,25 @@ public final class PathConstant {
 
 	//通用的路径  -----------------------------------------------------------------------------------------
 	
+	
+	//验证码相关的接口
+	final public static String WEB_CODE = "/web/code/";
+	
 	//不需登录可访问的接口
 	final public static String WEB_ANON = "/web/anon/";
 	
 	//需要登录和对应权限才能访问的接口
 	final public static String WEB_AUTHC = "/web/authc/";
 	
-	//验证码相关的接口
-	final public static String WEB_CODE = "/web/code/";
 	
 	
 	//background 后台相关的页面 ---------------------------------------------------------------------------
 	
 	//system-bar
 	final public static String WEB_AUTHC_SYSTEM_HOME = "/web/authc/system/home/";
+	final public static String WEB_AUTHC_SYSTEM_NEWS = "/web/authc/system/news/";
+	final public static String WEB_AUTHC_SYSTEM_INFORM = "/web/authc/system/inform/";
+	final public static String WEB_AUTHC_SYSTEM_NOTICE = "/web/authc/system/notice/";
 	
 	//user-bar
 	final public static String WEB_AUTHC_USER_DATA = "/web/authc/user/data/";
@@ -40,9 +45,6 @@ public final class PathConstant {
 	
 	//web路径下载接口
 	final public static String WEB_DOWNLOAD = "/web/download/";
-	
-	//金融数据更新接口
-	final public static String WEB_FINANCE = "/web/finance/";
 	
 	//登录后的主页分成几个导航栏
 	

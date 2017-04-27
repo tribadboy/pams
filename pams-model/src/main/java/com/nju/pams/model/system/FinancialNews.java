@@ -18,6 +18,14 @@ public class FinancialNews {
     	
     }
     
+    public FinancialNews(String title, String origin, String recordDate, String content) {
+    	this.title = title;
+    	this.origin = origin;
+    	this.recordDate = recordDate;
+    	this.pictureName = FinancialNews.NonePicture;
+    	this.content = content;
+    }
+    
     public FinancialNews(String title, String origin, String recordDate, String pictureName, String content) {
     	this.title = title;
     	this.origin = origin;

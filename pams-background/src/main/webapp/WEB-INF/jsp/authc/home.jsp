@@ -57,20 +57,20 @@
             },{
               text:'公告管理',
               items:[
-                {id:'introduce',text:'当前公告',href:'<%=path %>/web/authc/home/about/introduce'},
-                {id:'help',text:'帮助与反馈',href:'<%=path %>/web/authc/home/about/help'}  
+                {id:'introduce',text:'创建公告',href:'<%=path %>/web/authc/system/notice/makeNotice'},
+                {id:'help',text:'查看公告',href:'<%=path %>/web/authc/system/notice/checkNotice'}  
               ]
             },{
               text:'通知管理',
               items:[
-                {id:'introduce',text:'系统介绍',href:'<%=path %>/web/authc/home/about/introduce'},
-                {id:'help',text:'帮助与反馈',href:'<%=path %>/web/authc/home/about/help'}  
+                {id:'introduce',text:'创建通知',href:'<%=path %>/web/authc/system/inform/makeInform'},
+                {id:'help',text:'查看通知',href:'<%=path %>/web/authc/system/inform/checkInform'}  
                 ]
               },{
               text:'资讯管理',
               items:[
-                {id:'introduce',text:'系统介绍',href:'<%=path %>/web/authc/home/about/introduce'},
-                {id:'help',text:'帮助与反馈',href:'<%=path %>/web/authc/home/about/help'}  
+                {id:'makeNews',text:'创建资讯',href:'<%=path %>/web/authc/system/news/makeNews'},
+                {id:'checkNews',text:'查看资讯',href:'<%=path %>/web/authc/system/news/checkNews'}  
                 ]
               }]
           },{
