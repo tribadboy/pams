@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.nju.pams.model.constant.PathConstant;
 
 @Controller
-@RequestMapping(value = PathConstant.BACKGROUND_AUTHC)
+@RequestMapping(value = PathConstant.WEB_AUTHC)
 public class WebAuthcController {
 	
 	// 登录成功的页面

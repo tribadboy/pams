@@ -24,10 +24,10 @@
   <body>
   <div id="login">
     <h1>后台登录</h1>
-	<form action="<%=path %>/background/anon/doLogin"  method="POST">
+	<form action="<%=path %>/web/anon/doLogin"  method="POST">
         <input type="text" name="username" maxLength="32" placeholder="请输入用户名"/>
         <input type="password" name="password" maxLength="32" placeholder="请输入密码"/> <br>
-        <img src="<%=path %>/background/code/kaptcha-img" id="kaptchaImage" 
+        <img src="<%=path %>/web/code/kaptcha-img" id="kaptchaImage" 
         	title="点击更换图片" alt="点击更换图片" class="kaptchaImage" />  
         <input type="text" name="kaptcha" class="kaptcha-code" value=""
              placeholder="请输入验证码"/>   

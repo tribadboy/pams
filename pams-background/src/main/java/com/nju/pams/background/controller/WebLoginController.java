@@ -25,7 +25,7 @@ import com.nju.pams.util.NullUtil;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
-@RequestMapping(value = PathConstant.BACKGROUND_ANON)
+@RequestMapping(value = PathConstant.WEB_ANON)
 public class WebLoginController {
 	
     private static final Logger logger = Logger.getLogger(WebLoginController.class);
@@ -49,7 +49,7 @@ public class WebLoginController {
         logger.info("======用户"+request.getSession().getAttribute("username")+"退出了后台系统");
         SecurityUtils.getSubject().logout();
         //使用重定向重新请求，而非直接到jsp
-        return "redirect:" + PathConstant.BACKGROUND_ANON + "login.html";
+        return "redirect:" + PathConstant.WEB_ANON + "login.html";
     }
     
     
@@ -57,12 +57,13 @@ public class WebLoginController {
     @RequestMapping(value = "/doLogin",method = RequestMethod.POST)
     public String doLogin(PamsUser user, HttpServletRequest request, Model model) {
     	
-        //作为后台，在使用shiro检查用户前台信息前，首先检查其是否为拥有后台管理员权限的前台用户
-        if(null == pamsUserService.getPamsAdminUserByUsername(user.getUsername())) {
-            model.addAttribute("message", "登录失败，您没有管理员权限");
-            logger.info("非管理员用户登录失败：" + user.getUsername());
-            return "/anon/login";
-        }
+        //后台与前台使用同样的用户表，但后台需要专门的admin表验证，即后台用户必然也是前台用户
+    	//由于前后台为两个tomcat容器，使用的shiro不相通，则不会出现登录前台登录后自动登录后台的情况
+    	if(null == pamsUserService.getPamsAdminUserByUsername(user.getUsername())) {
+    		model.addAttribute("message", "登录失败，您没有管理员权限");
+    		logger.info("非管理员用户登录失败：" + user.getUsername());
+    		return "/anon/login";
+    	}
     	
         String message;		//message记录登录的错误信息，同步返回给用户，显示到login.jsp上       
         UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), user.getPassword());
@@ -91,7 +92,7 @@ public class WebLoginController {
                 
                 if (savedRequest == null || savedRequest.getRequestUrl() == null) {
                 	//重定向到登录后的home的请求上，再转到对应的jsp页面
-                    return "redirect:" + PathConstant.BACKGROUND_AUTHC + "home";
+                    return "redirect:" + PathConstant.WEB_AUTHC + "home";
                 } else {
                     //服务器请求转发到保存的url
                 	String lastUrl = savedRequest.getRequestUrl()

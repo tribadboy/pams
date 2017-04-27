@@ -4,7 +4,7 @@
     String basePath = request.getScheme() + "://" + request.getServerName() + ":" 
     				+ request.getServerPort() + path + "/";
     String backgroundPath = request.getScheme() + "://" + request.getServerName() + ":" 
-			+ request.getServerPort() + "pams-background/";
+			+ request.getServerPort() + "/pams-background/";
 %> 
 <!DOCTYPE html>
 <html lang="zh-cn">
@@ -38,7 +38,7 @@
         <a href="<%=path %>/web/user/registerPage"><label style="font-size:15px;color:#ccccee">用户注册</label></a>
         <a href="<%=path %>/static/view/index.html"><label style="font-size:15px;color:#ccccee">返回主页</label></a>
 		<br>
-		<a href="<%=backgroundPath %>background/anon/login.html"><label style="font-size:15px;color:#cccccc">后台地址</label></a>
+		<a href="<%=backgroundPath %>web/anon/login.html"><label style="font-size:15px;color:#cccccc">后台地址</label></a>
         <h5>${message}</h5>
     </form>  
            

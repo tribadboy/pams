@@ -26,7 +26,7 @@ import com.nju.pams.util.constant.ResultEnum;
 import net.sf.json.JSONObject;  
   
 @Controller  
-@RequestMapping(PathConstant.BACKGROUND_CODE)
+@RequestMapping(PathConstant.WEB_CODE)
 public class KaptchaController {  
 	
 	@Autowired  
