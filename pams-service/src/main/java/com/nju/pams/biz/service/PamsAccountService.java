@@ -40,4 +40,12 @@ public interface PamsAccountService {
 	String getMaxDateByUserId(Integer userId);
 	
 	String getMinDateByUserId(Integer userId);
+	
+	String getMaxDateByUserIdAndConsumptionId(Integer userId, Integer consumptionId);
+	
+	String getMinDateByUserIdAndConsumptionId(Integer userId, Integer consumptionId);
+	
+	List<AccountOfDay> getDaySpendByUserIdAndConsumptionId(Integer userId, Integer consumptionId);
+	
+	List<AccountOfDay> getDaySpendInPeriodByConsumptionId(String minDate, String maxDate, Integer consumptionId);
 }

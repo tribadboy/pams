@@ -1,5 +1,6 @@
 package com.nju.pams.service.redis;
 
+import org.apache.log4j.Logger;
 import org.springframework.cache.Cache;  
 import org.springframework.cache.support.SimpleValueWrapper;  
 import org.springframework.dao.DataAccessException;  
@@ -12,8 +13,22 @@ import com.nju.pams.util.SerializeUtil;
   
 public class RedisCache implements Cache{  
       
+	private static final Logger logger = Logger.getLogger(RedisCache.class);  
+	
     private RedisTemplate<String, Object> redisTemplate;    		  //redis template
     private String name;    										  //缓存名称
+    
+    /** 
+     * 缓存失效时间，时间到了会自动更新 
+     */  
+    private long liveTime = 0;  
+    
+    public long getLiveTime() {  
+        return liveTime;  
+    }       
+    public void setLiveTime(long liveTime) {  
+        this.liveTime = liveTime;  
+    } 
     
     public RedisTemplate<String, Object> getRedisTemplate() {  
         return redisTemplate;    
@@ -47,8 +62,7 @@ public class RedisCache implements Cache{
       } else {
     	  keyStr = key.toString();
       }
-      System.out.println("get key \"" + keyStr + "\"  from redis cache \"" + name + "\"");  
-
+      logger.info("find key \"" + keyStr + "\"  from redis cache \"" + name + "\"");
       Object object = null;  
       object = redisTemplate.execute(new RedisCallback<Object>() {  
     	  @Override
@@ -62,7 +76,9 @@ public class RedisCache implements Cache{
           }  
        });  
       if(null != object) {
-    	  System.out.println("get key \"" + keyStr + "\" successfully");  
+    	  logger.info("get key \"" + keyStr + "\" successfully");
+      } else {
+    	  logger.info("not get key \"" + keyStr + "\"");
       }
       return (object != null ? new SimpleValueWrapper(object) : null);  
     }  
@@ -81,17 +97,19 @@ public class RedisCache implements Cache{
     	} else {
     		keyStr = key.toString();
     	}
-        System.out.println("put key \"" + keyStr + "\" into redis cache \"" + name + "\"");  
+    	logger.info("put key \"" + keyStr + "\" into redis cache \"" + name + "\"");
         if(!StringUtils.isEmpty(keyStr)) {
         	final Object finalValue = value;
-        	final long liveTime = 86400;   	// 24 * 60 * 60 缓存时间设置为1天
         	redisTemplate.execute(new RedisCallback<Boolean>() {    
                 @Override
         		public Boolean doInRedis(RedisConnection connection) throws DataAccessException {    
                      byte[] keyByte = keyStr.getBytes();    
                      byte[] valueByte = SerializeUtil.serialize(finalValue);    
                      connection.set(keyByte, valueByte);   
-                     connection.expire(keyByte, liveTime);   
+                     if (getLiveTime() > 0) {  
+                    	 //不设置liveTime即默认为永久缓存
+                         connection.expire(keyByte, getLiveTime());  
+                     }  
                      return true;
                 } 
              });    
@@ -112,7 +130,7 @@ public class RedisCache implements Cache{
     	} else {
     		keyStr = key.toString();
     	}
-        System.out.println("del key: \"" + keyStr + "\" from redis cache \"" + name + "\"");  
+    	logger.info("del key: \"" + keyStr + "\" from redis cache \"" + name + "\"");
         if(!StringUtils.isEmpty(keyStr)) {
         	redisTemplate.execute(new RedisCallback<Long>() {    
         	     public Long doInRedis(RedisConnection connection) throws DataAccessException {    
@@ -126,8 +144,8 @@ public class RedisCache implements Cache{
      * 清除全部缓存
      */
      @Override    
-     public void clear() {    
-    	 System.out.println("clear all keys from redis cache \"" + name + "\"");  
+     public void clear() {  
+    	 logger.info("clear all keys from redis cache \"" + name + "\"");
          redisTemplate.execute(new RedisCallback<String>() {    
         	 @Override
              public String doInRedis(RedisConnection connection) throws DataAccessException {    

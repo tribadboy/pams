@@ -248,5 +248,48 @@ public class PamsAccountServiceImpl implements PamsAccountService {
 	public String getMinDateByUserId(Integer userId) {
 		return pamsAccountDAO.getMinDateByUserId(userId);
 	}
+
+	/**
+	 * 获取某个用户记录的在某个消费类别下的最大日期
+	 */
+	@Override
+	public String getMaxDateByUserIdAndConsumptionId(Integer userId, Integer consumptionId) {
+		return pamsAccountDAO.getMaxDateByUserIdAndConsumptionId(userId, consumptionId);
+	}
+
+	/**
+	 * 获取某个用户记录的在某个消费类别下的最小日期
+	 */
+	@Override
+	public String getMinDateByUserIdAndConsumptionId(Integer userId, Integer consumptionId) {
+		return pamsAccountDAO.getMinDateByUserIdAndConsumptionId(userId, consumptionId);
+	}
+
+	/**
+	 * 获取某个用户在某个消费类别下的每一天的消费总和
+	 */
+	@Override
+	public List<AccountOfDay> getDaySpendByUserIdAndConsumptionId(Integer userId, Integer consumptionId) {
+		List<AccountOfDay> resultList = pamsAccountDAO.getDaySpendByUserIdAndConsumptionId(userId, consumptionId);
+		if(null == resultList) {
+			return new ArrayList<AccountOfDay>();
+		} else {
+			return resultList;
+		}
+	}
+
+	/**
+	 * 获取所有用户在某个消费类别下的每一天的消费总和
+	 */
+	@Override
+	public List<AccountOfDay> getDaySpendInPeriodByConsumptionId(String minDate, String maxDate,
+			Integer consumptionId) {
+		List<AccountOfDay> resultList = pamsAccountDAO.getDaySpendInPeriodByConsumptionId(minDate, maxDate, consumptionId);
+		if(null == resultList) {
+			return new ArrayList<AccountOfDay>();
+		} else {
+			return resultList;
+		}
+	}
 	
 }

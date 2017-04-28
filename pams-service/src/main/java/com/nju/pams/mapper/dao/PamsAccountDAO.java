@@ -117,6 +117,25 @@ public interface PamsAccountDAO {
     public String getMaxDateByUserId(@Param("userId") Integer userId);
     
     /**
+     * 获取某个用户记录的在某个消费类别下的最大日期
+     * @param userId
+     * @param consumptionId
+     * @return
+     */
+    @Select(""
+            + " SELECT "
+            + " MAX(spend_time) "
+            + " FROM "
+            + TABLE
+            + " WHERE "
+            + " user_id = #{userId} "
+            + " AND "
+            + " consumption_id = #{consumptionId} "
+            + "")
+    public String getMaxDateByUserIdAndConsumptionId(@Param("userId") Integer userId,
+    		@Param("consumptionId") Integer consumptionId);
+    
+    /**
      * 根据userId获取最小消费日期
      * @param userId
      * @return
@@ -130,6 +149,25 @@ public interface PamsAccountDAO {
             + " user_id = #{userId} "
             + "")
     public String getMinDateByUserId(@Param("userId") Integer userId);
+    
+    /**
+     * 获取用户在某个消费类别下的记录的最大的日期
+     * @param userId
+     * @param consumptionId
+     * @return
+     */
+    @Select(""
+            + " SELECT "
+            + " MIN(spend_time) "
+            + " FROM "
+            + TABLE
+            + " WHERE "
+            + " user_id = #{userId} "
+            + " AND "
+            + " consumption_id = #{consumptionId} "
+            + "")
+    public String getMinDateByUserIdAndConsumptionId(@Param("userId") Integer userId,
+    		@Param("consumptionId") Integer consumptionId);
     
     /**
      * 根据userId查询该用户的所有账目列表，并按照账目时间排序
@@ -169,6 +207,29 @@ public interface PamsAccountDAO {
     public List<AccountOfDay> getDaySpendByUserId(@Param("userId") Integer userId);
     
     /**
+     * 获取某个用户在某个消费类别下的每一天的消费总和
+     * @param userId
+     * @param consumptionId
+     * @return
+     */
+    @Select(""
+            + " SELECT "
+            + " spend_time as spend_time, SUM(cost) as cost, COUNT(DISTINCT user_id) as count_of_user "
+            + " FROM "
+            + TABLE
+            + " WHERE "
+            + " user_id = #{userId} "
+            + " AND "
+            + " consumption_id = #{consumptionId} "
+            + " GROUP BY "
+            + " spend_time "
+            + " ORDER BY "
+            + " spend_time "
+            + "")
+    public List<AccountOfDay> getDaySpendByUserIdAndConsumptionId(@Param("userId") Integer userId,
+    		@Param("consumptionId") Integer consumptionId);
+    
+    /**
      * 获取所有用户在每一天的消费总和
      * @return
      */
@@ -187,6 +248,32 @@ public interface PamsAccountDAO {
             + " spend_time "
             + "")
     public List<AccountOfDay> getDaySpendInPeriod(@Param("minDate") String minDate, @Param("maxDate") String maxDate);
+    
+    /**
+     * 获取所有用户在某个类别下的每天的消费总和
+     * @param minDate
+     * @param maxDate
+     * @param consumptionId
+     * @return
+     */
+    @Select(""
+            + " SELECT "
+            + " spend_time as spend_time, SUM(cost) as cost, COUNT(DISTINCT user_id) as count_of_user "
+            + " FROM "
+            + TABLE
+            + " WHERE "
+            + " spend_time >= #{minDate} "
+            + " AND "
+            + " spend_time <= #{maxDate} "
+            + " AND "
+            + " consumption_id = #{consumptionId} "
+            + " GROUP BY "
+            + " spend_time "
+            + " ORDER BY "
+            + " spend_time "
+            + "")
+    public List<AccountOfDay> getDaySpendInPeriodByConsumptionId(@Param("minDate") String minDate, 
+    		@Param("maxDate") String maxDate, @Param("consumptionId") Integer consumptionId);
     
     
     /**

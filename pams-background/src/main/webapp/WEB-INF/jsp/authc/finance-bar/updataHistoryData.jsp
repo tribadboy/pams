@@ -42,10 +42,11 @@
 		              url: "<%=path%>" + "/web/authc/finance/stockInfo/updateStockData",  
 		              type : "POST",
 		              dataType:"JSON",
-		              async: false,//让ajax先执行完 
+		              async: true,
 		              success:function(data)	{
 		            	  if(data.status == 0) {
 		            		  alert("更新历史数据成功");
+		            		  top.topManager.reloadPage();
 		            	  } else {
 		            		  alert("更新失败");
 		            	  } 	     			

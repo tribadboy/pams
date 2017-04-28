@@ -57,10 +57,10 @@
   	<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
 		<property name="exceptionMappings">
 			<props>
-    			<prop key="org.apache.shiro.authz.UnauthorizedException">/web/error/unauthorized</prop>
-    			<prop key="org.apache.shiro.authz.UnauthenticatedException">/web/error/unauthorized</prop>
-    			<prop key="java.lang.IllegalArgumentException">/web/error/error</prop> 
-    			<prop key="java.lang.Exception">/web/error/error</prop> 
+    			<prop key="org.apache.shiro.authz.UnauthorizedException">/error/unauthorized</prop>
+    			<prop key="org.apache.shiro.authz.UnauthenticatedException">/error/unauthorized</prop>
+    			<prop key="java.lang.IllegalArgumentException">/error/error</prop> 
+    			<prop key="java.lang.Exception">/error/error</prop> 
 			</props>
 		</property>
 	</bean>

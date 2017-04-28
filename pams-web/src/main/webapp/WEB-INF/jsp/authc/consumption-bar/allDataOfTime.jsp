@@ -17,9 +17,34 @@
  <body>
       
   <div class="container">
-    
+  <div class="row">
+     <form id="J_Form" class="form-horizontal span24" 
+      		action="<%=path %>/web/authc/consumption/data/getAllDataOfTime"  method="POST" >
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">消费类型：</label>
+            <div class="controls">
+              <select  data-rules="{required:true}"  id="consumptionId" name="consumptionId" class="input-normal"> 
+                <option value="0">全部</option>
+                <option value="1">饮食消费</option>
+                <option value="2">服装消费</option>
+                <option value="3">住房消费</option>
+                <option value="4">交通消费</option>
+                <option value="5">电话消费</option>
+                <option value="6">日用品消费</option>
+                <option value="7">书籍消费</option>
+                <option value="8">旅行消费</option>
+                <option value="9">生活消费(水电煤)</option>
+                <option value="10">其他消费</option>
+              </select>
+            </div>
+          </div>
+          <button type="submit" class="button button-primary">查询</button>
+        </div>    
+      </form>
+      </div>
+      <hr>
     <h1 align="center" style="color:gray;font-size:25px">平台数据与用户数据的时间分布--区域对比图</h1>
-  
 	<div class="detail-section">
     	<div id="canvas">
  
@@ -32,7 +57,11 @@
   	<script type="text/javascript" src="<%=basePath%>static/view/assets/js/acharts-min.js"></script>
 	<script type="text/javascript" src="<%=basePath%>static/view/assets/js/astock-min.js"></script>
   <script type="text/javascript">
-  
+  		var selectIndex = ${selectIndex};
+		window.onload = function addOption(){
+			document.getElementById("consumptionId")[selectIndex].selected=true;
+		}
+		
   		var year = ${year};
   		var month = ${month};
   		var day = ${day};

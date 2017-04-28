@@ -75,7 +75,7 @@ public class ConsumptionDataController {
     //返回时间分布的区域对比图
     @RequestMapping(value = "getAllDataOfTime")
     public String getAllDataOfTimePage(HttpServletRequest request, Model model,
-    		@RequestParam(value="spendMonth", required=false) String spendMonth){
+    		@RequestParam(value="consumptionId", required=false) Integer consumptionId){
     	String username = (String) request.getSession().getAttribute("username");
     	Integer userId = (Integer) request.getSession().getAttribute("userId");
     	if(null == username || null == userId) {
@@ -86,15 +86,32 @@ public class ConsumptionDataController {
     	
     	JSONArray avgData = new JSONArray();
     	JSONArray userData = new JSONArray(); 	
-    	String minDate = pamsAccountService.getMinDateByUserId(userId);
-    	String maxDate = pamsAccountService.getMaxDateByUserId(userId);	
+    	String minDate = null;
+    	String maxDate = null;
+    	if(null == consumptionId || 0 == consumptionId) {
+    		minDate = pamsAccountService.getMinDateByUserId(userId);
+        	maxDate = pamsAccountService.getMaxDateByUserId(userId);	
+    	} else {	
+    		minDate = pamsAccountService.getMinDateByUserIdAndConsumptionId(userId, consumptionId);
+    		maxDate = pamsAccountService.getMaxDateByUserIdAndConsumptionId(userId, consumptionId);
+    	}  	
+    	
     	if(StringUtils.isNotEmpty(minDate)) {
     		model.addAttribute("year", LocalDate.parse(minDate).getYear());
     		model.addAttribute("month", LocalDate.parse(minDate).getMonthOfYear()-1);
     		model.addAttribute("day", LocalDate.parse(minDate).getDayOfMonth());
-    		
-    		List<AccountOfDay> userList = pamsAccountService.getDaySpendByUserId(userId);
-    		List<AccountOfDay> avgList = pamsAccountService.getDaySpendInPeriod(minDate, maxDate);
+
+    		List<AccountOfDay> userList = null;
+    		List<AccountOfDay> avgList = null;
+    		if(null == consumptionId || 0 == consumptionId) {
+    			model.addAttribute("selectIndex", 0);
+    			userList = pamsAccountService.getDaySpendByUserId(userId);
+    			avgList = pamsAccountService.getDaySpendInPeriod(minDate, maxDate);
+    		} else {
+    			model.addAttribute("selectIndex", consumptionId);
+    			userList = pamsAccountService.getDaySpendByUserIdAndConsumptionId(userId, consumptionId);
+    			avgList = pamsAccountService.getDaySpendInPeriodByConsumptionId(minDate, maxDate, consumptionId);
+    		}
     		
     		int length1 = userList.size();
     		String tmp1Date = minDate;
