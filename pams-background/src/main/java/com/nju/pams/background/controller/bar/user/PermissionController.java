@@ -3,9 +3,12 @@ package com.nju.pams.background.controller.bar.user;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,14 +19,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import com.nju.pams.biz.service.PamsNoticeAndInformService;
 import com.nju.pams.biz.service.PamsRoleService;
 import com.nju.pams.biz.service.PamsUserService;
 import com.nju.pams.model.PamsRole;
 import com.nju.pams.model.PamsUser;
 import com.nju.pams.model.constant.PathConstant;
-import com.nju.pams.model.system.InformUserRef;
-import com.nju.pams.model.system.PamsInform;
 import com.nju.pams.util.DateUtil;
 import com.nju.pams.util.ResultUtil;
 import com.nju.pams.util.constant.ResultEnum;
@@ -93,8 +93,7 @@ public class PermissionController {
    	        result.put("hasError", true);
    	        result.put("error", "会话已断开，请重新登录");
    	        return result.toString();
-    	}  	
-    	
+    	}  	   	
    	
     	List<PamsUser> allList;
     	if(StringUtils.isEmpty(nameKey)) {
@@ -146,53 +145,64 @@ public class PermissionController {
     	return result.toString();
 	}	
 	
-//	//为通知选定用户
-//    @ResponseBody
-//	@RequestMapping(value = "setYesForUser", method = RequestMethod.POST)
-//	public String setYesForUser(HttpServletRequest request,
-//			@RequestParam(value="informId") final Integer informId,
-//			@RequestParam(value="targetUserId") final Integer targetUserId,
-//			@RequestParam(value="targetUsername") final String targetUsername
-//			) {
-//    	
-//		final JSONObject result = new JSONObject();	
-//		String username = (String) request.getSession().getAttribute("username");
-//    	Integer userId = (Integer) request.getSession().getAttribute("userId");
-//    	if(null == username || null == userId) {
-//    		ResultUtil.addResult(result, ResultEnum.SessionClose);
-//			return result.toString();
-//    	} 	
-//    	
-//    	InformUserRef ref = new InformUserRef(informId, targetUserId, targetUsername);
-//    	pamsNoticeAndInformService.insertInformUserRef(ref);
-//
-//		ResultUtil.addSuccess(result);
-//		return result.toString();
-//	}
-//    
-//    //将通知设置为已结束
-//    @ResponseBody
-//	@RequestMapping(value = "setNoForUser", method = RequestMethod.POST)
-//	public String setNoForUser(HttpServletRequest request,
-//			@RequestParam(value="informId") final Integer informId,
-//			@RequestParam(value="targetUserId") final Integer targetUserId,
-//			@RequestParam(value="targetUsername") final String targetUsername
-//			) {
-//    	
-//		final JSONObject result = new JSONObject();	
-//		String username = (String) request.getSession().getAttribute("username");
-//    	Integer userId = (Integer) request.getSession().getAttribute("userId");
-//    	if(null == username || null == userId) {
-//    		ResultUtil.addResult(result, ResultEnum.SessionClose);
-//			return result.toString();
-//    	} 	
-//
-//		InformUserRef ref = pamsNoticeAndInformService.getInformUserRefByInformIdAndUserId(informId, targetUserId);
-//		if(null != ref) {
-//			pamsNoticeAndInformService.deleteInformUserRefByRefId(ref.getRefId());
-//		}
-//
-//		ResultUtil.addSuccess(result);
-//		return result.toString();
-//	}
+	//赋予用户权限
+    @ResponseBody
+	@RequestMapping(value = "setYesForUser", method = RequestMethod.POST)
+	public String setYesForUser(HttpServletRequest request,
+			@RequestParam(value="roleIndex") final Integer roleIndex,
+			@RequestParam(value="targetUserId") final Integer targetUserId
+			) {
+    	
+		final JSONObject result = new JSONObject();	
+		String username = (String) request.getSession().getAttribute("username");
+    	Integer userId = (Integer) request.getSession().getAttribute("userId");
+    	if(null == username || null == userId) {
+    		ResultUtil.addResult(result, ResultEnum.SessionClose);
+			return result.toString();
+    	} 	
+    	
+    	String roleName = PamsRole.RoleType.getNameFromIndex(roleIndex);
+    	String targetUsername = pamsUserService.getPamsUserByUserId(targetUserId).getUsername();
+    	List<PamsRole> hasRoleList = pamsRoleService.listRolesForUserByUsername(targetUsername);
+    	if(CollectionUtils.isNotEmpty(hasRoleList)) {
+    		for(PamsRole hasRole : hasRoleList) {
+    			if(hasRole.getRoleName().equals(roleName)) {
+    				ResultUtil.addSuccess(result);
+    				return result.toString();
+    			}
+    		}
+    	}  	
+    	
+    	PamsRole role = pamsRoleService.getPamsRoleByRoleName(roleName);
+    	List<PamsRole> rolesList = Arrays.asList(role);
+    	pamsRoleService.addRolesListForUser(targetUserId, rolesList);
+
+		ResultUtil.addSuccess(result);
+		return result.toString();
+	}
+    
+    //取消用户权限
+    @ResponseBody
+	@RequestMapping(value = "setNoForUser", method = RequestMethod.POST)
+	public String setNoForUser(HttpServletRequest request,
+			@RequestParam(value="roleIndex") final Integer roleIndex,
+			@RequestParam(value="targetUserId") final Integer targetUserId
+			) {
+    	
+		final JSONObject result = new JSONObject();	
+		String username = (String) request.getSession().getAttribute("username");
+    	Integer userId = (Integer) request.getSession().getAttribute("userId");
+    	if(null == username || null == userId) {
+    		ResultUtil.addResult(result, ResultEnum.SessionClose);
+			return result.toString();
+    	} 	
+
+    	String roleName = PamsRole.RoleType.getNameFromIndex(roleIndex);
+    	PamsRole role = pamsRoleService.getPamsRoleByRoleName(roleName);
+    	List<PamsRole> rolesList = Arrays.asList(role);
+    	pamsRoleService.deleteRolesListForUser(targetUserId, rolesList);	
+
+		ResultUtil.addSuccess(result);
+		return result.toString();
+	}
 }  

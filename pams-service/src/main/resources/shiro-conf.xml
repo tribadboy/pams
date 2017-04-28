@@ -10,10 +10,29 @@
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager"/>
         <property name="loginUrl" value="/web/anon/login.html"/>
-        <property name="unauthorizedUrl" value="/error/unauthorized"/>
+        <property name="unauthorizedUrl" value="/web/error/unauthorized"/>
         <property name="filterChainDefinitions">
-            <value>
-            	/static/view/index.html=anon
+            <value>     
+                
+                /web/authc/user/account/**=roles[role_user]
+                
+                /web/authc/finance/position/**=roles[role_finance]
+                /web/authc/finance/stockData/**=roles[role_finance]
+                
+                /web/authc/asset/loan/**=roles[role_asset]
+                /web/authc/asset/deposit/**=roles[role_asset]
+                /web/authc/asset/regularIncome/**=roles[role_asset]
+                /web/authc/asset/fixedAsset/**=roles[role_asset]
+                /web/authc/asset/generalAsset/**=roles[role_asset]
+                
+                /web/authc/consumption/data/**=roles[role_consumption]
+                /web/authc/consumption/excel/**=roles[role_consumption]
+                /web/authc/consumption/record/**=roles[role_consumption]
+                
+                /web/authc/home/about/**=roles[role_home]
+                /web/authc/home/account/**=roles[role_home]
+                /web/authc/home/system/**=roles[role_home]
+                
                 /web/authc/**=authc
                 
             </value>
@@ -38,10 +57,10 @@
   	<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
 		<property name="exceptionMappings">
 			<props>
-    			<prop key="org.apache.shiro.authz.UnauthorizedException">/error/unauthorized</prop>
-    			<prop key="org.apache.shiro.authz.UnauthenticatedException">/error/unauthorized</prop>
-    			<prop key="java.lang.IllegalArgumentException">/error/error</prop> 
-    			<prop key="java.lang.Exception">/error/error</prop> 
+    			<prop key="org.apache.shiro.authz.UnauthorizedException">/web/error/unauthorized</prop>
+    			<prop key="org.apache.shiro.authz.UnauthenticatedException">/web/error/unauthorized</prop>
+    			<prop key="java.lang.IllegalArgumentException">/web/error/error</prop> 
+    			<prop key="java.lang.Exception">/web/error/error</prop> 
 			</props>
 		</property>
 	</bean>

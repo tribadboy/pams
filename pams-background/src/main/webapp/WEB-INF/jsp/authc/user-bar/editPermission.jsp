@@ -24,7 +24,7 @@
             <div class="control-group span8">
             	<label class="control-label">权限类型：</label>
             	<div class="controls">
-              		<select  data-rules="{required:true}"  name="roleIndex" class="input-normal"> 
+              		<select  data-rules="{required:true}"  id="roleIndex" name="roleIndex" class="input-normal"> 
                 		<option value="0" selected="selected">用户模块</option>
                 		<option value="1">系统模块</option>
                 		<option value="2">金融模块</option>
@@ -68,7 +68,6 @@
 		 //初始化后默认自动点击按钮
 		 document.getElementById("btnSearch").click();
 	} 
-    var roleIndex = $("#roleIndex").val();
     BUI.use(['bui/form','bui/grid','bui/data'],function(Form,Grid,Data){
     	//创建表单，表单中的日历，不需要单独初始化
         var form = new Form.HForm({
@@ -89,9 +88,9 @@
              }},
             { title: '操作', elCls : 'center', width: 200, sortable: false, dataIndex: '', renderer:function(value,obj){     
             	if(obj.flagName == "否") {
-            		 return '  <span style=\"font-size:18px\" class="grid-command btn-setYes">指定</span>';
+            		 return '  <span style=\"font-size:15px\" class="grid-command btn-setYes">指定</span>';
             	} else {
-            		 return '  <span style=\"font-size:18px\"class="grid-command btn-setNo">取消</span>';
+            		 return '  <span style=\"font-size:15px\"class="grid-command btn-setNo">取消</span>';
             	}     
             }}
           ];
@@ -114,6 +113,7 @@
             forceFit:true,
             columns : columns,
             store: store,
+            plugins : [Grid.Plugins.RowNumber,Grid.Plugins.AutoFit] , // 插件形式引入自适应宽度
             tbar:{             	
             },
             bbar : {
@@ -138,7 +138,7 @@
                   url : '<%=path%>/web/authc/user/permission/setYesForUser',
                   type: "post",
                   dataType : 'json',
-                  data : "roleIndex="+roleIndex+"&targetUserId="+item.userId,
+                  data : "roleIndex="+$("#roleIndex").val()+"&targetUserId="+item.userId,
                   success : function(data){
                     if(data.status == 0){ 
                   	  BUI.Message.Alert('设置成功！');
@@ -159,7 +159,7 @@
                     url : '<%=path%>/web/authc/user/permission/setNoForUser',
                     type: "post",
                     dataType : 'json',
-                    data : "roleIndex="+roleIndex+"&targetUserId="+item.userId,
+                    data : "roleIndex="+$("#roleIndex").val()+"&targetUserId="+item.userId,
                     success : function(data){
                       if(data.status == 0){ 
                     	  BUI.Message.Alert('设置成功！');

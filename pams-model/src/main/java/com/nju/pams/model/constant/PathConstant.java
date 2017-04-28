@@ -8,6 +8,8 @@ public final class PathConstant {
 
 	//通用的路径  -----------------------------------------------------------------------------------------
 	
+	//错误相关的接口
+	final public static String WEB_ERROR = "/web/error/";
 	
 	//验证码相关的接口
 	final public static String WEB_CODE = "/web/code/";
@@ -68,7 +70,7 @@ public final class PathConstant {
 	
 	//finance bar
 	final public static String WEB_AUTHC_FINANCE_STOCK_DATA = "/web/authc/finance/stockData/";
-	final public static String WEB_AUTHC_FINANCE_POSITION = "/web/authc/finance/position";
+	final public static String WEB_AUTHC_FINANCE_POSITION = "/web/authc/finance/position/";
 	
 	//user bar
 	final public static String WEB_AUTHC_USER_ACCOUNT = "/web/authc/user/account/";
