@@ -34,6 +34,14 @@ public interface PamsRoleDAO {
             + "")
     public PamsRole getPamsRoleByRoleId(@Param("roleId") Integer roleId);
     
+    @Select(""
+            + " SELECT "
+            + COL_ALL
+            + " FROM "
+            + TABLE
+            + "")
+    public List<PamsRole> getAllPamsRole();
+    
     /**
      * 根据roleName查询角色
      * @param roleName
@@ -46,6 +54,7 @@ public interface PamsRoleDAO {
             + TABLE
             + " WHERE "
             + " role_name = #{roleName} "
+            + " LIMIT 1 "
             + "")
     public PamsRole getPamsRoleByRoleName(@Param("roleName") String roleName);
     

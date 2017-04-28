@@ -57,14 +57,14 @@
             },{
               text:'公告管理',
               items:[
-                {id:'introduce',text:'创建公告',href:'<%=path %>/web/authc/system/notice/makeNotice'},
-                {id:'help',text:'查看公告',href:'<%=path %>/web/authc/system/notice/checkNotice'}  
+                {id:'makeNotice',text:'创建公告',href:'<%=path %>/web/authc/system/notice/makeNotice'},
+                {id:'checkNotice',text:'查看公告',href:'<%=path %>/web/authc/system/notice/checkNotice'}  
               ]
             },{
               text:'通知管理',
               items:[
-                {id:'introduce',text:'创建通知',href:'<%=path %>/web/authc/system/inform/makeInform'},
-                {id:'help',text:'查看通知',href:'<%=path %>/web/authc/system/inform/checkInform'}  
+                {id:'makeInform',text:'创建通知',href:'<%=path %>/web/authc/system/inform/makeInform'},
+                {id:'checkInform',text:'查看通知',href:'<%=path %>/web/authc/system/inform/checkInform'}  
                 ]
               },{
               text:'资讯管理',
@@ -88,8 +88,7 @@
               },{
                   text:'权限管理',
                   items:[
-                     {id:'allDataOfType',text:'分类占比',href:'<%=path %>/web/authc/consumption/data/getAllDataOfType'},
-                     {id:'allDataOfTime',text:'时间分布',href:'<%=path %>/web/authc/consumption/data/getAllDataOfTime'}              
+                     {id:'allDataOfType',text:'用户权限设置',href:'<%=path %>/web/authc/user/permission/editPermission'}
                   ]
                 }]
           },{

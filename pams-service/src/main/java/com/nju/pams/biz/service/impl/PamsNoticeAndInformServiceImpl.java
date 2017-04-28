@@ -303,5 +303,13 @@ public class PamsNoticeAndInformServiceImpl implements PamsNoticeAndInformServic
 		return resultList;
 	}
 
+	/**
+	 * 查询用户是否与某个通知有关联
+	 */
+	@Override
+	public InformUserRef getInformUserRefByInformIdAndUserId(Integer informId, Integer userId) {
+		return pamsInformUserRefDAO.getInformUserRefByInformIdAndUserId(informId, userId);
+	}
+
 
 }

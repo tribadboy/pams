@@ -147,4 +147,14 @@ public class PamsUserServiceImplTest {
 		 pamsRoleService.deletePamsRoleByRoleId(roleId);
 			 	 	 
 	 }
+	 
+//	 @Test
+//	 public void testAddAllRolesForAllUser() {
+//		 List<PamsUser> allUser = pamsUserService.getPamsUserList();
+//		 if(CollectionUtils.isNotEmpty(allUser)) {
+//			 for(PamsUser user : allUser) {
+//				 pamsRoleService.addAllPamsRoleForNewUser(user.getUserId());
+//			 }
+//		 }
+//	 }
 }

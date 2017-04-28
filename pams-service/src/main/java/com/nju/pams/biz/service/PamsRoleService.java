@@ -20,4 +20,6 @@ public interface PamsRoleService {
 	int addRolesListForUser(Integer userId,List<PamsRole> rolesList);
 	
 	int deleteRolesListForUser(Integer userId,List<PamsRole> rolesList);
+	
+	void addAllPamsRoleForNewUser(Integer userId);
 }

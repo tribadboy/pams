@@ -59,4 +59,6 @@ public interface PamsNoticeAndInformService {
 	
 	List<PamsInform> getAllValidInformForCertainUser(Integer userId);
 	
+	InformUserRef getInformUserRefByInformIdAndUserId(Integer informId, Integer userId);
+	
 }

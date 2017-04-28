@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.nju.pams.biz.service.PamsLoginInfoService;
+import com.nju.pams.biz.service.PamsRoleService;
 import com.nju.pams.biz.service.PamsUserService;
 import com.nju.pams.model.PamsLoginInfo;
 import com.nju.pams.model.PamsUser;
@@ -34,6 +35,9 @@ public class WebUserController {
 	
 	@Autowired
 	PamsLoginInfoService pamsLoginInfoService;
+	
+	@Autowired
+	PamsRoleService pamsRoleService;
     
     private static final Logger logger = Logger.getLogger(WebUserController.class);
     
@@ -107,6 +111,7 @@ public class WebUserController {
    		String loginTime = LocalDate.now().toString(DateUtil.FormatString2);
    		PamsLoginInfo loginInfo = new PamsLoginInfo(newUser.getUserId(), ip, loginTime);
    		pamsLoginInfoService.insertPamsLoginInfo(loginInfo);
+   		pamsRoleService.addAllPamsRoleForNewUser(newUser.getUserId());
    		
    		//将用户信息通过shiro认证
         UsernamePasswordToken token = new UsernamePasswordToken(newUser.getUsername(), newUser.getPassword());

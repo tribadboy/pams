@@ -17,11 +17,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.nju.pams.biz.service.PamsNoticeAndInformService;
-import com.nju.pams.finance.PamsStock;
+import com.nju.pams.biz.service.PamsUserService;
 import com.nju.pams.model.PamsUser;
 import com.nju.pams.model.constant.PathConstant;
+import com.nju.pams.model.system.InformUserRef;
 import com.nju.pams.model.system.PamsInform;
-import com.nju.pams.model.system.PamsNotice;
 import com.nju.pams.util.DateUtil;
 import com.nju.pams.util.ResultUtil;
 import com.nju.pams.util.constant.ResultEnum;
@@ -37,6 +37,9 @@ public class InformController {
     
     @Autowired
 	PamsNoticeAndInformService pamsNoticeAndInformService;
+    
+    @Autowired
+    PamsUserService pamsUserService;
     
     //返回创建通知页面
     @RequestMapping(value = "makeInform")
@@ -87,7 +90,7 @@ public class InformController {
     	pamsNoticeAndInformService.insertInform(inform);
     	model.addAttribute("msg", "添加公告成功");
     	
-        return "authc/system-bar/makeNotice";
+        return "authc/system-bar/makeInform";
    	}
 	
 	/**
@@ -205,10 +208,8 @@ public class InformController {
 	}
     
     //查询通知指定的用户
-   	@RequestMapping(value = "getUserInfo", method = RequestMethod.POST)
-    public String getUserInfoPage(Model model, HttpServletRequest request,
-      			@RequestParam("informId") final Integer informId
-      			) {
+   	@RequestMapping(value = "getUserInfo")
+    public String getUserInfoPage(Model model, HttpServletRequest request,@RequestParam("informId") final Integer informId) {
 
    		String username = (String) request.getSession().getAttribute("username");
        	Integer userId = (Integer) request.getSession().getAttribute("userId");
@@ -242,7 +243,6 @@ public class InformController {
 	public String searchInformUserDataInfo( HttpServletRequest request,
 			@RequestParam("informId") final Integer informId,
 			@RequestParam(value = "nameKey", required = false) String nameKey,
-			@RequestParam("type") final Integer type,
    			@RequestParam("start") final Integer start,
    			@RequestParam("limit") final Integer limit
 			) {
@@ -257,7 +257,7 @@ public class InformController {
    	        result.put("hasError", true);
    	        result.put("error", "会话已断开，请重新登录");
    	        return result.toString();
-    	}
+    	}  	
     	
     	List<PamsUser> allList;
     	if(StringUtils.isEmpty(nameKey)) {
@@ -283,10 +283,14 @@ public class InformController {
     	JSONArray array = new JSONArray();
     	for(PamsUser user : resultList) {
     		JSONObject json = new JSONObject();
+    		json.put("userId", user.getUserId());
     		json.put("username", user.getUsername());
-    		json.put("phone", user.getPhone());
-    		json.put("mail", user.getMail());
     		json.put("status", PamsUser.Status.getMsgFromIndex(user.getStatus()));
+    		if(null == pamsNoticeAndInformService.getInformUserRefByInformIdAndUserId(informId, user.getUserId())) {
+    			json.put("flagName", "否");
+    		} else {
+    			json.put("flagName", "是");
+    		}
     		array.add(json);
     	}
     	result.put("rows", array);
@@ -295,4 +299,54 @@ public class InformController {
     	
     	return result.toString();
 	}	
+	
+	//为通知选定用户
+    @ResponseBody
+	@RequestMapping(value = "setYesForUser", method = RequestMethod.POST)
+	public String setYesForUser(HttpServletRequest request,
+			@RequestParam(value="informId") final Integer informId,
+			@RequestParam(value="targetUserId") final Integer targetUserId,
+			@RequestParam(value="targetUsername") final String targetUsername
+			) {
+    	
+		final JSONObject result = new JSONObject();	
+		String username = (String) request.getSession().getAttribute("username");
+    	Integer userId = (Integer) request.getSession().getAttribute("userId");
+    	if(null == username || null == userId) {
+    		ResultUtil.addResult(result, ResultEnum.SessionClose);
+			return result.toString();
+    	} 	
+    	
+    	InformUserRef ref = new InformUserRef(informId, targetUserId, targetUsername);
+    	pamsNoticeAndInformService.insertInformUserRef(ref);
+
+		ResultUtil.addSuccess(result);
+		return result.toString();
+	}
+    
+    //将通知设置为已结束
+    @ResponseBody
+	@RequestMapping(value = "setNoForUser", method = RequestMethod.POST)
+	public String setNoForUser(HttpServletRequest request,
+			@RequestParam(value="informId") final Integer informId,
+			@RequestParam(value="targetUserId") final Integer targetUserId,
+			@RequestParam(value="targetUsername") final String targetUsername
+			) {
+    	
+		final JSONObject result = new JSONObject();	
+		String username = (String) request.getSession().getAttribute("username");
+    	Integer userId = (Integer) request.getSession().getAttribute("userId");
+    	if(null == username || null == userId) {
+    		ResultUtil.addResult(result, ResultEnum.SessionClose);
+			return result.toString();
+    	} 	
+
+		InformUserRef ref = pamsNoticeAndInformService.getInformUserRefByInformIdAndUserId(informId, targetUserId);
+		if(null != ref) {
+			pamsNoticeAndInformService.deleteInformUserRefByRefId(ref.getRefId());
+		}
+
+		ResultUtil.addSuccess(result);
+		return result.toString();
+	}
 }  

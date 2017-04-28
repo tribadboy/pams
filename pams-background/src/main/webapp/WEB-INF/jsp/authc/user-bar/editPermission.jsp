@@ -7,7 +7,7 @@
 <!DOCTYPE HTML>
 <html>
  <head>
-  <title>编辑特定通知用户</title>
+  <title>编辑用户权限</title>
    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link href="<%=basePath%>static/view/assets/css/dpl-min.css" rel="stylesheet" type="text/css" />
     <link href="<%=basePath%>static/view/assets/css/bui-min.css" rel="stylesheet" type="text/css" />
@@ -19,9 +19,20 @@
   <div class="container">
     <div class="detail-page">   
  		<form id="searchForm" class="form-horizontal" tabindex="0" style="outline: none;">
- 		<input type=text style="display:none" name="informId" id="informId" value="${informId }">
           <div class="row">
-            <div class="control-group span20">
+            <div class="control-group span30">
+            <div class="control-group span8">
+            	<label class="control-label">权限类型：</label>
+            	<div class="controls">
+              		<select  data-rules="{required:true}"  name="roleIndex" class="input-normal"> 
+                		<option value="0" selected="selected">用户模块</option>
+                		<option value="1">系统模块</option>
+                		<option value="2">金融模块</option>
+                		<option value="3">资产模块</option>
+                		<option value="4">消费模块</option>
+              		</select>
+            	</div>
+          		</div>
              	<div class="control-group span8">
             		<label class="control-label">模糊查询：</label>
             		<div class="controls">
@@ -36,7 +47,8 @@
           </div>      
         </form>        
     </div>
-    <h1 align="center" style="color:gray;font-size:25px">编辑特定通知的用户</h1>
+    <hr>
+    <h1 align="center" style="color:gray;font-size:25px">编辑用户相关权限：</h1>
     <div class="detail-page">
     	<div class="search-grid-container">
       		<div id="grid">
@@ -50,14 +62,13 @@
   <script type="text/javascript">
     BUI.use('common/page');
   </script>
-  <script type="text/javascript">
-  window.onload = function addOption(){
+
+    <script type="text/javascript">
+    window.onload = function addOption(){
 		 //初始化后默认自动点击按钮
 		 document.getElementById("btnSearch").click();
-	}
-  </script>
-    <script type="text/javascript">
-    var informId = ${informId};
+	} 
+    var roleIndex = $("#roleIndex").val();
     BUI.use(['bui/form','bui/grid','bui/data'],function(Form,Grid,Data){
     	//创建表单，表单中的日历，不需要单独初始化
         var form = new Form.HForm({
@@ -67,28 +78,33 @@
          var Grid = BUI.Grid,
           Store = BUI.Data.Store,
           columns = [
-            { title: '用户名',width: 100,  sortable: false, dataIndex: 'username'},
-            { title: '状态', width: 100, sortable: false, dataIndex: 'status'},
-            { title: '是否被通知选定', width: 100, sortable: true, dataIndex: 'flagName'},
-            { title: '操作', width: 300, sortable: false, dataIndex: '',renderer:function(value,obj){     
-            	if(obj.flagName == "是") {
-            		 return '  <span style=\"color:red\" class="grid-command btn-setNo">放弃</span>';
+            { title: '用户名', elCls : 'center', width: 100,  sortable: false, dataIndex: 'username'},
+            { title: '状态', elCls : 'center', width: 100, sortable: false, dataIndex: 'status'},
+            { title: '权限', elCls : 'center', width: 100, sortable: false, dataIndex: '', renderer:function(value,obj){     
+            	if(obj.flagName == "否") {
+           			 return '  <span style=\"color:red;font-size:20px\" class="grid-command">&Chi;</span>';
+           		} else {
+           		 	return '  <span style=\"color:green;font-size:20px\" class="grid-command">&radic;</span>';
+           		}     
+             }},
+            { title: '操作', elCls : 'center', width: 200, sortable: false, dataIndex: '', renderer:function(value,obj){     
+            	if(obj.flagName == "否") {
+            		 return '  <span style=\"font-size:18px\" class="grid-command btn-setYes">指定</span>';
             	} else {
-            		 return '  <span class="grid-command btn-setYes">指定</span>';
+            		 return '  <span style=\"font-size:18px\"class="grid-command btn-setNo">取消</span>';
             	}     
-              ;
             }}
           ];
 
 	   var store = new Store({        
             autoLoad:false,
             pageSize:8,
-            url : "<%=path%>/web/authc/system/inform/searchInformUserDataInfo",
+            url : "<%=path%>/web/authc/user/permission/searchUserPermissionInfo",
             params : { 
                 nameKey : function() {
                 	return encodeURIComponent($("#name").val());
                 },
-                informId : "#informId"
+                roleIndex : "#roleIndex"
             },
        }), 
          
@@ -98,8 +114,6 @@
             forceFit:true,
             columns : columns,
             store: store,
-            //plugins : [Grid.Plugins.CheckSelection,Grid.Plugins.AutoFit], //勾选插件、自适应宽度插件
-            //plugins : [BUI.Grid.Plugins.CheckSelection], // 插件形式引入多选表格,
             tbar:{             	
             },
             bbar : {
@@ -119,12 +133,12 @@
         
         function setYesItem(item){
             if(null != item){
-              BUI.Message.Confirm('确认选定该用户么？',function(){
+              BUI.Message.Confirm('确认赋予用户该权限么？',function(){
                 $.ajax({
-                  url : '<%=path%>/web/authc/system/inform/setYesForUser',
+                  url : '<%=path%>/web/authc/user/permission/setYesForUser',
                   type: "post",
                   dataType : 'json',
-                  data : "informId="+informId+"&targetUserId="+item.userId+"&targetUsername="+item.username,
+                  data : "roleIndex="+roleIndex+"&targetUserId="+item.userId,
                   success : function(data){
                     if(data.status == 0){ 
                   	  BUI.Message.Alert('设置成功！');
@@ -140,12 +154,12 @@
           
           function setNoItem(item){
               if(null != item){
-                BUI.Message.Confirm('确认放弃该用户么？',function(){
+                BUI.Message.Confirm('确认取消用户该权限么？',function(){
                   $.ajax({
-                    url : '<%=path%>/web/authc/system/inform/setNoForUser',
+                    url : '<%=path%>/web/authc/user/permission/setNoForUser',
                     type: "post",
                     dataType : 'json',
-                    data : "informId="+informId+"&targetUserId="+item.userId+"&targetUsername="+item.username,
+                    data : "roleIndex="+roleIndex+"&targetUserId="+item.userId,
                     success : function(data){
                       if(data.status == 0){ 
                     	  BUI.Message.Alert('设置成功！');

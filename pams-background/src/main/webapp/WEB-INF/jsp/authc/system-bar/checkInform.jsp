@@ -82,7 +82,7 @@
             	if(obj.statusName == "进行中") {
             		str = str + '  <span class="grid-command btn-fin">设置为已结束</span>';
             	} 
-            	if(obj.typeName == "特定用户") {
+            	if(obj.statusName == "进行中" && obj.typeName == "特定用户") {
             		str = str + '  <span class="grid-command btn-info">选择用户</span>';
             	}
             	return str;
@@ -91,7 +91,7 @@
          
          
        var store = new Store({
-           url : 'searchInformUserDataInfo',
+           url : 'searchInformInfo',
            autoLoad:false,
            params : { 
                type : '#type',
@@ -137,7 +137,7 @@
                 success : function(data){
                   if(data.status == 0){ 
                 	  BUI.Message.Alert('删除成功！');
-                	  top.topManager.reloadPage();
+                	  store.load();
                   }else{ 
                     BUI.Message.Alert('删除失败！');
                   }
@@ -158,7 +158,7 @@
                   success : function(data){
                     if(data.status == 0){ 
                   	  BUI.Message.Alert('设置成功！');
-                  	  top.topManager.reloadPage();
+                  	  store.load();
                     }else{ 
                       BUI.Message.Alert('设置失败！');
                     }

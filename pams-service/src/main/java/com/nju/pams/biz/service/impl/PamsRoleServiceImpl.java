@@ -3,6 +3,7 @@ package com.nju.pams.biz.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -60,8 +61,6 @@ public class PamsRoleServiceImpl implements PamsRoleService {
 	public List<PamsRole> listRolesForUserByUsername(String username) {
 		List<PamsRole> rolesList = pamsRoleDAO.listRolesForUserByUsername(username);
 		if(null == rolesList) {
-			logger.info("用户: " + username + "查询拥有的角色列表为null");
-			//为避免返回null，将返回empty的arraylist
 			return new ArrayList<PamsRole>();
 		} else {
 			return rolesList;
@@ -85,6 +84,14 @@ public class PamsRoleServiceImpl implements PamsRoleService {
 			return 0;
 		} else {
 			return pamsRoleDAO.deleteRolesListForUser(userId, rolesList);
+		}
+	}
+
+	@Override
+	public void addAllPamsRoleForNewUser(Integer userId) {
+		List<PamsRole> rolesList = pamsRoleDAO.getAllPamsRole();
+		if(CollectionUtils.isNotEmpty(rolesList)) {
+			addRolesListForUser(userId, rolesList);
 		}
 	}
 

@@ -11,6 +11,35 @@ public class PamsRole {
     	
     }
     
+    public enum RoleType { 
+        RoleUser(0, "role_user"),
+        RoleHome(1, "role_home"),
+        RoleFinance(2, "role_finance"),
+        RoleAsset(3, "role_asset"),
+        RoleConsumption(4, "role_consumption");
+
+    	private final int index;
+        private final String name;
+        private RoleType(int index, String name) {
+        	this.index = index;
+            this.name = name;
+        }
+        public int getIndex() {
+        	return index;
+        }
+        public String getName() {
+            return name;
+        }
+        public static String getNameFromIndex(int index) {
+        	for(RoleType type : RoleType.values()) {
+        		if(index == type.getIndex()) {
+        			return type.getName();
+        		}
+        	}
+        	return "";
+        }
+    }
+    
     public PamsRole(String roleName) {
     	this.roleName = roleName;
     }
