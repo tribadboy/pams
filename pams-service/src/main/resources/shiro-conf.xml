@@ -18,6 +18,7 @@
                 
                 /web/authc/finance/position/**=roles[role_finance]
                 /web/authc/finance/stockData/**=roles[role_finance]
+                /web/authc/finance/strategy/**=roles[role_finance]
                 
                 /web/authc/asset/loan/**=roles[role_asset]
                 /web/authc/asset/deposit/**=roles[role_asset]

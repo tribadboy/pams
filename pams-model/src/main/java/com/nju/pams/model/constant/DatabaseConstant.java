@@ -42,6 +42,8 @@ public final class DatabaseConstant {
 	final public static String T_PAMS_STOCK_CAPITAL = DB_NAME + "." + "t_pams_stock_capital";
 	final public static String T_PAMS_STOCK_HOLD = DB_NAME + "." + "t_pams_stock_hold";
 	final public static String T_PAMS_STOCK_CHANGE = DB_NAME + "." + "t_pams_stock_change";
+	final public static String T_PAMS_STRATEGY = DB_NAME + "." + "t_pams_strategy";
+	final public static String T_PAMS_STRATEGY_ELEMENT = DB_NAME + "." + "t_pams_strategy_element";
 	
 	//用户信息相关表格
 	final public static String T_PAMS_LOGIN_INFO = DB_NAME + "." + "t_pams_login_info";

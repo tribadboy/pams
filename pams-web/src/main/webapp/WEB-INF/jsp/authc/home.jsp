@@ -135,7 +135,14 @@
                     {id:'transactionRecord',text:'交易记录',href:'<%=path %>/web/authc/finance/position/getTransactionRecord'},
                     {id:'makeTransaction',text:'创建交易',href:'<%=path %>/web/authc/finance/position/makeTransaction'}
                   ]
-             }]
+             },{
+                 text:'投资策略',
+                 items:[
+                   {id:'makeStrategy',text:'创建策略',href:'<%=path %>/web/authc/finance/strategy/makeStrategy'},
+                   {id:'myStrategy',text:'我的策略',href:'<%=path %>/web/authc/finance/strategy/myStrategy'},
+                   {id:'strategy',text:'策略市场',href:'<%=path %>/web/authc/finance/position/makeTransaction'}
+                 ]
+            }]
           },{
             id : 'user-bar',
             menu : [{
