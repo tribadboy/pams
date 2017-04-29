@@ -25,7 +25,7 @@
       <form id="J_Form" class="form-horizontal span24" 
       		action="<%=path %>/web/authc/finance/strategy/add"  method="POST" >
         <div class="row">
-            <div class="control-group span12">
+            <div class="control-group span8">
           	<label class="control-label"><span class="redText">*</span>策略名称：</label>
           	<div class="controls">
             	<input name="strategyName" type="text" class="control-text" data-rules="{required:true,maxlength:20}">
@@ -42,18 +42,16 @@
             </div>
           </div>
         </div>
-        <div class="row">
-          <div class="control-group span15 ">
-            <label class="control-label"><span class="redText">*</span> 策略开始日期：</label>
+          <div class="control-group span8 ">
+            <label class="control-label"><span class="redText">*</span> 策略开始日期:</label>
              <div id="single_range" class="controls bui-form-group"  data-rules="{dateRange:true}">
               <input name="startDate" class="calendar"  data-rules="{required:true}"
               data-cfg="{datePicker :{minDate : '${currentDate }'}}"  type="text">
             </div>           
           </div>          
-        </div>
          <div class="row">
             <div class="control-group">
-              <label class="control-label">策略内容：</label>
+              <label class="control-label"><span class="redText">*</span>策略备注：</label>
               <div class="controls control-row4">
                 <textarea class="input-large" data-rules="{required:true,maxlength:50}" name="message"></textarea>
               </div>
@@ -62,18 +60,18 @@
       <div class="row">
         <div class="span21 offset3 control-row-auto">
           <div id="grid"></div>
-          <input type="hidden" name="eduation">
+          <input type="hidden" name="element">
         </div>
       </div>
         <div class="row form-actions actions-bar">
             <div class="span13 offset3 ">
               <button type="submit" class="button button-primary">保存</button>
-              <button type="reset" class="button">重置</button>
-            </div>
-            <h2><span class="redText">${msg }</span></h2>
+              <button type="reset" class="button">重置</button>         
+            </div>         
+            <h2><span class="redText">${msg }</span></h2> 
         </div>
       </form>  
-       
+       <hr>
     <div id="content" class="hide">
       <form id="J_Form" class="form-horizontal">
         <div class="row">
@@ -117,16 +115,22 @@
   BUI.use(['bui/grid','bui/data','bui/form'],function (Grid,Data,Form) {
 
     var columns = [{title : '股票代码',dataIndex :'symbolCode'},
-            {title : '股票类型',dataIndex :'symbolType'},
-            {title : '投资占比(%)',dataIndex :'percent'},
-            {title : '操作',renderer : function(){
+            {title : '股票类型', sortable: false, dataIndex :'', renderer: function(value, obj) {
+            	if(obj.symbolType == 0) {
+            		return "沪市";
+            	} else{
+            		return "深市";
+            	}
+            }},
+            {title : '投资占比(%)', sortable: false, dataIndex :'percent'},
+            {title : '操作', sortable: false, renderer : function(){
               return '<span class="grid-command btn-edit">编辑</span>';
             }}
           ],
       //默认的数据
       data = [
-        {symbolCode:'600001',symbolType:'1',percent:'34.56'},
-        {symbolCode:'600002',symbolType:'2',percent:'55.32'}
+/*         {symbolCode:'600001',symbolType:'1',percent:'34.56'},
+        {symbolCode:'600002',symbolType:'2',percent:'55.32'} */
       ],
       store = new Data.Store({
         data:data
@@ -166,7 +170,7 @@
     grid.render();
 
     function addFunction(){
-      var newData = {school :'请输入学校名称'};
+      var newData = {};
       editing.add(newData); //添加记录后，直接编辑
     }
 
@@ -178,7 +182,7 @@
       srcNode : '#J_Form'
     });
     form.render();
-    var field = form.getField('eduation');
+     var field = form.getField('element'); 
     form.on('beforesubmit',function(){
       var records = store.getResult();
       field.set('value',BUI.JSON.stringify(records));

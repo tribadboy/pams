@@ -96,7 +96,8 @@
               menu:[{
                   text:'股票信息',
                   items:[
-                     {id:'updataHistoryData',text:'更新历史数据',href:'<%=path %>/web/authc/finance/stockInfo/updataHistoryData'}
+                     {id:'updateHistoryData',text:'更新股票历史数据',href:'<%=path %>/web/authc/finance/stockInfo/updateHistoryData'},
+                     {id:'updateStrategyData',text:'更新投资策略数据',href:'<%=path %>/web/authc/finance/stockInfo/updateStrategyData'}
                   ]
                 }]
             }];

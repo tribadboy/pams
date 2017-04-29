@@ -37,6 +37,21 @@ public interface PamsStrategyDAO {
     public PamsStrategy getPamsStrategyByStrategyId(@Param("strategyId") Integer strategyId);
     
     /**
+     * 获取所有策略
+     * @return
+     */
+    @Select(""
+            + " SELECT "
+            + COL_ALL
+            + " FROM "
+            + TABLE
+            + " ORDER BY "
+            + " start_date ASC "
+            + "")
+    public List<PamsStrategy> getPamsStrategyList();
+    
+    
+    /**
      * 根据userId查询该用户的所有策略
      * @param userId
      * @return
@@ -54,6 +69,27 @@ public interface PamsStrategyDAO {
     public List<PamsStrategy> getPamsStrategyListByUserId(@Param("userId") Integer userId);
     
     /**
+     * 查询某个用户在某个类别下的所有策略
+     * @param userId
+     * @param strategyType
+     * @return
+     */
+    @Select(""
+            + " SELECT "
+            + COL_ALL
+            + " FROM "
+            + TABLE
+            + " WHERE "
+            + " user_id = #{userId} "
+            + " AND "
+            + " strategy_type = #{strategyType} "
+            + " ORDER BY "
+            + " start_date ASC "
+            + "")
+    public List<PamsStrategy> getPamsStrategyListByUserIdAndStrategyType(@Param("userId") Integer userId,
+    		@Param("strategyType") Integer strategyType);
+    
+    /**
      * 查询某个类别下的所有策略
      * @param strategyType
      * @return
@@ -69,6 +105,68 @@ public interface PamsStrategyDAO {
             + " start_date ASC "
             + "")
     public List<PamsStrategy> getPamsStrategyListByStrategyType(@Param("strategyType") Integer strategyType);
+    
+    /**
+     * 查询某个状态下的所有策略
+     * @param status
+     * @return
+     */
+    @Select(""
+            + " SELECT "
+            + COL_ALL
+            + " FROM "
+            + TABLE
+            + " WHERE "
+            + " status = #{status} "
+            + " ORDER BY "
+            + " start_date ASC "
+            + "")
+    public List<PamsStrategy> getPamsStrategyListByStatus(@Param("status") Integer status);
+    
+    /**
+     * 获取某个类别某个状态下的所有策略
+     * @param status
+     * @param strategyType
+     * @return
+     */
+    @Select(""
+            + " SELECT "
+            + COL_ALL
+            + " FROM "
+            + TABLE
+            + " WHERE "
+            + " status = #{status} "
+            + " AND "
+            + " strategy_type = #{strategyType} "
+            + " ORDER BY "
+            + " start_date ASC "
+            + "")
+    public List<PamsStrategy> getPamsStrategyListByStatusAndStrategyType(@Param("status") Integer status,
+    		@Param("strategyType") Integer strategyType);
+    
+    /**
+     * 获取某个用户某个类别下的某个状态的全部策略
+     * @param status
+     * @param strategyType
+     * @param userId
+     * @return
+     */
+    @Select(""
+            + " SELECT "
+            + COL_ALL
+            + " FROM "
+            + TABLE
+            + " WHERE "
+            + " status = #{status} "
+            + " AND "
+            + " strategy_type = #{strategyType} "
+            + " AND "
+            + " user_id = #{userId} "
+            + " ORDER BY "
+            + " start_date ASC "
+            + "")
+    public List<PamsStrategy> getPamsStrategyListByStatusAndStrategyTypeAndUserId(@Param("status") Integer status,
+    		@Param("strategyType") Integer strategyType, @Param("userId") Integer userId);
     
     /**
      * 模糊查询某个类别下的所有策略

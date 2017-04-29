@@ -13,6 +13,10 @@ public interface PamsStockHistoryService {
 	List<StockHistory> getPeriodStockHistoryByPK(String symbolCode, Integer symbolType, String startDate,
 	    		String endDate);
 	
+	String getCellDateByPK(String symbolCode, Integer symbolType, String targetDate);
+	
+	String getFloorDateByPK(String symbolCode, Integer symbolType, String targetDate);
+	
 	//查询某一支股票的某个阶段的历史数据
 	List<StockHistory> getAllStockHistoryByPK(String symbolCode, Integer symbolType);
 	

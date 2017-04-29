@@ -4,6 +4,9 @@ import java.math.BigDecimal;
 
 public class PamsStrategy {
 	
+	public static final int MAX_STRATEGY_NUM = 30;
+	public static final int MAX_ELEMENT_IN_STRATEGY = 10;
+	
 	private int strategyId;
 	private String strategyName;
 	private int userId;
@@ -65,9 +68,9 @@ public class PamsStrategy {
 	 }
     
     public enum Type { 
-		 Short(1, "短期策略", 10, 15),
-		 Medium(2, "中期策略", 30, 40),
-	     Long(3, "长期策略", 80, 100);
+		 Short(1, "短期策略(10-15天)", 10, 15),
+		 Medium(2, "中期策略(30-40天)", 30, 40),
+	     Long(3, "长期策略(80-100天)", 80, 100);
 
 	     private final int index;
 	     private final String msg;
@@ -91,6 +94,14 @@ public class PamsStrategy {
 	     public int getPeriod2() {
 	    	 return period2;
 	     }
+	     public static Type getTypeFromIndex(int index) {
+	    	 for(Type type : Type.values()) {
+	    		 if(index == type.getIndex()) {
+	    			 return type;
+	    		 }
+	    	 }
+	    	 return null;
+	     }  
 	     public static String getMsgFromIndex(int index) {
 	    	 for(Type type : Type.values()) {
 	    		 if(index == type.getIndex()) {

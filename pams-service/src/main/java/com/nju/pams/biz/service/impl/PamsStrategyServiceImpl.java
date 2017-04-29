@@ -33,6 +33,19 @@ public class PamsStrategyServiceImpl implements PamsStrategyService {
 	public PamsStrategy getPamsStrategyByStrategyId(Integer strategyId) {
 		return pamsStrategyDAO.getPamsStrategyByStrategyId(strategyId);
 	}
+	
+	/**
+	 * 获取所有策略
+	 */
+	@Override
+	public List<PamsStrategy> getPamsStrategyList() {
+		List<PamsStrategy> resultList = pamsStrategyDAO.getPamsStrategyList();
+		if(null == resultList) {
+			return new ArrayList<PamsStrategy>();
+		} else {
+			return resultList;
+		}
+	}
 
 	/**
 	 * 获取某个用户的所有策略
@@ -46,6 +59,19 @@ public class PamsStrategyServiceImpl implements PamsStrategyService {
 			return resultList;
 		}
 	}
+	
+	/**
+	 * 获取某个用户在某个类别下的所有策略
+	 */
+	@Override
+	public List<PamsStrategy> getPamsStrategyListByUserIdAndStrategyType(Integer userId, Integer strategyType) {
+		List<PamsStrategy> resultList = pamsStrategyDAO.getPamsStrategyListByUserIdAndStrategyType(userId, strategyType);
+		if(null == resultList) {
+			return new ArrayList<PamsStrategy>();
+		} else {
+			return resultList;
+		}
+	}
 
 	/**
 	 * 获取某个类别的所有策略
@@ -53,6 +79,46 @@ public class PamsStrategyServiceImpl implements PamsStrategyService {
 	@Override
 	public List<PamsStrategy> getPamsStrategyListByStrategyType(Integer strategyType) {
 		List<PamsStrategy> resultList = pamsStrategyDAO.getPamsStrategyListByStrategyType(strategyType);
+		if(null == resultList) {
+			return new ArrayList<PamsStrategy>();
+		} else {
+			return resultList;
+		}
+	}
+	
+	/**
+	 * 获取某个状态下的所有策略
+	 */
+	@Override
+	public List<PamsStrategy> getPamsStrategyListByStatus(Integer status) {
+		List<PamsStrategy> resultList = pamsStrategyDAO.getPamsStrategyListByStatus(status);
+		if(null == resultList) {
+			return new ArrayList<PamsStrategy>();
+		} else {
+			return resultList;
+		}
+	}
+	
+	/**
+	 * 获取某个类别某个状态下的所有策略
+	 */
+	@Override
+	public List<PamsStrategy> getPamsStrategyListByStatusAndStrategyType(Integer status, Integer strategyType) {
+		List<PamsStrategy> resultList = pamsStrategyDAO.getPamsStrategyListByStatusAndStrategyType(status, strategyType);
+		if(null == resultList) {
+			return new ArrayList<PamsStrategy>();
+		} else {
+			return resultList;
+		}
+	}
+	
+	/**
+	 * 获取某个用户在某个类别下的某个状态的所有策略
+	 */
+	@Override
+	public List<PamsStrategy> getPamsStrategyListByStatusAndStrategyTypeAndUserId(Integer status, 
+			Integer strategyType, Integer userId) {
+		List<PamsStrategy> resultList = pamsStrategyDAO.getPamsStrategyListByStatusAndStrategyTypeAndUserId(status, strategyType, userId);
 		if(null == resultList) {
 			return new ArrayList<PamsStrategy>();
 		} else {
@@ -94,6 +160,7 @@ public class PamsStrategyServiceImpl implements PamsStrategyService {
 		pamsStrategyDAO.insertPamsStrategy(pamsStrategy);
 		if(CollectionUtils.isNotEmpty(elementList)) {
 			for(StrategyElement e : elementList) {
+				e.setStrategyId(pamsStrategy.getStrategyId());
 				pamsStrategyElementDAO.insertStrategyElement(e);
 			}
 		}

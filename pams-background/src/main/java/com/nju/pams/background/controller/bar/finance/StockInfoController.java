@@ -1,5 +1,7 @@
 package com.nju.pams.background.controller.bar.finance;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -19,12 +21,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.nju.pams.biz.finance.service.PamsStockAPIService;
 import com.nju.pams.biz.finance.service.PamsStockHistoryService;
 import com.nju.pams.biz.finance.service.PamsStockService;
+import com.nju.pams.biz.service.PamsStrategyService;
 import com.nju.pams.finance.PamsStock;
+import com.nju.pams.finance.PamsStrategy;
 import com.nju.pams.finance.StockHistory;
+import com.nju.pams.finance.StrategyElement;
 import com.nju.pams.model.constant.PathConstant;
+import com.nju.pams.util.BigDecimalUtil;
 import com.nju.pams.util.DateUtil;
 import com.nju.pams.util.NullUtil;
 import com.nju.pams.util.ResultUtil;
+import com.nju.pams.util.TimeRangeUtil;
 
 import net.sf.json.JSONObject;  
   
@@ -42,6 +49,9 @@ public class StockInfoController {
 	
 	@Autowired
 	PamsStockAPIService pamsStockAPIService;
+	
+	@Autowired
+	PamsStrategyService pamsStrategyService;
  
     /**
      * 重置所有股票的最新数据和其历史数据
@@ -106,7 +116,7 @@ public class StockInfoController {
 	}
    
     //返回更新股票数据页面
-    @RequestMapping(value = "updataHistoryData")
+    @RequestMapping(value = "updateHistoryData")
     public String getUpdataHistoryDataPage(HttpServletRequest request, Model model){
     	String username = (String) request.getSession().getAttribute("username");
     	Integer userId = (Integer) request.getSession().getAttribute("userId");
@@ -119,8 +129,86 @@ public class StockInfoController {
     	String maxDate = pamsStockHistoryService.getMaxDate();
     	
     	model.addAttribute("date", NullUtil.notNullProcess(maxDate));
-        return "authc/finance-bar/updataHistoryData";
+        return "authc/finance-bar/updateHistoryData";
     }
     
+    //返回更新策略数据页面
+    @RequestMapping(value = "updateStrategyData")
+    public String getUpdataStrategyDataPage(HttpServletRequest request, Model model){
+    	String username = (String) request.getSession().getAttribute("username");
+    	Integer userId = (Integer) request.getSession().getAttribute("userId");
+    	if(null == username || null == userId) {
+    		logger.info("session失效，需要用户重新登录");
+    		SecurityUtils.getSubject().logout();
+   	        return "error/logout";
+    	}
+    	
+    	
+        return "authc/finance-bar/updateStrategyData";
+    }
+    
+    /**
+     * 更新策略的综合收益
+     * @return
+     */
+    @ResponseBody
+	@RequestMapping(value = "updateStrategyDataInfo", method = RequestMethod.POST)
+	public String updateStrategyData() {
+    	updateStockData();
+    	
+		final JSONObject result = new JSONObject();		
+    	logger.info("策略信息更新工作开始-----------------------------------------------");
+    	 	
+    	String today = DateUtil.getCurrentTime(DateUtil.FormatString);
+    	
+    	pamsStrategyService.setNotStartByTodayStr(today);
+    	pamsStrategyService.setOngoingByTodayStr(today);
+    	pamsStrategyService.setWindUpByTodayStr(today);
+    	pamsStrategyService.setClosedByTodayStr(today);
+    	List<PamsStrategy> strategyList = pamsStrategyService.getPamsStrategyListByStatus(PamsStrategy.Status.Closed.getIndex());
+    	if(CollectionUtils.isNotEmpty(strategyList)) {
+    		for(PamsStrategy strategy : strategyList) {
+    			if(null == strategy.getAvgProfit()) {
+    				BigDecimal avgProfit = BigDecimal.ZERO;
+    				List<StrategyElement> eleList = pamsStrategyService.getStrategyElementListByStrategyId(strategy.getStrategyId());
+    				String startDate = strategy.getStartDate();
+    				String endDate1 = strategy.getEndDate1();
+    				String endDate2 = strategy.getEndDate2();
+    				if(CollectionUtils.isNotEmpty(eleList)) {
+    					for(StrategyElement element : eleList) {
+    						BigDecimal percent = element.getPercent();
+    						String symbolCode = element.getSymbolCode();
+    						int symbolType = element.getSymbolType();
+    						
+    						String date1 = pamsStockHistoryService.getFloorDateByPK(symbolCode, symbolType, startDate);
+    						String date2 = pamsStockHistoryService.getFloorDateByPK(symbolCode, symbolType, endDate1);
+    						String date3 = pamsStockHistoryService.getFloorDateByPK(symbolCode, symbolType, endDate2);
+    						if(null == date1 || null == date2 || null == date3) {
+    							logger.info("无法找到该股票的历史数据-"+startDate+"-"+endDate1+"-"+endDate2);
+    						} else {
+    							BigDecimal originPrice = pamsStockHistoryService.getStockHistoryByPK(date1, symbolCode, symbolType).getClose();
+    							List<StockHistory> hisList = pamsStockHistoryService.getPeriodStockHistoryByPK(symbolCode, symbolType,
+        								date2, TimeRangeUtil.getSomedayPlusDays(date3, 1));
+    							BigDecimal sum = BigDecimal.ZERO;
+    							for(StockHistory his : hisList) {
+    								sum = sum.add(his.getClose()).subtract(originPrice);
+    							}
+    							if(sum.compareTo(BigDecimal.ZERO) != 0) {
+    								sum = sum.divide(originPrice.multiply(BigDecimal.valueOf(hisList.size())), 
+    										2, RoundingMode.HALF_UP);
+    							}
+    							avgProfit.add(sum.multiply(percent));
+    						}  						
+    					}
+    				}
+    				pamsStrategyService.setAvgProfitByStrategyId(strategy.getStrategyId(), BigDecimalUtil.generateFormatNumber(avgProfit));
+    			}
+    		}
+    	}
+ 
+		logger.info("策略信息更新工作已完成------------------------------");
+		ResultUtil.addSuccess(result);
+		return result.toString();
+	}
    
 }  

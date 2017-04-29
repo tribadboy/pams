@@ -139,8 +139,8 @@
                  text:'投资策略',
                  items:[
                    {id:'makeStrategy',text:'创建策略',href:'<%=path %>/web/authc/finance/strategy/makeStrategy'},
-                   {id:'myStrategy',text:'我的策略',href:'<%=path %>/web/authc/finance/strategy/myStrategy'},
-                   {id:'strategy',text:'策略市场',href:'<%=path %>/web/authc/finance/position/makeTransaction'}
+                   {id:'myStrategy',text:'我的策略',href:'<%=path %>/web/authc/finance/strategy/checkMyStrategy'},
+                   {id:'strategyCenter',text:'策略中心',href:'<%=path %>/web/authc/finance/strategy/strategyCenter'}
                  ]
             }]
           },{

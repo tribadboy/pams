@@ -67,6 +67,37 @@ public interface PamsStockHistoryDAO {
     		@Param("symbolType") Integer symbolType, @Param("startDate") String startDate,
     		@Param("endDate") String endDate);
     
+    @Select(""
+            + " SELECT "
+            + " MIN(symbol_date) "
+            + " FROM "
+            + TABLE
+            + " WHERE "
+            + " symbol_code = #{symbolCode} "
+            + " AND "
+            + " symbol_type = #{symbolType} "
+            + " AND "
+            + " symbol_date >= #{targetDate} "
+            + "")
+    public String getCellDateByPK(@Param("symbolCode") String symbolCode, 
+    		@Param("symbolType") Integer symbolType, @Param("targetDate") String targetDate);
+    
+    @Select(""
+            + " SELECT "
+            + " MAX(symbol_date) "
+            + " FROM "
+            + TABLE
+            + " WHERE "
+            + " symbol_code = #{symbolCode} "
+            + " AND "
+            + " symbol_type = #{symbolType} "
+            + " AND "
+            + " symbol_date <= #{targetDate} "
+            + "")
+    public String getFloorDateByPK(@Param("symbolCode") String symbolCode, 
+    		@Param("symbolType") Integer symbolType, @Param("targetDate") String targetDate);
+    
+    
     /**
      * 获取某只股票的全部历史数据
      * @param symbolCode

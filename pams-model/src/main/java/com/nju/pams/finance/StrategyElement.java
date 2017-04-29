@@ -15,8 +15,7 @@ public class StrategyElement {
     	
     }
     
-    public StrategyElement(int strategyId, String symbolCode, int symbolType, BigDecimal percent) {
-    	this.strategyId = strategyId;
+    public StrategyElement(String symbolCode, int symbolType, BigDecimal percent) {
     	this.symbolCode = symbolCode;
     	this.symbolType = symbolType;
     	this.percent = percent;

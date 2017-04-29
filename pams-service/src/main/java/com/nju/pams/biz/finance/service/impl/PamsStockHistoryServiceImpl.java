@@ -92,5 +92,21 @@ public class PamsStockHistoryServiceImpl implements PamsStockHistoryService {
 	public String getMaxDate() {
 		return pamsStockHistoryDAO.getMaxDate();
 	}
+
+	/**
+	 * 获取大于等于targetDate的最小日期
+	 */
+	@Override
+	public String getCellDateByPK(String symbolCode, Integer symbolType, String targetDate) {
+		return pamsStockHistoryDAO.getCellDateByPK(symbolCode, symbolType, targetDate);
+	}
+
+	/**
+	 * 获取小于等于targetDate的最大日期
+	 */
+	@Override
+	public String getFloorDateByPK(String symbolCode, Integer symbolType, String targetDate) {
+		return pamsStockHistoryDAO.getFloorDateByPK(symbolCode, symbolType, targetDate);
+	}
 	
 }

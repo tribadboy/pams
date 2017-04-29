@@ -9,9 +9,20 @@ import com.nju.pams.finance.StrategyElement;
 public interface PamsStrategyService {
 	PamsStrategy getPamsStrategyByStrategyId(Integer strategyId);
 	
+	List<PamsStrategy> getPamsStrategyList();
+	
 	List<PamsStrategy> getPamsStrategyListByUserId(Integer userId);
 	
+	List<PamsStrategy> getPamsStrategyListByUserIdAndStrategyType(Integer userId, Integer strategyType);
+	
 	List<PamsStrategy> getPamsStrategyListByStrategyType(Integer strategyType);
+	
+	List<PamsStrategy> getPamsStrategyListByStatus(Integer status);
+	
+	List<PamsStrategy> getPamsStrategyListByStatusAndStrategyType(Integer status, Integer strategyType);
+	
+	List<PamsStrategy> getPamsStrategyListByStatusAndStrategyTypeAndUserId(Integer status, 
+			Integer strategyType, Integer userId);
 	
 	List<PamsStrategy> getPamsStrategyByKeyAndStrategyType(String key, Integer strategyType);
 	
