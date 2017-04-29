@@ -1,7 +1,10 @@
 package com.nju.pams.biz.finance.service.impl;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -11,6 +14,7 @@ import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.log4j.Logger;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.nju.pams.biz.finance.service.PamsStockAPIService;
 import com.nju.pams.finance.PamsStock;
 import com.nju.pams.finance.StockHistory;
+import com.nju.pams.model.constant.RedisCacheConstant;
 import com.nju.pams.util.BigDecimalUtil;
 
 import net.sf.json.JSONArray;
@@ -28,10 +33,28 @@ import net.sf.json.JSONObject;
 public class PamsStockAPIServiceImpl implements PamsStockAPIService {
 	
 	private static final Logger logger = Logger.getLogger(PamsStockAPIServiceImpl.class);
+	
+	/**
+	 * 获取沪市600开头的股票信息
+	 */
+	@Override
+	@Cacheable(value = RedisCacheConstant.CACHE_STOCK, key = RedisCacheConstant.CACHE_STOCK_KEY)
+	public List<Map<String, Object>> getSpecialStockData() {
+		List<Map<String, Object>> mapsList = new ArrayList<Map<String, Object>>(5000);
+		for(int i = 600000; i < 604000; i += 1000) {
+			String stockData = searchStockInfoBetweenStartCodeAndEndCodeUsingAPI(i, i+1000);
+			if(null != stockData) {
+				mapsList.addAll(getStocksFromStockInfo(stockData));
+			}
+		}
+		return mapsList;
+	}
 
 	/**
 	 * 通过api获取[startCode, endCode)的最新股票数据  沪市A股 
 	 * 数据量应不应超过1000
+	 * 该方法使用redis缓存，缓存时间为300s
+	 * 缓存 name: cache_stock  ,   key: cache_stock_key_600000_601000
 	 */
 	@Override
 	public String searchStockInfoBetweenStartCodeAndEndCodeUsingAPI(int startCode, int endCode) {
@@ -48,7 +71,14 @@ public class PamsStockAPIServiceImpl implements PamsStockAPIService {
         try {
         	int httpCode = client.executeMethod(httpMethod);
         	if (httpCode == 200) {
-        		result = httpMethod.getResponseBodyAsString();
+        		//result = httpMethod.getResponseBodyAsString();
+        		BufferedReader reader = new BufferedReader(new InputStreamReader(httpMethod.getResponseBodyAsStream()));  
+        		StringBuffer stringBuffer = new StringBuffer();  
+        		String str = "";  
+        		while((str = reader.readLine())!=null){  
+        		    stringBuffer.append(str);  
+        		}  
+        		result = stringBuffer.toString();  
         	}
         } catch (IOException e) {
         	logger.error("获取沪市股票的最新信息失败");
@@ -58,56 +88,6 @@ public class PamsStockAPIServiceImpl implements PamsStockAPIService {
         return result;
 	}
 
-	/**
-	 * 通过api获取codeList中的所有最新的股票数据  沪市A股
-	 * 数据量不应超过1000
-	 */
-	@Override
-	public String searchStockInfoBetweenCodeListUsingAPI(List<String> codeList) {
-		StringBuffer strBuf = new StringBuffer();
-		//针对沪市A股，代码前补0，且用“，”分隔
-  		for(String i : codeList) {
-  			strBuf.append("0").append(i).append(",");
-  		}
-  		String allList = strBuf.toString();
-  		String localUrl = "http://api.money.126.net/data/feed/" + allList + ",money.api";	
-  		String result = null;
-        HttpClient client = new HttpClient();
-        HttpMethod httpMethod = new GetMethod(localUrl);
-        try {
-        	int httpCode = client.executeMethod(httpMethod);
-        	if (httpCode == 200) {
-        		result = httpMethod.getResponseBodyAsString();
-        	}
-        } catch (IOException e) {
-        	logger.error("获取沪市股票的最新信息失败");
-        	e.printStackTrace();
-        	return null;
-        }
-        return result;
-	}
-
-	/**
-	 * 通过api获取某只特定股票的最新数据    沪市A股
-	 */
-	@Override
-	public String searchStockOnCertainCodeUsingAPI(String code) {
-		String localUrl = "http://api.money.126.net/data/feed/" + "0" + code + ",money.api";	
-  		String result = null;
-        HttpClient client = new HttpClient();
-        HttpMethod httpMethod = new GetMethod(localUrl);
-        try {
-        	int httpCode = client.executeMethod(httpMethod);
-        	if (httpCode == 200) {
-        		result = httpMethod.getResponseBodyAsString();
-        	}
-        } catch (IOException e) {
-        	logger.error("获取沪市股票的最新信息失败");
-        	e.printStackTrace();
-        	return null;
-        }
-        return result;
-	}
 
 	/**
 	 * 通过api获取某只股票在某一年的历史数据   沪市A股
@@ -122,7 +102,14 @@ public class PamsStockAPIServiceImpl implements PamsStockAPIService {
         try {
         	int httpCode = client.executeMethod(httpMethod);
         	if (httpCode == 200) {
-        		result = httpMethod.getResponseBodyAsString();
+        		//result = httpMethod.getResponseBodyAsString();
+        		BufferedReader reader = new BufferedReader(new InputStreamReader(httpMethod.getResponseBodyAsStream()));  
+        		StringBuffer stringBuffer = new StringBuffer();  
+        		String str = "";  
+        		while((str = reader.readLine())!=null){  
+        		    stringBuffer.append(str);  
+        		}  
+        		result = stringBuffer.toString();  
         	}
         } catch (IOException e) {
         	logger.error("获取股票的历史信息失败");
@@ -137,7 +124,7 @@ public class PamsStockAPIServiceImpl implements PamsStockAPIService {
 	 */
 	@Override
 	public List<Map<String, Object>> getStocksFromStockInfo(String result) {
-		List<Map<String, Object>> stockList = new LinkedList<Map<String, Object>>();
+		List<Map<String, Object>> stockList = new ArrayList<Map<String, Object>>();
         if(null == result) {
         	return stockList;
         }

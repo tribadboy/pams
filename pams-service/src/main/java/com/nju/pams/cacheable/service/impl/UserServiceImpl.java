@@ -36,9 +36,6 @@ public class UserServiceImpl implements UserService {
 			   key=RedisCacheConstant.CACHE_USER_KEY + "#id"
 	)
 	public UserCache getUserCacheById(Integer id) {
-		System.out.println(" not find key \"" + id
-						+ "\" from redis cache \"" + RedisCacheConstant.CACHE_USER
-						+ "\", connect to db");
 		return userCacheDAO.getUserCacheById(id);
 	}
 

@@ -69,9 +69,12 @@
             { title: '状态',width: 60, sortable: false,  dataIndex: 'statusName'},
             { title: '备注信息',width: 200, sortable: false,  dataIndex: 'message'},
             { title: '操作', width: 180, sortable: false, dataIndex: '',renderer:function(value,obj){         
-              return '<span class="grid-command btn-del">删除</span>'
-              +'  <span class="grid-command btn-fin">结束</span>'
-              +'  <span class="grid-command btn-info">还款详情</span>'
+              	var str =  '<span class="grid-command btn-del">删除</span>' + '  <span class="grid-command btn-info">还款详情</span>';
+              	if(obj.statusName != "已结束") {
+            	  	return str +  '  <span class="grid-command btn-fin">结束</span>';
+             	} else {
+             		return str;
+             	}           	 
               ;
             }}
           ];
@@ -155,7 +158,7 @@
                   	  BUI.Message.Alert('结束成功！');
                   	  store.load();
                     }else{ 
-                      BUI.Message.Alert('结束失败！请检查是否填写结束日期');
+                      BUI.Message.Alert('结束失败！请检查结束日期');
                     }
                   }
               });

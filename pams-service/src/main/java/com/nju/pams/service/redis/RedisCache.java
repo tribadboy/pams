@@ -62,7 +62,7 @@ public class RedisCache implements Cache{
       } else {
     	  keyStr = key.toString();
       }
-      logger.info("find key \"" + keyStr + "\"  from redis cache \"" + name + "\"");
+      logger.info("find key: \"" + keyStr + "\"  from redis cache [" + name + "]");
       Object object = null;  
       object = redisTemplate.execute(new RedisCallback<Object>() {  
     	  @Override
@@ -76,9 +76,9 @@ public class RedisCache implements Cache{
           }  
        });  
       if(null != object) {
-    	  logger.info("get key \"" + keyStr + "\" successfully");
+    	  logger.info("get key \"" + keyStr + "\" successfully!");
       } else {
-    	  logger.info("not get key \"" + keyStr + "\"");
+    	  logger.info("not get key \"" + keyStr + "\"!");
       }
       return (object != null ? new SimpleValueWrapper(object) : null);  
     }  
@@ -97,7 +97,7 @@ public class RedisCache implements Cache{
     	} else {
     		keyStr = key.toString();
     	}
-    	logger.info("put key \"" + keyStr + "\" into redis cache \"" + name + "\"");
+    	logger.info("put key: \"" + keyStr + "\" into redis cache [" + name + "]");
         if(!StringUtils.isEmpty(keyStr)) {
         	final Object finalValue = value;
         	redisTemplate.execute(new RedisCallback<Boolean>() {    
@@ -130,7 +130,7 @@ public class RedisCache implements Cache{
     	} else {
     		keyStr = key.toString();
     	}
-    	logger.info("del key: \"" + keyStr + "\" from redis cache \"" + name + "\"");
+    	logger.info("del key: \"" + keyStr + "\" from redis cache [" + name + "]");
         if(!StringUtils.isEmpty(keyStr)) {
         	redisTemplate.execute(new RedisCallback<Long>() {    
         	     public Long doInRedis(RedisConnection connection) throws DataAccessException {    
@@ -145,7 +145,7 @@ public class RedisCache implements Cache{
      */
      @Override    
      public void clear() {  
-    	 logger.info("clear all keys from redis cache \"" + name + "\"");
+    	 logger.info("clear all keys from redis cache [" + name + "]");
          redisTemplate.execute(new RedisCallback<String>() {    
         	 @Override
              public String doInRedis(RedisConnection connection) throws DataAccessException {    

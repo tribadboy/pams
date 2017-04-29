@@ -59,17 +59,17 @@
      <bean id="cacheManager" class="org.springframework.cache.support.SimpleCacheManager">    
          <property name="caches">    
             <set>   
-                <bean class="com.nju.pams.service.redis.RedisCache">   <!-- 例子 缓存有效时间为100s-->
+                <bean class="com.nju.pams.service.redis.RedisCache">   <!-- 样例 缓存有效时间为30s -->
                      <property name="redisTemplate" ref="redisTemplate" />    
                      <property name="name" value="cache_user" />  
-                     <property name="liveTime" value="100" />  
-                </bean>  				
-             	<bean class="com.nju.pams.service.redis.RedisCache">  <!-- 短期缓存 1个小时-->  
+                     <property name="liveTime" value="30" />  
+                </bean> 				
+             	<bean class="com.nju.pams.service.redis.RedisCache">  <!-- 股票实时数据缓存 缓存时间为300s -->  
                     <property name="redisTemplate" ref="redisTemplate" />  
-                    <property name="name" value="shortTimeCache" />  
-                    <property name="liveTime" value="3600" />  
+                    <property name="name" value="cache_stock" />  
+                    <property name="liveTime" value="300" />  
                 </bean>  
-                <!-- <bean class="com.nju.pams.service.redis.RedisCache"> 永久缓存  
+                <!-- <bean class="com.nju.pams.service.redis.RedisCache"> 永久缓存版本  
                     <property name="redisTemplate" ref="redisTemplate" />  
                     <property name="name" value="nerverTimeCache" />  
                     <property name="liveTime" value="0" />  

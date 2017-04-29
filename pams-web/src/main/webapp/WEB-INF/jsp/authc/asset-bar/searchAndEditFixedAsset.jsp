@@ -81,20 +81,15 @@
             forceFit:true,
             columns : columns,
             store: store,
-            plugins : [Grid.Plugins.CheckSelection,Grid.Plugins.AutoFit], //勾选插件、自适应宽度插件
-            plugins : [BUI.Grid.Plugins.CheckSelection], // 插件形式引入多选表格,
             // 顶部工具栏
             tbar:{
-             items:[{
-                    btnCls : 'button button-primary button-small',
-                    text:'删除',
-                    handler : delFunction
-                }],
-                pagingBar:true
+                
             },
             // 底部工具栏
             bbar : {
-            }
+            	pagingBar:true
+            },
+            plugins : [Grid.Plugins.RowNumber,Grid.Plugins.AutoFit]  // 插件形式引入自适应宽度
           });
  
         grid.render();

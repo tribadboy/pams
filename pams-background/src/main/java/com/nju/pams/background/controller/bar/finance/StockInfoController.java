@@ -2,7 +2,6 @@ package com.nju.pams.background.controller.bar.finance;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -58,14 +57,8 @@ public class StockInfoController {
 		final JSONObject result = new JSONObject();	
 		
     	logger.info("股票最新信息与历史信息重置工作开始-----------------------------------------------");
-		List<Map<String, Object>> mapsList = new LinkedList<Map<String, Object>>();
-		//通过网易api获取股票信息
-		for(int i = 600000; i < 604000; i += 1000) {
-			String stockData = pamsStockAPIService.searchStockInfoBetweenStartCodeAndEndCodeUsingAPI(i, i+1000);
-			if(null != stockData) {
-				mapsList.addAll(pamsStockAPIService.getStocksFromStockInfo(stockData));
-			}
-		}
+    	 	
+    	List<Map<String, Object>> mapsList = pamsStockAPIService.getSpecialStockData();
 		
 		if(CollectionUtils.isNotEmpty(mapsList)) {
 			logger.info("从网易财经获取的最新股票数据成功，共获得股票数量：" + mapsList.size());

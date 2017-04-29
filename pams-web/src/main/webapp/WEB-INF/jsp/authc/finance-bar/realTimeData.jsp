@@ -39,17 +39,17 @@
             var Grid = Grid,
           Store = Data.Store,
           columns = [
-            {title : '股票代码',dataIndex :'symbolCode', sortable: false, width:100},
-            {title : '股票名称',dataIndex :'symbolName', sortable: false,width:100},
-            {title : '最新时间',dataIndex :'originTime', sortable: false,width:200},
-            {title : '趋势',dataIndex :'arrow', sortable: false,width:50},
-            {title : '开盘价',dataIndex :'open', sortable: true,width:100},
-            {title : '目前最高价',dataIndex :'high', sortable: true,width:100},
-            {title : '目前最低价',dataIndex :'low', sortable: true,width:100},
-            {title : '当前价格',dataIndex :'price', sortable: true,width:100},
-            {title : '今日成交量',dataIndex :'volume', sortable: true,width:150},
-            {title : '涨跌',dataIndex :'updown', sortable: true,width:100},
-            {title : '涨跌幅 (%)',dataIndex :'percent', sortable: true,width:200}
+            {title : '股票代码', elCls : 'center', dataIndex :'symbolCode', sortable: false, width:100},
+            {title : '股票名称', elCls : 'center', dataIndex :'symbolName', sortable: false,width:100},
+            {title : '最新时间', elCls : 'center', dataIndex :'originTime', sortable: false,width:200},
+            {title : '趋势', elCls : 'center', dataIndex :'arrow', sortable: false,width:50},
+            {title : '开盘价', elCls : 'center', dataIndex :'open', sortable: true,width:100},
+            {title : '目前最高价', elCls : 'center', dataIndex :'high', sortable: true,width:100},
+            {title : '目前最低价', elCls : 'center', dataIndex :'low', sortable: true,width:100},
+            {title : '当前价格', elCls : 'center', dataIndex :'price', sortable: true,width:100},
+            {title : '今日成交量', elCls : 'center', dataIndex :'volume', sortable: true,width:150},
+            {title : '涨跌', elCls : 'center', dataIndex :'updown', sortable: true,width:100},
+            {title : '涨跌幅 (%)', elCls : 'center', dataIndex :'percent', sortable: true,width:200}
           ],
           data = ${dataList};
  

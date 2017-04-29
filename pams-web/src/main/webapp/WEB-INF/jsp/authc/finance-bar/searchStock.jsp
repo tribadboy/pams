@@ -71,8 +71,10 @@
             { title: '股票名称', width: 230, sortable: false, dataIndex: 'symbolName'},
             { title: '证券市场', width: 230, sortable: false, dataIndex: 'type'},
             { title: '当前状态', width: 230, sortable: false, dataIndex: 'status'},
-            { title: '详情', width: 180, sortable: false, dataIndex: '',renderer:function(value,obj){         
-              return '  <span class="grid-command btn-info">查看股票详情</span>'
+            { title: '详情', width: 180, sortable: false, dataIndex: '',renderer:function(value,obj){       
+            	if(obj.status == "有效") {
+              		return '  <span class="grid-command btn-info">查看股票详情</span>'
+            	}
               ;
             }}
           ];

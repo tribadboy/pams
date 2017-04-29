@@ -3,7 +3,6 @@ package com.nju.pams.web.controller.bar.finance;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLDecoder;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -179,14 +178,9 @@ public class StockDataController {
     	}
     	
     	JSONArray array = new JSONArray();
-    	List<Map<String, Object>> mapsList = new LinkedList<Map<String, Object>>();
-		//通过网易api获取股票信息
-		for(int i = 600000; i < 604000; i += 1000) {
-			String stockData = pamsStockAPIService.searchStockInfoBetweenStartCodeAndEndCodeUsingAPI(i, i+1000);
-			if(null != stockData) {
-				mapsList.addAll(pamsStockAPIService.getStocksFromStockInfo(stockData));
-			}
-		}
+    	
+    	List<Map<String, Object>> mapsList = pamsStockAPIService.getSpecialStockData();
+    	
 		if(CollectionUtils.isNotEmpty(mapsList)) {
 			for(Map<String, Object> map : mapsList) {
 				if((int)map.get("status") == PamsStock.Status.Valid.getIndex()) {

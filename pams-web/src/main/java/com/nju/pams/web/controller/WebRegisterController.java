@@ -28,7 +28,7 @@ import net.sf.json.JSONObject;
   
 @Controller  
 @RequestMapping(PathConstant.WEB_USER)
-public class WebUserController {  
+public class WebRegisterController {  
 	
 	@Autowired
 	PamsUserService pamsUserService;
@@ -39,7 +39,7 @@ public class WebUserController {
 	@Autowired
 	PamsRoleService pamsRoleService;
     
-    private static final Logger logger = Logger.getLogger(WebUserController.class);
+    private static final Logger logger = Logger.getLogger(WebRegisterController.class);
     
     /**
      * 检查用户名是否已被注册
