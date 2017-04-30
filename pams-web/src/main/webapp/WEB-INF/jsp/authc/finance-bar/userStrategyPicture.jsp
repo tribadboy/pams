@@ -18,7 +18,7 @@
  </head>
  <body>
  	<br><br>
-      <h1 align="center" style="font-size:30px;color:silvery">用户投资策略概要</h1>
+      <h1 align="center" style="font-size:30px;color:silvery">用户投资策略历史概要</h1>
      <hr>
     <div class="container">
     <h2 align="left" style="font-size:20px;color:gray">已结束的投资策略:</h2><br>
@@ -27,7 +27,7 @@
 		&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		<label>中期投资：${mediumNum }笔   &nbsp;&nbsp;&nbsp;&nbsp;  平均综合收益率： ${mediumPercent }% </label>
 		&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		<label>长期投资：${longNum }笔   &nbsp;&nbsp;&nbsp;&nbsp;  平均综合收益率： ${longPercent }s% </label>
+		<label>长期投资：${longNum }笔   &nbsp;&nbsp;&nbsp;&nbsp;  平均综合收益率： ${longPercent }% </label>
 		<br>
 	</h2>
     <br><hr>
@@ -38,6 +38,7 @@
     		</div>
 		</div>
     </div>
+    <h6>&nbsp;&nbsp;&nbsp;&nbsp;注：气泡大小表示投资策略中股票选取的数量</h6>
     <br>
     <br>
   <script type="text/javascript" src="<%=basePath%>static/view/assets/js/jquery-1.8.1.min.js"></script>
@@ -50,7 +51,7 @@
   		var shortData = ${shortData};
   		var mediumData = ${mediumData};
   		var longData = ${longData};
-  		
+  		console.log(shortData);
         var chart = new AChart({
           theme : AChart.Theme.Base,
           id : 'canvas',
@@ -63,7 +64,8 @@
             type : 'time',
             formatter : function(value)   {
               return AChart.Date.format(new Date(value),'yyyy-mm-dd');
-            }
+            },
+            min : '2013-01-01'  
           },
           yAxis : {
             title : {
@@ -79,30 +81,35 @@
               bubbleCfg : {
                 
               }
+               
           },
-          series: [{
+          series: [
+         	{
             name : '短期策略(10-15天)',
             data:
-            	/* [[1147651200000,7.00,5 * 30],
-              [1147737600000,8.13,4 * 30]] */
-              shortData
-        },
-        {
+            	// [[1147651200000,7.00,5 * 30],
+              //[1147737600000,8.13,4 * 30]] ,
+              shortData,
+              circle : {
+                  fill : 'r(0.4, 0.3)rgba(255,255,255,0.5)-rgba(80,60,190,0.5)'
+              }
+        	},         	{
             name : '中期策略(30-40天)',
-            data: 
-            	/* [[1147996800000,3.13,3 * 30],
-              [1148256000000,-3.56,5 * 30],
-              [1148342400000,9.34,4 * 30]] */
-              mediumData
-        },{
+            data:  mediumData,
+              circle : {
+                  fill : 'r(0.4, 0.3)rgba(255,255,255,0.5)-rgba(180,100,50,0.5)'
+              }
+        	},
+        	{
             name : '长期策略(80-100天)',
-            data: 
-            	/* [[1148515200000,2.17,6 * 30],
-              [1148601600000,7.84,2 * 30]] */
-              longData
-        }]
+            data: longData,
+            circle : {
+                fill : 'r(0.4, 0.3)rgba(255,255,255,0.5)-rgba(100,190,70,0.5)'
+            }
+        	} ,       	
+        ]
+          
         });
- 
         chart.render();
   </script>
 <body>

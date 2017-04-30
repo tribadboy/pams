@@ -46,7 +46,7 @@
             <label class="control-label"><span class="redText">*</span> 策略开始日期:</label>
              <div id="single_range" class="controls bui-form-group"  data-rules="{dateRange:true}">
               <input name="startDate" class="calendar"  data-rules="{required:true}"
-              data-cfg="{datePicker :{minDate : '${currentDate }'}}"  type="text">
+               data-cfg="{datePicker :{minDate : '${currentDate }'}}"  type="text">
             </div>           
           </div>          
          <div class="row">

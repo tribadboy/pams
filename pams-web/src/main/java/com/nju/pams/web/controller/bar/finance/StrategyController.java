@@ -398,7 +398,7 @@ public class StrategyController {
     			obj.add(DateUtil.getMillionSecondsFromDate(strategy.getStartDate()));
     			sum = sum.add(strategy.getAvgProfit());
     			obj.add(strategy.getAvgProfit());
-    			obj.add(count * 50);
+    			obj.add(count * 30);
     			array.add(obj);
     		}
     		model.addAttribute("shortNum", shortList.size());
@@ -424,7 +424,7 @@ public class StrategyController {
     			obj.add(DateUtil.getMillionSecondsFromDate(strategy.getStartDate()));
     			sum = sum.add(strategy.getAvgProfit());
     			obj.add(strategy.getAvgProfit());
-    			obj.add(count * 50);
+    			obj.add(count * 30);
     			array.add(obj);
     		}
     		model.addAttribute("mediumNum", mediumList.size());
@@ -450,7 +450,7 @@ public class StrategyController {
     			obj.add(DateUtil.getMillionSecondsFromDate(strategy.getStartDate()));
     			sum = sum.add(strategy.getAvgProfit());
     			obj.add(strategy.getAvgProfit());
-    			obj.add(count * 50);
+    			obj.add(count * 30);
     			array.add(obj);
     		}
     		model.addAttribute("longNum", longList.size());

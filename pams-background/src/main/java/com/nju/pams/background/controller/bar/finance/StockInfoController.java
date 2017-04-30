@@ -154,12 +154,16 @@ public class StockInfoController {
     @ResponseBody
 	@RequestMapping(value = "updateStrategyDataInfo", method = RequestMethod.POST)
 	public String updateStrategyData() {
-    	updateStockData();
+    	
+    	String maxDate = pamsStockHistoryService.getMaxDate();
+    	String today = DateUtil.getCurrentTime(DateUtil.FormatString);
+    	if(TimeRangeUtil.getSomedayPlusDays(maxDate, 1).compareTo(today) < 0) {
+    		logger.info("股票历史数据中没有昨日之后的数据，重新更新历史数据");
+    		updateStockData();
+    	}   	
     	
 		final JSONObject result = new JSONObject();		
     	logger.info("策略信息更新工作开始-----------------------------------------------");
-    	 	
-    	String today = DateUtil.getCurrentTime(DateUtil.FormatString);
     	
     	pamsStrategyService.setNotStartByTodayStr(today);
     	pamsStrategyService.setOngoingByTodayStr(today);
@@ -195,9 +199,9 @@ public class StockInfoController {
     							}
     							if(sum.compareTo(BigDecimal.ZERO) != 0) {
     								sum = sum.divide(originPrice.multiply(BigDecimal.valueOf(hisList.size())), 
-    										2, RoundingMode.HALF_UP);
+    										4, RoundingMode.HALF_UP);
     							}
-    							avgProfit.add(sum.multiply(percent));
+    							avgProfit = avgProfit.add(sum.multiply(percent));
     						}  						
     					}
     				}
