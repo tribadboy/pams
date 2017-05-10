@@ -54,12 +54,12 @@ public class ConsumptionDataController {
     		BigDecimal allItem = pamsAccountService.getSumCostByConsumptionId(c.getCode());
     		BigDecimal userItem = pamsAccountService.getSumCostByConsumptionIdAndUserId(c.getCode(), userId);
     		
-    		if(allSum.compareTo(BigDecimal.ZERO) == 0) {
+    		if(null == allSum || allSum.compareTo(BigDecimal.ZERO) == 0) {
     			avgDataList.add(0);
     		} else {
     			avgDataList.add(allItem.multiply(BigDecimal.valueOf(100)).divide(allSum, 2, RoundingMode.HALF_UP));
     		}     		
-    		if(userSum.compareTo(BigDecimal.ZERO) == 0) {
+    		if(null == userSum || userSum.compareTo(BigDecimal.ZERO) == 0) {
     			userDataList.add(0);
     		} else {
     			userDataList.add(userItem.multiply(BigDecimal.valueOf(100)).divide(userSum, 2, RoundingMode.HALF_UP));
@@ -84,11 +84,15 @@ public class ConsumptionDataController {
    	        return "error/logout";
     	}
     	
+    	if(null == consumptionId) {
+    		consumptionId = 1;					//修改其默认值为饮食类别
+    	}
+    	
     	JSONArray avgData = new JSONArray();
     	JSONArray userData = new JSONArray(); 	
     	String minDate = null;
     	String maxDate = null;
-    	if(null == consumptionId || 0 == consumptionId) {
+    	if(0 == consumptionId) {
     		minDate = pamsAccountService.getMinDateByUserId(userId);
         	maxDate = pamsAccountService.getMaxDateByUserId(userId);	
     	} else {	
@@ -103,7 +107,7 @@ public class ConsumptionDataController {
 
     		List<AccountOfDay> userList = null;
     		List<AccountOfDay> avgList = null;
-    		if(null == consumptionId || 0 == consumptionId) {
+    		if(0 == consumptionId) {
     			model.addAttribute("selectIndex", 0);
     			userList = pamsAccountService.getDaySpendByUserId(userId);
     			avgList = pamsAccountService.getDaySpendInPeriod(minDate, maxDate);

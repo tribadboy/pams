@@ -34,12 +34,12 @@ public class UserControllerTest {
 	 }
 
 	 @Test
-	 public void testUser() throws Exception {
-		 final MvcResult re = mockMvc.perform(post("/web/showUser")
-	                         .param("id", "1")
+	 public void testUserController() throws Exception {
+		 final MvcResult result = mockMvc.perform(post("/test/showUser")
+	                         .param("userId", "1")
 	                         .header("Content-type", "application/text;charset=UTF-8"))
 	         .andExpect(status().isOk())
 	         .andDo(print()).andReturn();
-	     System.out.println(re.getResponse().getContentAsString());  
+	     System.out.println(result.getResponse().getContentAsString());  
 	 }
 }

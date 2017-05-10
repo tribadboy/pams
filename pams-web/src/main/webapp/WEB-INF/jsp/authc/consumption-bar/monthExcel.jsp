@@ -97,11 +97,12 @@ BUI.use('bui/chart',function (Chart) {
               labels : {
                   label : {
                     rotate : 0,
-                    y : 10,
+                    y : -10,
+                    x : 15,
                     'fill' : '#000000',
                     'text-anchor' : 'end',
-                    textShadow: '0 0 3px black',
-                    'font-size' : '14px'
+                    textShadow: '0 0 0px black',
+                    'font-size' : '12px'
                   }
                 } 
       }]

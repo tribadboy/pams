@@ -35,7 +35,7 @@
                 <option value="7">书籍消费</option>
                 <option value="8">旅行消费</option>
                 <option value="9">生活消费(水电煤)</option>
-                <option value="10">其他消费</option>
+                <option value="10">其他消费</option>             
               </select>
             </div>
           </div>
@@ -125,6 +125,7 @@
                 ] */
             data : avgData
             }, {
+            	connectNulls : true, 
                 name: '用户',
                 /* data: [null, null, null, null, null, null, null , null , null ,null,5, 25, 50,
                   120, 150, 200, 426, 660, 869, 1060, 1605, 2471, 3322,4238, 5221, 6129,

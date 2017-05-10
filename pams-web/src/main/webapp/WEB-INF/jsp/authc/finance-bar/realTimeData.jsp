@@ -47,9 +47,17 @@
             {title : '目前最高价', elCls : 'center', dataIndex :'high', sortable: true,width:100},
             {title : '目前最低价', elCls : 'center', dataIndex :'low', sortable: true,width:100},
             {title : '当前价格', elCls : 'center', dataIndex :'price', sortable: true,width:100},
-            {title : '今日成交量', elCls : 'center', dataIndex :'volume', sortable: true,width:150},
-            {title : '涨跌', elCls : 'center', dataIndex :'updown', sortable: true,width:100},
-            {title : '涨跌幅 (%)', elCls : 'center', dataIndex :'percent', sortable: true,width:200}
+            {title : '日成交量', elCls : 'center', dataIndex :'volume', sortable: true,width:150},
+            {title : '涨跌(¥)', elCls : 'center', dataIndex :'updown', sortable: true,width:100},
+            {title : '涨跌幅 (%)', elCls : 'center', dataIndex :'percent', sortable: true,width:200,renderer:function(value,obj){     
+            	if(obj.percent > 0) {
+          			 return '  <span style=\"color:red;font-size:15px\" class="grid-command">'+obj.percent+'</span>';
+          		} else if(obj.percent < 0) {
+          		 	return '  <span style=\"color:green;font-size:15px\" class="grid-command">'+obj.percent+'</span>';
+          		} else {
+          			return '  <span style=\"color:black;font-size:15px\" class="grid-command">'+obj.percent+'</span>';
+          		}    }},
+            {title : '状态', elCls : 'center', dataIndex :'statusName', sortable: true,width:150}
           ],
           data = ${dataList};
  

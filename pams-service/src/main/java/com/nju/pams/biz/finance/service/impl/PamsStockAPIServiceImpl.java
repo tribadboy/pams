@@ -146,7 +146,8 @@ public class PamsStockAPIServiceImpl implements PamsStockAPIService {
         			map.put("symbolType", PamsStock.SymbolType.SH.getIndex());
         			map.put("symbolName", stockInfo.getString("name"));		
         			map.put("arrow", stockInfo.getString("arrow"));
-        			if(stockInfo.getInt("status") == 0) {
+        			//if(null != stockInfo.get("status") && stockInfo.getInt("status") == 0) {
+        			if(Integer.valueOf(0).equals(stockInfo.get("status"))) {
         				map.put("status", PamsStock.Status.Valid.getIndex());
         			} else {
         				map.put("status", PamsStock.Status.Invalid.getIndex());

@@ -183,7 +183,7 @@ public class StockDataController {
     	
 		if(CollectionUtils.isNotEmpty(mapsList)) {
 			for(Map<String, Object> map : mapsList) {
-				if((int)map.get("status") == PamsStock.Status.Valid.getIndex()) {
+				//if((int)map.get("status") == PamsStock.Status.Valid.getIndex()) {
 					JSONObject obj = new JSONObject();
 					obj.put("symbolCode", map.get("symbolCode"));
 					obj.put("symbolName", map.get("symbolName"));
@@ -196,8 +196,13 @@ public class StockDataController {
 					obj.put("updown", map.get("updown"));
 					obj.put("percent", map.get("percent"));
 					obj.put("volume", map.get("volume"));
+					if((int)map.get("status") == PamsStock.Status.Valid.getIndex()) {
+						obj.put("statusName", "有效");
+					} else {
+						obj.put("statusName", "无效");
+					}
 					array.add(obj);
-				}			
+				//}			
 			}
 		}
     	
