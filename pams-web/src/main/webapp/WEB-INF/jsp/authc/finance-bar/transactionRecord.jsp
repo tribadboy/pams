@@ -70,7 +70,7 @@
        var store = new Store({
            url : 'searchTransactionRecordInfo',
            autoLoad:false,
-            pageSize:6
+            pageSize:8
           }), 
          
           grid = new Grid.Grid({

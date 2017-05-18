@@ -79,7 +79,7 @@ public class PamsStockChangeServiceImpl implements PamsStockChangeService {
 
 	/**
 	 * 计算股票购买和卖出的税费,默认股数已经通过验证
-	 * 购买股票：  交易佣金：总价值的 千分之五 且至少5元   +    过户费  1元／1000股， 至少1元
+	 * 购买股票：  交易佣金 总价值的 千分之五 且至少5元   +    过户费  1元／1000股， 至少1元
 	 * 卖出股票：  交易佣金 + 过户费  + 印花税（总价值的千分之一）
 	 */
 	@Override
@@ -109,7 +109,7 @@ public class PamsStockChangeServiceImpl implements PamsStockChangeService {
 	}
 
 	/**
-	 * 计算买卖股票的总价钱（单价 * 数量 + 税费）
+	 * 计算买卖股票的总价钱（单价 * 数量 +／- 税费）
 	 * @param changeTypeId
 	 * @param price
 	 * @param quantity
@@ -118,7 +118,13 @@ public class PamsStockChangeServiceImpl implements PamsStockChangeService {
 	@Override
 	public BigDecimal getTotalForStock(int changeTypeId, BigDecimal price, int quantity) {
 		BigDecimal fee = getFeeForStock(changeTypeId, price, quantity);
-		BigDecimal result = price.multiply(BigDecimal.valueOf(quantity)).add(fee);
+		BigDecimal result = price.multiply(BigDecimal.valueOf(quantity));
+		if(changeTypeId == StockChange.ChangeType.Purchase.toIntValue()) {
+			result = result.add(fee);
+		} else {
+			result = result.subtract(fee);
+			result = (result.compareTo(BigDecimal.ZERO) >= 0) ? result : BigDecimal.ZERO;
+		}
 		return BigDecimalUtil.generateFormatNumber(result);
 	}
 

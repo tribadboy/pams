@@ -46,7 +46,15 @@
           <div class="tips-content">  
           <c:forEach var="item" items="${informList}">    
             <p class="auxiliary-text" align="left" style="font-size:15px">
-              <label>${item.recordDate}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${item.message}</label>
+              <label>${item.recordDate}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${item.message}</label>&nbsp;&nbsp;&nbsp;&nbsp;
+              <script type="text/javascript">
+              	var type = ${item.informTypeId};
+              	if(type == 0) {
+              		document.write("[全体]");
+              	} else {
+              		document.write("[sp]");
+              	}
+              </script>
             </p><br><br>
           </c:forEach>
           </div>
