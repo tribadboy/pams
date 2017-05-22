@@ -88,6 +88,7 @@ public class StockInfoController {
 			for(PamsStock stock : stocksList) {
 				//若该股票当前状态有效，从网易财经api获取其历史信息，并补充到数据库
 				if(stock.getStatus() == PamsStock.Status.Valid.getIndex()) {
+					logger.info("股票：" + stock.getSymbolCode() + "有效，获取其历史数据");
 					int todayYear = Calendar.getInstance().get(Calendar.YEAR);
 					for(int year = todayYear; year <= todayYear; year++) {
 						String historyData = pamsStockAPIService.searchStockHistoryInCertainYearUsingAPI(stock.getSymbolCode(), year);
@@ -107,7 +108,7 @@ public class StockInfoController {
 						}
 					}
 				}
-				logger.info("股票的历史数据补充已经完成：" + ++index);
+				logger.info("股票" + stock.getSymbolCode() + "的历史数据补充已经完成：" + ++index);
 			}
 		}
 		logger.info("股票最新数据与历史数据重置工作已完成------------------------------");

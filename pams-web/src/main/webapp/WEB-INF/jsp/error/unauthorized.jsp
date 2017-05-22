@@ -8,7 +8,7 @@
     <title>hello</title>
 </head>
 <body>
-<h1>您没有别授权访问该资源</h1>
+<h1>您没有权限访问该资源</h1>
 
 </body>
 </html>

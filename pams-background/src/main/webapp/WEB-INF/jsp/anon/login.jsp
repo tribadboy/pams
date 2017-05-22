@@ -3,6 +3,8 @@
     String path = request.getContextPath();
     String basePath = request.getScheme() + "://" + request.getServerName() + ":" 
     				+ request.getServerPort() + path + "/";
+    String webPath = request.getScheme() + "://" + request.getServerName() + ":" 
+			+ request.getServerPort() + "/pams-web/";
 %> 
 <!DOCTYPE html>
 <html lang="zh-cn">
@@ -33,7 +35,7 @@
              placeholder="请输入验证码"/>   
         <div class="tips" style="color:red"></div>  
         <input type="submit" value="login" class="submitBtn"/><br>
-
+		<a href="<%=webPath %>"><label style="font-size:15px;color:#cccccc">项目地址</label></a>
         <h5>${message}</h5>
     </form>  
            

@@ -79,6 +79,7 @@ public class PamsStockAPIServiceImpl implements PamsStockAPIService {
         		    stringBuffer.append(str);  
         		}  
         		result = stringBuffer.toString();  
+        		reader.close();
         	}
         } catch (IOException e) {
         	logger.error("获取沪市股票的最新信息失败");
@@ -110,6 +111,7 @@ public class PamsStockAPIServiceImpl implements PamsStockAPIService {
         		    stringBuffer.append(str);  
         		}  
         		result = stringBuffer.toString();  
+        		reader.close();
         	}
         } catch (IOException e) {
         	logger.error("获取股票的历史信息失败");
