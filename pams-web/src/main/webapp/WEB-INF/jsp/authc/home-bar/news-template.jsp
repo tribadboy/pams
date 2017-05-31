@@ -42,7 +42,7 @@
   		<hr width="100%" size="100" /> 
   		<%if(picFlag) {%>
   		<div align="center">
-  			<img src="<%=path %>/web/authc/home/system/getNewsPhoto?pictureName=${news.pictureName}" width="300px" height="200px" id="img-change">
+  			<img src="<%=path %>/web/authc/home/system/getNewsPhoto?pictureName=${news.pictureName}" width="200px" height="150px" id="img-change">
   		</div>
   		<%} %>
 　		<!-- 
